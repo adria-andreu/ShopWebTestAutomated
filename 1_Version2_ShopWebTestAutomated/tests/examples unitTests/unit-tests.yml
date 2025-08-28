@@ -1,0 +1,64 @@
+name: unit-tests
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'Utilities/**'
+      - 'tests/UnitTests/**'
+      - '.github/workflows/unit-tests.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'Utilities/**'
+      - 'tests/UnitTests/**'
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Unit tests with coverage (threshold)
+        run: >
+          dotnet test tests/UnitTests/ShopWeb.UnitTests.csproj
+          /p:CollectCoverage=true
+          /p:CoverletOutputFormat=cobertura
+          /p:Threshold=60
+          --configuration Release
+          --results-directory artifacts/TestResults
+
+      - name: Convert coverage to HTML
+        run: |
+          dotnet tool update -g dotnet-reportgenerator-globaltool
+          reportgenerator \
+            -reports:artifacts/TestResults/**/coverage.cobertura.xml \
+            -targetdir:artifacts/CoverageReport \
+            -reporttypes:Html
+
+      - name: Upload unit artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: |
+            artifacts/TestResults
+            artifacts/CoverageReport
+          if-no-files-found: ignore
