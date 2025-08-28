@@ -1,0 +1,43 @@
+## `/docs/examples/testdata-structure.json`
+```json
+{
+  "$schema": "https://example.local/schemas/testdata.schema.json",
+  "suite": "Smoke",
+  "siteId": "A",
+  "generatedAtUtc": "2025-08-14T12:00:00Z",
+  "entities": {
+    "users": [
+      {
+        "id": "user_20250814_1200_ab12cd34",
+        "email": "smoke.user+ab12cd34@example.com",
+        "passwordRef": "ENV:TEST_USER_PASSWORD"
+      }
+    ],
+    "products": [
+      {
+        "id": "prod_tee_basic_black",
+        "name": "Basic Tee Black",
+        "sku": "TEE-BLK-001",
+        "priceExpected": {
+          "amount": 9.99,
+          "currency": "EUR"
+        }
+      }
+    ],
+    "coupons": [
+      {
+        "id": "coupon_free_ship",
+        "code": "FREESHIP",
+        "type": "shipping",
+        "discount": 0
+      }
+    ]
+  },
+  "constraints": {
+    "uniquePrefix": "smk_20250814_1200",
+    "cleanupStrategy": "flow-managed", 
+    "lifecycle": "ephemeral"
+  },
+  "notes": "Valores sensibles se referencian por variables de entorno (prefijo ENV:)."
+}
+````
