@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  tests-chromium:
+    build: .
+    environment:
+      BROWSER: chromium
+      SITEID: ${SITEID:-A}
+      MAX_WORKERS: ${MAX_WORKERS:-4}
+      SANITIZE_ATTACHMENTS: "true"
+      ATTACH_TRACE: "false"
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./allure-results:/app/allure-results
+    command: >
+      dotnet test --configuration Release -m:${MAX_WORKERS} --no-build --
+      TestRunParameters.Parameter(name=Browser,value=${BROWSER})
+      TestRunParameters.Parameter(name=SiteId,value=${SITEID})
+
+  tests-firefox:
+    build: .
+    environment:
+      BROWSER: firefox
+      SITEID: ${SITEID:-A}
+      MAX_WORKERS: ${MAX_WORKERS:-4}
+      SANITIZE_ATTACHMENTS: "true"
+      ATTACH_TRACE: "false"
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./allure-results:/app/allure-results
+    command: >
+      dotnet test --configuration Release -m:${MAX_WORKERS} --no-build --
+      TestRunParameters.Parameter(name=Browser,value=${BROWSER})
+      TestRunParameters.Parameter(name=SiteId,value=${SITEID})
+
+  tests-webkit:
+    build: .
+    environment:
+      BROWSER: webkit
+      SITEID: ${SITEID:-A}
+      MAX_WORKERS: ${MAX_WORKERS:-4}
+      SANITIZE_ATTACHMENTS: "true"
+      ATTACH_TRACE: "false"
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./allure-results:/app/allure-results
+    command: >
+      dotnet test --configuration Release -m:${MAX_WORKERS} --no-build --
+      TestRunParameters.Parameter(name=Browser,value=${BROWSER})
+      TestRunParameters.Parameter(name=SiteId,value=${SITEID})
+
+  gatecheck:
+    build: .
+    depends_on:
+      - tests-webkit
+    volumes:
+      - ./artifacts:/app/artifacts
+    command: >
+      dotnet run --project tools/GateCheck/GateCheck.csproj -- artifacts/run-metrics.json
