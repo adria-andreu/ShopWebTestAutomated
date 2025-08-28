@@ -1,0 +1,177 @@
+name: CI — .NET8 Playwright (Docker)
+
+on:
+  workflow_run:
+    workflows: ["unit-tests"]   # Debe coincidir con name: del workflow de Unit
+    types: [completed]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  # Umbrales globales por defecto
+  GATE_PR_PASSRATE_MIN: "0.90"
+  GATE_PR_P95_MAX_MS: "720000"   # 12 min
+  GATE_MAIN_PASSRATE_MIN: "0.95"
+  GATE_MAIN_P95_MAX_MS: "600000" # 10 min
+  GATE_FLAKY_MAX: "0.05"
+
+jobs:
+  e2e-tests:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: E2E Tests (${{ matrix.browser }} / site:${{ matrix.siteId }})
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0
+      options: --init
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        siteId: [A, B]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Install Playwright CLI & dependencies
+        run: |
+          dotnet tool install --global Microsoft.Playwright.CLI
+          ~/.dotnet/tools/playwright install --with-deps
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-v1
+
+      - name: Restore & Build
+        run: |
+          dotnet restore
+          dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        env:
+          BROWSER: ${{ matrix.browser }}
+          SANITIZE_ATTACHMENTS: "true"
+          ATTACH_TRACE: "true"
+          SITE_ID: ${{ matrix.siteId }}
+          TRACE_MODE: ${{ github.event_name == 'workflow_run' && 'OnFailure' || 'On' }}
+          HEADED: "0"
+          GIT_SHA: ${{ github.sha }}
+          PIPELINE_ID: ${{ github.run_id }}
+          RUN_STARTED_AT_UTC: ${{ github.event.workflow_run.created_at || '' }}
+        run: |
+          # Ajusta el target si tus E2E viven en otra carpeta
+          dotnet test Tests/ --configuration Release -m:4 --logger "trx;LogFileName=test_results.trx"
+
+      - name: Validate run-metrics.json (hard gate: presence & JSON schema keys)
+        if: always()
+        run: |
+          set -e
+          test -f artifacts/run-metrics.json || { echo "❌ artifacts/run-metrics.json missing"; exit 1; }
+          apt-get update -y >/dev/null && apt-get install -y jq >/dev/null
+          jq -e '.total and .passed and .failed and .passRate and .p95DurationMs' artifacts/run-metrics.json >/dev/null \
+            || { echo "❌ run-metrics.json invalid or missing required keys"; cat artifacts/run-metrics.json || true; exit 1; }
+          echo "✅ run-metrics.json present & minimally valid"
+
+      - name: Enforce Quality Gates (PR/main thresholds)
+        if: always()
+        env:
+          IS_PR: ${{ github.event.workflow_run.event == 'pull_request' }}
+          PASSRATE_MIN_PR: ${{ env.GATE_PR_PASSRATE_MIN }}
+          P95_MAX_MS_PR: ${{ env.GATE_PR_P95_MAX_MS }}
+          PASSRATE_MIN_MAIN: ${{ env.GATE_MAIN_PASSRATE_MIN }}
+          P95_MAX_MS_MAIN: ${{ env.GATE_MAIN_P95_MAX_MS }}
+          FLAKY_MAX: ${{ env.GATE_FLAKY_MAX }}
+        run: |
+          apt-get update -y >/dev/null && apt-get install -y jq >/dev/null
+          PASSRATE=$(jq -r '.passRate' artifacts/run-metrics.json)
+          P95=$(jq -r '.p95DurationMs' artifacts/run-metrics.json)
+          FLAKY=$(jq -r '.flakyRatio // 0' artifacts/run-metrics.json)
+
+          if [ "${IS_PR}" = "true" ]; then
+            PASSRATE_MIN=$PASSRATE_MIN_PR
+            P95_MAX=$P95_MAX_MS_PR
+          else
+            PASSRATE_MIN=$PASSRATE_MIN_MAIN
+            P95_MAX=$P95_MAX_MS_MAIN
+          fi
+
+          echo "🔎 passRate=$PASSRATE (min=$PASSRATE_MIN) | p95=$P95 ms (max=$P95_MAX) | flakyRatio=$FLAKY (max=$FLAKY_MAX)"
+
+          FAIL=0
+          awk "BEGIN{exit !($PASSRATE >= $PASSRATE_MIN)}" || { echo "❌ passRate below threshold"; FAIL=1; }
+          awk "BEGIN{exit !($P95 <= $P95_MAX)}" || { echo "❌ p95DurationMs above threshold"; FAIL=1; }
+          awk "BEGIN{exit !($FLAKY <= $FLAKY_MAX)}" || { echo "❌ flakyRatio above threshold"; FAIL=1; }
+
+          if [ $FAIL -ne 0 ]; then
+            echo "⛔ Quality Gate failed"
+            exit 1
+          fi
+          echo "✅ Quality Gate passed"
+
+      - name: Save run snapshot for history
+        if: always()
+        run: |
+          mkdir -p artifacts/history
+          TS=$(date -u +'%Y%m%d-%H%M%S')
+          cp artifacts/run-metrics.json "artifacts/history/run-$TS-${{ matrix.browser }}-${{ matrix.siteId }}.json"
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.browser }}-${{ matrix.siteId }}
+          path: allure-results/
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-${{ matrix.browser }}-${{ matrix.siteId }}
+          path: artifacts/
+
+      - name: GateCheck — pass rate & p95
+        if: always()
+        env:
+          GATECHECK_MIN_PASSRATE: "0.90"
+          GATECHECK_MAX_P95_MS: "720000"
+        run: dotnet run --project tools/GateCheck/GateCheck.csproj -- artifacts/run-metrics.json
+
+  allure-report:
+    if: always()
+    needs: [e2e-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          merge-multiple: true
+          path: ./allure-results
+
+      - name: Publish Allure Report (simple static)
+        if: hashFiles('allure-results/**') != ''
+        uses: simple-elf/allure-report-action@v1.7
+        with:
+          allure_results: ./allure-results
+          report_path: ./allure-report
+
+      - name: Upload Allure HTML
+        if: hashFiles('allure-report/**') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 7
