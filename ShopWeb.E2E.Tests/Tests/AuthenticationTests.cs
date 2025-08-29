@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Allure.NUnit;
 using Allure.NUnit.Attributes;
 using ShopWeb.E2E.Tests.Flows;
 
@@ -31,8 +32,7 @@ public class AuthenticationTests : BaseTest
     [Category("Smoke")]
     [AllureFeature("User Authentication")]
     [AllureStory("User Registration")]
-    [AllureSeverity(SeverityLevel.Critical)]
-    [Description("Verify that a new user can successfully register with valid credentials")]
+        [Description("Verify that a new user can successfully register with valid credentials")]
     public async Task SignUp_WhenValidCredentials_ShouldRegisterSuccessfully()
     {
         // Arrange
@@ -51,8 +51,7 @@ public class AuthenticationTests : BaseTest
     [Category("Negative")]
     [AllureFeature("User Authentication")]
     [AllureStory("Invalid Login Attempts")]
-    [AllureSeverity(SeverityLevel.Normal)]
-    [Description("Verify that login fails with invalid credentials")]
+        [Description("Verify that login fails with invalid credentials")]
     public async Task Login_WhenInvalidCredentials_ShouldFailGracefully()
     {
         // Arrange
@@ -70,8 +69,7 @@ public class AuthenticationTests : BaseTest
     [Category("Negative")]
     [AllureFeature("User Authentication")]
     [AllureStory("Empty Credentials")]
-    [AllureSeverity(SeverityLevel.Normal)]
-    [Description("Verify that login fails with empty credentials")]
+        [Description("Verify that login fails with empty credentials")]
     public async Task Login_WhenEmptyCredentials_ShouldFailGracefully()
     {
         // Arrange
@@ -89,8 +87,7 @@ public class AuthenticationTests : BaseTest
     [Category("Edge")]
     [AllureFeature("User Authentication")]
     [AllureStory("Special Characters in Credentials")]
-    [AllureSeverity(SeverityLevel.Minor)]
-    [Description("Verify handling of special characters in username and password")]
+        [Description("Verify handling of special characters in username and password")]
     public async Task SignUp_WhenSpecialCharactersInCredentials_ShouldHandleGracefully()
     {
         // Arrange
@@ -120,8 +117,7 @@ public class AuthenticationTests : BaseTest
     [Category("Regression")]
     [AllureFeature("User Authentication")]
     [AllureStory("Duplicate User Registration")]
-    [AllureSeverity(SeverityLevel.Normal)]
-    [Description("Verify that duplicate user registration is handled properly")]
+        [Description("Verify that duplicate user registration is handled properly")]
     public async Task SignUp_WhenDuplicateUsername_ShouldHandleAppropriately()
     {
         // Arrange

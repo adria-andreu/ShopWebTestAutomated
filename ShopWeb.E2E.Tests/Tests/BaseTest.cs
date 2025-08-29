@@ -5,6 +5,7 @@ using Allure.NUnit.Attributes;
 using ShopWeb.E2E.Tests.Browsers;
 using ShopWeb.E2E.Tests.Config;
 using ShopWeb.E2E.Tests.Utilities;
+using ShopWeb.E2E.Tests.Exceptions;
 using System.Diagnostics;
 
 namespace ShopWeb.E2E.Tests.Tests;
@@ -20,6 +21,7 @@ public abstract class BaseTest
     private string? _artifactsDir;
     private Stopwatch? _testStopwatch;
     private bool _testFailed = false;
+    private readonly List<string> _consoleLogs = new();
 
     protected IPage Page => _page ?? throw new InvalidOperationException("Page not initialized. Ensure SetUp has run.");
     protected IBrowserContext Context => _context ?? throw new InvalidOperationException("Context not initialized. Ensure SetUp has run.");
@@ -73,6 +75,9 @@ public abstract class BaseTest
         
         _context = await _browserFactory!.CreateContextAsync(browser, contextOptions);
         _page = await _context.NewPageAsync();
+
+        // Configure console logging
+        _page.Console += OnConsoleMessage;
 
         // Configure page-level settings
         await _page.SetDefaultNavigationTimeoutAsync(Settings.Timeouts.Navigation);
@@ -152,11 +157,11 @@ public abstract class BaseTest
         }
 
         // Console logs on failure (if configured)
-        if (_testFailed && Settings.Artifacts.LogConsoleOnFail)
+        if (_testFailed && Settings.Artifacts.LogConsoleOnFail && _consoleLogs.Any())
         {
             var logPath = Path.Combine(_artifactsDir!, "console.log.txt");
-            var consoleLogs = "Console logs would be captured here"; // Implementation depends on console handling setup
-            await File.WriteAllTextAsync(logPath, consoleLogs);
+            var logContent = string.Join(Environment.NewLine, _consoleLogs);
+            await File.WriteAllTextAsync(logPath, logContent);
             
             TestContext.AddTestAttachment(logPath, "Console Logs");
             AllureApi.AddAttachment("console.log.txt", "text/plain", logPath);
@@ -190,10 +195,24 @@ public abstract class BaseTest
         return TestContext.Parameters.Get("SiteId") ?? Environment.GetEnvironmentVariable("SITE_ID") ?? Settings.SiteId;
     }
 
+    private void OnConsoleMessage(object? sender, IConsoleMessage e)
+    {
+        var timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        var logEntry = $"[{timestamp}] {e.Type.ToUpper()}: {e.Text}";
+        _consoleLogs.Add(logEntry);
+
+        // Also log to test output for immediate visibility
+        if (e.Type == "error" || e.Type == "warning")
+        {
+            TestContext.WriteLine($"CONSOLE {e.Type.ToUpper()}: {e.Text}");
+        }
+    }
+
     private async Task CleanupBrowserAsync()
     {
         if (_page != null)
         {
+            _page.Console -= OnConsoleMessage;
             await _page.CloseAsync();
             _page = null;
         }
@@ -242,28 +261,19 @@ public abstract class BaseTest
     // Helper method for navigation with retry logic
     protected async Task NavigateAsync(string url, int retries = 3)
     {
-        Exception? lastException = null;
-        
-        for (int i = 0; i <= retries; i++)
-        {
-            try
+        await RetryPolicy.ExecuteAsync(
+            async () =>
             {
                 await Page.GotoAsync(url, new PageGotoOptions 
                 { 
                     WaitUntil = WaitUntilState.NetworkIdle 
                 });
-                return;
-            }
-            catch (Exception ex)
-            {
-                lastException = ex;
-                if (i < retries)
-                {
-                    await Task.Delay(1000 * (i + 1)); // Progressive delay
-                }
-            }
-        }
-        
-        throw new Exception($"Failed to navigate to {url} after {retries + 1} attempts", lastException);
+            },
+            operationName: $"Navigate to {url}",
+            maxRetries: retries,
+            baseDelay: TimeSpan.FromSeconds(1),
+            useExponentialBackoff: true,
+            retryableExceptions: new[] { typeof(Microsoft.Playwright.PlaywrightException) }
+        );
     }
 }

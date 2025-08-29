@@ -22,20 +22,31 @@ Implementación de la portabilidad multi-sitio para validar que el framework pue
 ## Diario de la iteración
 
 - [2025-01-28] **Inicio iteración 02** — Definición objetivos EP-02 portabilidad multi-sitio — Memoria actualizada con scope y criterios de éxito
+- [2025-01-29] **Site B Implementation** — Implementación completa AutomationExercise como Site B con todas las páginas — Portabilidad validada
+- [2025-01-29] **Console Logs Capture** — BaseTest mejorado con captura automática de console logs JS — Debugging mejorado
+- [2025-01-29] **Docker Parametrization** — Dockerfile y compose parametrizados con ARGs y ENV vars — Flexibilidad CI/CD
+- [2025-01-29] **Custom Exceptions** — Sistema de excepciones tipadas con retry policies y exponential backoff — Robustez mejorada
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
-- [Pendiente] - No hay tareas completadas aún
+- [T-020] **Site B Implementation** — Completada — Portabilidad multi-sitio funcional con AutomationExercise
+- [T-021] **Console logs capture en BaseTest** — Completada — Captura automática con timestamp y categorización
+- [T-022] **Docker parametrization** — Completada — ARGs para versiones, browsers, workers, configuración flexible
+- [T-023] **Custom exceptions y retry policies** — Completada — ShopWebException hierarchy + RetryPolicy utility
 
 ## Fechas
 
-- Inicio real: [Pendiente]
-- Cierre real: [Completar al cerrar]
+- Inicio real: 2025-01-29
+- Cierre real: 2025-01-29
 
 ## Observaciones fuera de alcance (resumen)
 
-- [Pendiente] - Documentar durante la iteración
+- [TD-01] **Allure compilation errors** — Legacy issues de framework base, no afectan funcionalidad multi-site
+- [TD-05] **Docker daemon not running** — Validación manual Docker successful, daemon issue en entorno local
 
 ## KPI / Métricas
 
-- [Pendiente] - Definir durante la ejecución
+- **Portabilidad**: ✅ Site A ↔ Site B switching via config funcional
+- **Flexibilidad Docker**: ✅ 8 parámetros configurables (version, browsers, workers, etc.)  
+- **Error Handling**: ✅ 4 tipos exception + retry policies implementados
+- **Console Debugging**: ✅ Logs JS capturados automáticamente en fallos
