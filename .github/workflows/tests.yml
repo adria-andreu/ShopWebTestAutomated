@@ -1,0 +1,220 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Browser to test with'
+        required: false
+        default: 'chromium'
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+      site_id:
+        description: 'Site ID to test'
+        required: false
+        default: 'A'
+        type: choice
+        options:
+          - A
+          - B
+      environment_type:
+        description: 'Environment for quality gates'
+        required: false
+        default: 'PR'
+        type: choice
+        options:
+          - PR
+          - Main
+          - Nightly
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: 
+          - ${{ github.event.inputs.browser || 'chromium' }}
+          - ${{ github.event.inputs.browser == '' && 'firefox' || '' }}
+          - ${{ github.event.inputs.browser == '' && 'webkit' || '' }}
+        site_id:
+          - ${{ github.event.inputs.site_id || 'A' }}
+        exclude:
+          - browser: ''
+          
+    name: Tests (${{ matrix.browser }}, Site ${{ matrix.site_id }})
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore dependencies
+      run: dotnet restore ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj
+
+    - name: Install Playwright browsers
+      run: |
+        dotnet build ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj
+        pwsh ShopWeb.E2E.Tests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+
+    - name: Run tests
+      env:
+        BROWSER: ${{ matrix.browser }}
+        SITE_ID: ${{ matrix.site_id }}
+        HEADED: false
+        TRACE_MODE: OnFailure
+        GIT_SHA: ${{ github.sha }}
+        PIPELINE_ID: ${{ github.run_id }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        dotnet test ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj \
+          --configuration Release \
+          --logger trx \
+          --logger "console;verbosity=normal" \
+          --results-directory TestResults \
+          -m:4 \
+          -- TestRunParameters.Parameter\(name=Browser,value=${{ matrix.browser }}\) \
+             TestRunParameters.Parameter\(name=SiteId,value=${{ matrix.site_id }}\)
+
+    - name: Build GateCheck tool
+      if: always()
+      run: dotnet build tools/GateCheck/GateCheck.csproj --configuration Release
+
+    - name: Run quality gates check
+      if: always()
+      env:
+        ENVIRONMENT_TYPE: ${{ github.event.inputs.environment_type || (github.event_name == 'schedule' && 'Nightly') || (github.ref == 'refs/heads/main' && 'Main') || 'PR' }}
+      run: |
+        dotnet run --project tools/GateCheck/GateCheck.csproj --configuration Release -- \
+          --metrics-file "ShopWeb.E2E.Tests/artifacts/run-metrics.json" \
+          --environment "$ENVIRONMENT_TYPE" \
+          --verbose
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-${{ matrix.browser }}-${{ matrix.site_id }}
+        path: |
+          TestResults/
+          ShopWeb.E2E.Tests/artifacts/
+          !ShopWeb.E2E.Tests/artifacts/**/*.zip
+        retention-days: 30
+
+    - name: Upload traces (on failure)
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: playwright-traces-${{ matrix.browser }}-${{ matrix.site_id }}
+        path: ShopWeb.E2E.Tests/artifacts/**/*.zip
+        retention-days: 7
+
+    - name: Generate Allure Report
+      if: always()
+      uses: simple-elf/allure-report-action@master
+      with:
+        allure_results: ShopWeb.E2E.Tests/allure-results
+        allure_report: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
+        gh_pages: false
+        
+    - name: Upload Allure Report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
+        path: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
+        retention-days: 30
+
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = 'ShopWeb.E2E.Tests/artifacts/run-metrics.json';
+          
+          if (fs.existsSync(path)) {
+            const metrics = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const status = metrics.passRate >= 0.90 ? '✅' : '❌';
+            
+            const comment = `## ${status} Test Results (${{ matrix.browser }}, Site ${{ matrix.site_id }})
+            
+            | Metric | Value | Status |
+            |--------|-------|--------|
+            | Pass Rate | ${(metrics.passRate * 100).toFixed(1)}% | ${metrics.passRate >= 0.90 ? '✅' : '❌'} |
+            | Tests | ${metrics.total} total, ${metrics.passed} passed, ${metrics.failed} failed | |
+            | P95 Duration | ${(metrics.p95DurationMs / 1000).toFixed(1)}s | ${metrics.p95DurationMs <= 720000 ? '✅' : '❌'} |
+            | Flaky Ratio | ${(metrics.flakyRatio * 100).toFixed(1)}% | ${metrics.flakyRatio <= 0.05 ? '✅' : '❌'} |
+            
+            **Browser:** ${{ matrix.browser }} | **Site:** ${{ matrix.site_id }} | **Commit:** \`${metrics.commitSha.substring(0, 7)}\`
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          }
+
+  aggregate-results:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Download all test results
+      uses: actions/download-artifact@v3
+      with:
+        path: all-results
+        
+    - name: Aggregate and report results
+      run: |
+        echo "## 📊 Aggregated Test Results" >> $GITHUB_STEP_SUMMARY
+        echo "| Browser | Site | Status | Pass Rate | Duration (P95) | Flaky % |" >> $GITHUB_STEP_SUMMARY
+        echo "|---------|------|---------|-----------|----------------|---------|" >> $GITHUB_STEP_SUMMARY
+        
+        find all-results -name "run-metrics.json" | while read -r file; do
+          if [ -f "$file" ]; then
+            metrics=$(cat "$file")
+            browser=$(echo "$metrics" | jq -r '.browser')
+            site_id=$(echo "$metrics" | jq -r '.siteId')
+            pass_rate=$(echo "$metrics" | jq -r '.passRate * 100')
+            p95_duration=$(echo "$metrics" | jq -r '.p95DurationMs / 1000')
+            flaky_ratio=$(echo "$metrics" | jq -r '.flakyRatio * 100')
+            
+            status="✅"
+            if (( $(echo "$pass_rate < 90" | bc -l) )); then status="❌"; fi
+            if (( $(echo "$p95_duration > 720" | bc -l) )); then status="❌"; fi
+            if (( $(echo "$flaky_ratio > 5" | bc -l) )); then status="❌"; fi
+            
+            echo "| $browser | $site_id | $status | ${pass_rate}% | ${p95_duration}s | ${flaky_ratio}% |" >> $GITHUB_STEP_SUMMARY
+          fi
+        done

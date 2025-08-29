@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  tests-base:
+    build: .
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./allure-results:/app/allure-results
+    environment:
+      - DOTNET_ENVIRONMENT=Docker
+      - HEADED=false
+      - TRACE_MODE=OnFailure
+      - MAX_WORKERS=${MAX_WORKERS:-4}
+      - SITE_ID=${SITE_ID:-A}
+    networks:
+      - test-network
+
+  tests-chromium:
+    extends: tests-base
+    environment:
+      - BROWSER=chromium
+    command: >
+      sh -c "
+        dotnet test ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj 
+        --configuration Release 
+        --no-build 
+        -m:${MAX_WORKERS:-4} 
+        -- TestRunParameters.Parameter(name=Browser,value=chromium) 
+           TestRunParameters.Parameter(name=SiteId,value=${SITE_ID:-A})
+      "
+
+  tests-firefox:
+    extends: tests-base
+    environment:
+      - BROWSER=firefox
+    command: >
+      sh -c "
+        dotnet test ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj 
+        --configuration Release 
+        --no-build 
+        -m:${MAX_WORKERS:-4} 
+        -- TestRunParameters.Parameter(name=Browser,value=firefox) 
+           TestRunParameters.Parameter(name=SiteId,value=${SITE_ID:-A})
+      "
+
+  tests-webkit:
+    extends: tests-base
+    environment:
+      - BROWSER=webkit
+    command: >
+      sh -c "
+        dotnet test ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj 
+        --configuration Release 
+        --no-build 
+        -m:${MAX_WORKERS:-4} 
+        -- TestRunParameters.Parameter(name=Browser,value=webkit) 
+           TestRunParameters.Parameter(name=SiteId,value=${SITE_ID:-A})
+      "
+
+  gatecheck:
+    extends: tests-base
+    depends_on:
+      - tests-chromium
+      - tests-firefox  
+      - tests-webkit
+    command: >
+      sh -c "
+        dotnet run --project tools/GateCheck/GateCheck.csproj 
+        --configuration Release 
+        --no-build 
+        -- --metrics-file artifacts/run-metrics.json 
+           --environment ${ENVIRONMENT:-PR} 
+           --verbose
+      "
+
+  allure-report:
+    image: frankescobar/allure-docker-service
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 1
+      KEEP_HISTORY: 1
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-reports:/app/default-reports
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge
+
+volumes:
+  artifacts:
+  allure-results:
+  allure-reports:
