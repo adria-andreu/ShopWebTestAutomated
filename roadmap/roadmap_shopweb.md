@@ -14,10 +14,17 @@ ultima_actualizacion: 2025-01-28
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-020 | Site B implementation                        | Portabilidad multi-sitio validada     | DoD: switch sites via config    | Pending  | 2025-02-01 | TD-01    |
-| T-021 | Console logs capture en BaseTest            | Mejor debugging de fallos JS          | DoD: logs en artifacts          | Pending  | 2025-01-30 | TD-03    |
-| T-022 | Parametrizar Docker setup                   | Flexibility en versiones y config      | DoD: ENV vars configurables     | Pending  | 2025-01-30 | TD-04    |
-| T-023 | Custom exceptions y retry policies          | Error handling más granular            | DoD: typed exceptions           | Pending  | 2025-02-05 | TD-06    |
+| T-020 | Site B implementation                        | Portabilidad multi-sitio validada     | DoD: switch sites via config    | ✅ Done  | 2025-01-29 | TD-01    |
+| T-021 | Console logs capture en BaseTest            | Mejor debugging de fallos JS          | DoD: logs en artifacts          | ✅ Done  | 2025-01-29 | TD-03    |
+| T-022 | Parametrizar Docker setup                   | Flexibility en versiones y config      | DoD: ENV vars configurables     | ✅ Done  | 2025-01-29 | TD-04    |
+| T-023 | Custom exceptions y retry policies          | Error handling más granular            | DoD: typed exceptions           | ✅ Done  | 2025-01-29 | TD-06    |
+| T-024 | Fix GitHub Actions deprecated artifacts     | CI/CD pipeline funcional               | DoD: workflow green runs        | ✅ Done  | 2025-01-29 | -        |
+
+## Tareas críticas (hotfix)
+
+| ID    | Tarea                                        | Prioridad | Complejidad | Estado   | Motivo |
+|-------|----------------------------------------------|-----------|-------------|----------|--------|
+| T-024 | GitHub Actions artifacts v3→v4 upgrade      | P1        | S           | ✅ Done  | Bloquea todos los CI/CD pipelines - deprecated actions |
 
 ## Checklist de cierre (iteración 01) ✅
 
