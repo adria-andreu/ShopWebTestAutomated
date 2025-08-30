@@ -14,7 +14,12 @@ public class BrowserFactory : IBrowserFactory, IDisposable
     {
         if (_disposed) throw new ObjectDisposedException(nameof(BrowserFactory));
 
-        return await _browsers.GetOrAdd(browserType, async bt => await CreateBrowserAsync(bt));
+        if (_browsers.TryGetValue(browserType, out var existingBrowser))
+            return existingBrowser;
+        
+        var browser = await CreateBrowserAsync(browserType);
+        _browsers.TryAdd(browserType, browser);
+        return browser;
     }
 
     public async Task<IBrowserContext> CreateContextAsync(string browserType = "chromium", Dictionary<string, object>? options = null)

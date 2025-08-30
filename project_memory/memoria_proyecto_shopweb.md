@@ -1,41 +1,45 @@
 ---
 proyecto: ShopWebTestAutomated
-iteracion: 02
-inicio: 2025-01-29
-fin_previsto: 2025-02-01
+iteracion: 03
+inicio: 2025-01-30
+fin_previsto: 2025-02-15
 estado: en-curso
-tag_planeado: it02_20250201
+tag_planeado: it03_20250215
 ---
 
 # Resumen (no técnico, 4-6 líneas)
 
-Implementación de la portabilidad multi-sitio para validar que el framework puede ejecutar los mismos tests en diferentes aplicaciones web solo cambiando la configuración. Se creará Site B como segunda implementación, se desarrollará la abstracción ISiteProfile para normalizar diferencias entre sitios, y se validará que los tests existentes pasan en ambos sitios (A y B) cambiando únicamente el parámetro SiteId. El criterio de éxito es demostrar portabilidad real sin modificar código de tests.
+Implementación de observabilidad avanzada y estabilidad del framework de testing. Se desarrollará detección automática de tests inestables (flaky detection) con análisis de tendencias históricas, se implementarán sistemas de quarantine automático para tests problemáticos, y se mejorará el reporting con dashboards de performance trending. El criterio de éxito es tener un sistema que detecte y gestione automáticamente tests inestables, manteniendo la estabilidad del pipeline de CI/CD.
 
 ## Apéndice técnico
 
-**Objetivo técnico**: Épica EP-02 Portabilidad Multi-sitio  
-**Site B target**: Evaluar automation-practice.com o similar como segundo e-commerce  
-**Patrones**: ISiteProfile abstraction, SiteB_* page implementations, Profile-driven configuration  
-**Riesgos**: Diferencias estructurales entre sitios, selectores inestables, timing differences  
-**Dependencias**: Framework base (it01) completado, tests existentes como baseline
+**Objetivo técnico**: Épica EP-03 Observabilidad Avanzada  
+**Flaky detection target**: Sliding window analysis con auto-quarantine tras N fallos en M runs  
+**Performance trending**: Análisis P95, duración media, detección de regresiones  
+**Patrones**: Observer pattern para metrics, Historical data storage, Automated quarantine workflow  
+**Riesgos**: False positives en quarantine, overhead de análisis histórico, storage de métricas  
+**Dependencias**: Framework multi-sitio (it02) estable, sistema de métricas existente
 
 ## Diario de la iteración
 
-- [2025-01-28] **Inicio iteración 02** — Definición objetivos EP-02 portabilidad multi-sitio — Memoria actualizada con scope y criterios de éxito
+- [2025-01-30] **Inicio iteración 03** — Definición objetivos EP-03 observabilidad avanzada — Memoria creada con scope flaky detection
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
-- [Pendiente] - No hay tareas completadas aún
+- [Pendiente] Tareas se añadirán según progreso
 
 ## Fechas
 
-- Inicio real: [Pendiente]
-- Cierre real: [Completar al cerrar]
+- Inicio real: 2025-01-30
+- Cierre real: [Pendiente]
 
 ## Observaciones fuera de alcance (resumen)
 
-- [Pendiente] - Documentar durante la iteración
+- [TD-14] **Allure runtime context issues** — "No test context is active" - requiere investigación específica
 
 ## KPI / Métricas
 
-- [Pendiente] - Definir durante la ejecución
+- **Flaky Detection**: [Pendiente] Sistema sliding window implementado
+- **Performance Trending**: [Pendiente] Dashboard P95 y regression detection  
+- **Auto-quarantine**: [Pendiente] Workflow automático para tests inestables
+- **Historical Analysis**: [Pendiente] Storage y análisis de métricas históricas

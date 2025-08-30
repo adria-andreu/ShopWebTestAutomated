@@ -45,10 +45,10 @@ public class SiteA_HomePage : IHomePage
         }
     }
 
-    public async Task<IProductListPage> GoToProductsAsync()
+    public Task<IProductListPage> GoToProductsAsync()
     {
         // For demoblaze, products are on the home page, so we just return the product list implementation
-        return new SiteA_ProductListPage(_page);
+        return Task.FromResult<IProductListPage>(new SiteA_ProductListPage(_page));
     }
 
     public async Task<ICartPage> GoToCartAsync()

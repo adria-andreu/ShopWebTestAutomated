@@ -14,10 +14,31 @@ ultima_actualizacion: 2025-01-28
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-020 | Site B implementation                        | Portabilidad multi-sitio validada     | DoD: switch sites via config    | Pending  | 2025-02-01 | TD-01    |
-| T-021 | Console logs capture en BaseTest            | Mejor debugging de fallos JS          | DoD: logs en artifacts          | Pending  | 2025-01-30 | TD-03    |
-| T-022 | Parametrizar Docker setup                   | Flexibility en versiones y config      | DoD: ENV vars configurables     | Pending  | 2025-01-30 | TD-04    |
-| T-023 | Custom exceptions y retry policies          | Error handling más granular            | DoD: typed exceptions           | Pending  | 2025-02-05 | TD-06    |
+| T-020 | Site B implementation                        | Portabilidad multi-sitio validada     | DoD: switch sites via config    | ✅ Done  | 2025-01-29 | TD-01    |
+| T-021 | Console logs capture en BaseTest            | Mejor debugging de fallos JS          | DoD: logs en artifacts          | ✅ Done  | 2025-01-29 | TD-03    |
+| T-022 | Parametrizar Docker setup                   | Flexibility en versiones y config      | DoD: ENV vars configurables     | ✅ Done  | 2025-01-29 | TD-04    |
+| T-023 | Custom exceptions y retry policies          | Error handling más granular            | DoD: typed exceptions           | ✅ Done  | 2025-01-29 | TD-06    |
+| T-024 | Fix GitHub Actions deprecated artifacts     | CI/CD pipeline funcional               | DoD: workflow green runs        | ✅ Done  | 2025-01-29 | -        |
+
+## Tareas críticas (hotfix)
+
+| ID    | Tarea                                        | Prioridad | Complejidad | Estado   | Motivo |
+|-------|----------------------------------------------|-----------|-------------|----------|--------|
+| T-024 | GitHub Actions artifacts v3→v4 upgrade      | P1        | S           | ✅ Done  | Bloquea todos los CI/CD pipelines - deprecated actions |
+
+## Checklist de cierre (iteración 02) ✅
+
+- [x] **Tareas de épica EP-02 completadas** — T-020 a T-024 implementadas y validadas
+- [x] **Portabilidad multi-sitio funcional** — Site A ↔ Site B switching via config validado
+- [x] **Hotfix CI/CD aplicado** — GitHub Actions v3→v4 upgrade, pipelines funcionales
+- [x] **Memoria actualizada** — `memoria_proyecto_shopweb.md` con diario completo it02
+- [x] **Debt triada y enlazada** — TD-01 a TD-08 resueltas + TD-09 a TD-13 resueltas
+- [x] **Roadmap actualizado** — IT03 definida con tareas técnicas prioritarias
+- [x] **Feature branch pushed** — `feature/iteration-02-multisite` con todos los cambios
+- [x] **Compilation errors resolved** — TD-09 a TD-13 completamente resueltas
+- [x] **Tag de versión** — `it02_20250130` creado con release notes completas
+- [x] **Framework compilación exitosa** — 0 errors, 0 warnings, build SUCCESS
+- [x] **Arquitectura multi-sitio funcional** — PageFactory + ISiteProfile implementados
 
 ## Checklist de cierre (iteración 01) ✅
 
@@ -47,14 +68,35 @@ ultima_actualizacion: 2025-01-28
 | T-009 | CI/CD pipeline                              | ✅ Complete | GitHub Actions con matriz browsers         | commit yz1  |
 | T-010 | Reestructura CLAUDE.md                     | ✅ Complete | Metodología implementada correctamente      | commit 234  |
 
+## Tareas activas (iteración 03)
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-027 | Fix Allure runtime context issues           | Tests validations funcionales          | DoD: tests pasan sin Allure errors | ⏳ Ready | 2025-02-01 | TD-14    |
+| T-028 | Flaky detection con sliding window          | Observabilidad tests inestables        | DoD: auto-quarantine funcional  | ⏳ Ready | 2025-02-05 | TD-15,17 |
+| T-029 | Performance trending dashboard               | Análisis histórico performance         | DoD: P95 trending + regression alerts | ⏳ Ready | 2025-02-10 | TD-16    |
+| T-030 | Auto-quarantine workflow implementation     | Gestión automática tests inestables   | DoD: quarantine/recovery automático | ⏳ Ready | 2025-02-12 | T-028    |
+
+## Checklist de cierre (iteración 03) ⚠️
+
+- [ ] **Tareas de épica EP-03 completadas** — T-027 a T-030 implementadas y validadas
+- [ ] **Allure runtime issues resolved** — Tests pasan sin "No test context is active" errors
+- [ ] **Flaky detection funcional** — Sliding window analysis + auto-quarantine implementado  
+- [ ] **Performance trending operativo** — Dashboard P95, regression detection, alerting
+- [ ] **Auto-quarantine workflow** — Tests inestables gestionados automáticamente
+- [ ] **Memoria actualizada** — `memoria_proyecto_shopweb.md` con diario completo it03
+- [ ] **Debt triada y enlazada** — TD-14 a TD-17 resueltas o priorizadas para IT04
+- [ ] **Roadmap actualizado** — IT04 definida con next-level observability features
+- [ ] **Tests verdes y estables** — Pipeline CI/CD robusto con quarantine automático
+- [ ] **Tag de versión** — `it03_20250215` con observability features documentadas
+
 ## Backlog priorizado (iteraciones futuras)
 
-### Iteración 03 - Observabilidad Avanzada
+### Iteración 04 - Advanced Observability & Enterprise
 | ID    | Tarea                                        | Épica | Prioridad | Complejidad | Dependencias |
 |-------|----------------------------------------------|-------|-----------|-------------|--------------|
-| T-025 | Flaky detection con sliding window          | EP-03 | Alta      | Alta        | T-020        |
-| T-026 | Performance trending y alertas              | EP-03 | Media     | Alta        | T-025        |
-| T-027 | Historical metrics analysis dashboard       | EP-03 | Media     | Media       | T-026        |
+| T-029 | Historical metrics analysis dashboard       | EP-03 | Media     | Media       | T-028        |
+| T-030 | Visual regression testing integration       | EP-04 | Baja      | Alta        | T-025        |
 
 ### Iteración 04 - Enterprise Features  
 | ID    | Tarea                                        | Épica | Prioridad | Complejidad | Dependencias |

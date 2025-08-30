@@ -42,9 +42,15 @@ env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -69,7 +75,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Cache NuGet packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -119,7 +125,7 @@ jobs:
 
     - name: Upload test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-results-${{ matrix.browser }}-${{ matrix.site_id }}
         path: |
@@ -130,7 +136,7 @@ jobs:
 
     - name: Upload traces (on failure)
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: playwright-traces-${{ matrix.browser }}-${{ matrix.site_id }}
         path: ShopWeb.E2E.Tests/artifacts/**/*.zip
@@ -146,7 +152,7 @@ jobs:
         
     - name: Upload Allure Report
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
         path: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
@@ -187,11 +193,12 @@ jobs:
   aggregate-results:
     needs: test
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: always()
     
     steps:
     - name: Download all test results
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: all-results
         

@@ -58,11 +58,11 @@ public class SiteA_LoginPage : ILoginPage
         }
     }
 
-    public async Task<string> GetErrorMessageAsync()
+    public Task<string> GetErrorMessageAsync()
     {
         // In demoblaze, errors are shown as alerts, not as text elements
         // This would require setting up dialog handling in the calling test
-        return "Check browser alerts for error messages";
+        return Task.FromResult("Check browser alerts for error messages");
     }
 
     public async Task<ISignUpPage> GoToSignUpAsync()
@@ -133,10 +133,10 @@ public class SiteA_SignUpPage : ISignUpPage
         return new SiteA_HomePage(_page);
     }
 
-    public async Task<string> GetErrorMessageAsync()
+    public Task<string> GetErrorMessageAsync()
     {
         // In demoblaze, errors are shown as alerts
-        return "Check browser alerts for error messages";
+        return Task.FromResult("Check browser alerts for error messages");
     }
 
     public async Task<ILoginPage> GoToLoginAsync()

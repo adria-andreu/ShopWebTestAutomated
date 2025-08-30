@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Allure.NUnit;
 using Allure.NUnit.Attributes;
 using ShopWeb.E2E.Tests.Flows;
 using ShopWeb.E2E.Tests.Pages;
@@ -32,8 +33,7 @@ public class ShoppingTests : BaseTest
     [Category("Smoke")]
     [AllureFeature("Shopping Cart")]
     [AllureStory("Add Product to Cart")]
-    [AllureSeverity(SeverityLevel.Critical)]
-    [Description("Verify that a user can successfully add a product to the shopping cart")]
+        [Description("Verify that a user can successfully add a product to the shopping cart")]
     public async Task AddToCart_WhenSelectingProduct_ShouldAddProductSuccessfully()
     {
         // Arrange & Act
@@ -54,8 +54,7 @@ public class ShoppingTests : BaseTest
     [Category("Smoke")]
     [AllureFeature("Shopping Cart")]
     [AllureStory("Remove Product from Cart")]
-    [AllureSeverity(SeverityLevel.Normal)]
-    [Description("Verify that a user can remove products from the shopping cart")]
+        [Description("Verify that a user can remove products from the shopping cart")]
     public async Task RemoveFromCart_WhenProductInCart_ShouldRemoveProductSuccessfully()
     {
         // Arrange
@@ -78,8 +77,7 @@ public class ShoppingTests : BaseTest
     [Category("Regression")]
     [AllureFeature("Product Browsing")]
     [AllureStory("Filter Products by Category")]
-    [AllureSeverity(SeverityLevel.Normal)]
-    [Description("Verify that products can be filtered by category")]
+        [Description("Verify that products can be filtered by category")]
     public async Task BrowseProducts_WhenFilteringByCategory_ShouldShowRelevantProducts()
     {
         // Act
@@ -103,8 +101,7 @@ public class ShoppingTests : BaseTest
     [Category("Regression")]
     [AllureFeature("Shopping Cart")]
     [AllureStory("Multiple Products in Cart")]
-    [AllureSeverity(SeverityLevel.Normal)]
-    [Description("Verify that multiple products can be added to cart and total is calculated correctly")]
+        [Description("Verify that multiple products can be added to cart and total is calculated correctly")]
     public async Task AddMultipleProducts_WhenAddingTwoDifferentProducts_ShouldCalculateCorrectTotal()
     {
         // Arrange & Act
@@ -134,8 +131,7 @@ public class ShoppingTests : BaseTest
     [Category("Edge")]
     [AllureFeature("Shopping Cart")]
     [AllureStory("Empty Cart Handling")]
-    [AllureSeverity(SeverityLevel.Minor)]
-    [Description("Verify behavior when working with an empty cart")]
+        [Description("Verify behavior when working with an empty cart")]
     public async Task EmptyCart_WhenCheckingCartContents_ShouldHandleGracefully()
     {
         // Arrange
@@ -153,8 +149,7 @@ public class ShoppingTests : BaseTest
     [Category("Smoke")]
     [AllureFeature("E-commerce Checkout")]
     [AllureStory("Complete Purchase Flow")]
-    [AllureSeverity(SeverityLevel.Critical)]
-    [Description("Verify complete purchase flow from adding product to order completion")]
+        [Description("Verify complete purchase flow from adding product to order completion")]
     public async Task CompletePurchase_WhenCheckingOut_ShouldCompleteOrderSuccessfully()
     {
         // Arrange
