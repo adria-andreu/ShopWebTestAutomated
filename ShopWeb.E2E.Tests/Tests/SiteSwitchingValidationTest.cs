@@ -44,7 +44,7 @@ public class SiteSwitchingValidationTest : BaseTest
     [AllureFeature("Multi-Site Portability")]
     [AllureStory("Page Factory Pattern")]
     [Description("Validates that PageFactory creates correct page implementations based on site configuration")]
-    public async Task PageFactory_WhenCreatingPages_ShouldReturnCorrectImplementations()
+    public Task PageFactory_WhenCreatingPages_ShouldReturnCorrectImplementations()
     {
         // Arrange
         var siteId = Settings.SiteId;
@@ -68,6 +68,7 @@ public class SiteSwitchingValidationTest : BaseTest
             $"LoginPage should be {expectedPrefix} implementation");
             
         TestContext.WriteLine($"✅ All pages correctly implement {expectedPrefix} pattern");
+        return Task.CompletedTask;
     }
 
     [Test]

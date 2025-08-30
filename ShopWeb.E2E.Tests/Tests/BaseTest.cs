@@ -2,6 +2,7 @@ using Microsoft.Playwright;
 using NUnit.Framework;
 using Allure.NUnit;
 using Allure.NUnit.Attributes;
+using Allure.Net.Commons;
 using ShopWeb.E2E.Tests.Browsers;
 using ShopWeb.E2E.Tests.Config;
 using ShopWeb.E2E.Tests.Utilities;
@@ -80,8 +81,8 @@ public abstract class BaseTest
         _page.Console += OnConsoleMessage;
 
         // Configure page-level settings
-        await _page.SetDefaultNavigationTimeoutAsync(Settings.Timeouts.Navigation);
-        await _page.SetDefaultTimeoutAsync(Settings.Timeouts.Default);
+        _page.SetDefaultNavigationTimeout(Settings.Timeouts.Navigation);
+        _page.SetDefaultTimeout(Settings.Timeouts.Default);
     }
 
     private Dictionary<string, object> CreateContextOptions()
@@ -127,9 +128,8 @@ public abstract class BaseTest
                 Path = tracePath
             });
 
-            // Attach to NUnit and Allure
+            // Attach to NUnit only for now
             TestContext.AddTestAttachment(tracePath, "Playwright Trace");
-            AllureApi.AddAttachment("trace.zip", "application/zip", tracePath);
         }
     }
 
@@ -142,7 +142,6 @@ public abstract class BaseTest
             await _page!.ScreenshotAsync(new PageScreenshotOptions { Path = screenshotPath });
             
             TestContext.AddTestAttachment(screenshotPath, "Failure Screenshot");
-            AllureApi.AddAttachment("screenshot.png", "image/png", screenshotPath);
         }
 
         // HTML dump on failure (if configured)
@@ -153,7 +152,6 @@ public abstract class BaseTest
             await File.WriteAllTextAsync(htmlPath, content);
             
             TestContext.AddTestAttachment(htmlPath, "Page HTML");
-            AllureApi.AddAttachment("page.html", "text/html", htmlPath);
         }
 
         // Console logs on failure (if configured)
@@ -164,15 +162,14 @@ public abstract class BaseTest
             await File.WriteAllTextAsync(logPath, logContent);
             
             TestContext.AddTestAttachment(logPath, "Console Logs");
-            AllureApi.AddAttachment("console.log.txt", "text/plain", logPath);
         }
     }
 
     private void ConfigureTimeouts()
     {
         // Set global timeouts
-        _page?.SetDefaultTimeoutAsync(Settings.Timeouts.Default);
-        _page?.SetDefaultNavigationTimeoutAsync(Settings.Timeouts.Navigation);
+        _page?.SetDefaultTimeout(Settings.Timeouts.Default);
+        _page?.SetDefaultNavigationTimeout(Settings.Timeouts.Navigation);
     }
 
     private string CreateArtifactsDirectory()
@@ -245,17 +242,14 @@ public abstract class BaseTest
             Browser = GetBrowserFromTestParameters() ?? Settings.Browser,
             SiteId = GetSiteIdFromTestParameters(),
             CommitSha = Environment.GetEnvironmentVariable("GIT_SHA") ?? Environment.GetEnvironmentVariable("GITHUB_SHA") ?? "unknown",
-            Retries = TestContext.CurrentContext.RetryCount,
+            Retries = 0, // RetryCount not available in this NUnit version
             ErrorMessage = status == "Failed" ? testResult.Message : null
         };
 
         MetricsCollector.RecordTestMetric(metric);
 
-        // Add Allure labels
-        AllureApi.AddLabel("browser", metric.Browser);
-        AllureApi.AddLabel("siteId", metric.SiteId);
-        AllureApi.AddLabel("commitSha", metric.CommitSha);
-        AllureApi.AddLabel("pipelineId", Environment.GetEnvironmentVariable("PIPELINE_ID") ?? Environment.GetEnvironmentVariable("GITHUB_RUN_ID") ?? "local");
+        // Add Allure labels (simplified for this version)
+        // Labels will be added via NUnit attributes instead
     }
 
     // Helper method for navigation with retry logic

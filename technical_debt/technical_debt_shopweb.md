@@ -16,9 +16,22 @@ ultima_actualizacion: 2025-01-28
 | TD-07 | Allure categories/labels hardcoded - falta configuración     | Baja    | Baja      | Baja        | it01         | Mover labels a appsettings con override per ambiente         | T-024          |
 | TD-08 | Bibliography download process missing - solo estructura setup | Baja    | Baja      | Media       | it01         | Implementar descarga automática de docs oficiales            | T-028          |
 
+## Nueva deuda técnica (post-hotfix it02)
+
+| ID    | Descripción técnica                                           | Impacto | Prioridad | Complejidad | Detectada en | Propuesta / Siguiente paso                                    | Enlace Roadmap |
+|-------|---------------------------------------------------------------|---------|-----------|-------------|--------------|--------------------------------------------------------------|----------------|
+| TD-09 | IBrowserFactory missing Dispose method - compilation error   | Alta    | Alta      | Baja        | it02-hotfix  | Implementar IDisposable en BrowserFactory interface          | T-025          |
+| TD-10 | PageFactory class missing - namespace/import issue          | Alta    | Alta      | Baja        | it02-hotfix  | Verificar using statements y namespace en Flows              | T-025          |
+| TD-11 | TestSettings.GetCurrentSite() method missing                | Alta    | Alta      | Baja        | it02-hotfix  | Method exists but compilation fails - investigate conflict    | T-025          |
+| TD-12 | IConfigurationSection.Bind missing - extension issue        | Media   | Media     | Baja        | it02-hotfix  | Add Microsoft.Extensions.Configuration.Binder reference      | T-025          |
+| TD-13 | Multiple async methods without await - 30 warnings          | Baja    | Media     | Media       | it02-hotfix  | Add proper await operators or remove async keyword           | T-026          |
+
 ## Deuda resuelta (histórico)
 
-- TD-00 → No hay deuda resuelta aún (primera iteración)
+- TD-01 → ✅ Resuelta en it02 (Site B implementation completa)
+- TD-03 → ✅ Resuelta en it02 (Console logs capture implementado)  
+- TD-04 → ✅ Resuelta en it02 (Docker parametrization completa)
+- TD-06 → ✅ Resuelta en it02 (Custom exceptions + retry policies)
 
 ---
 

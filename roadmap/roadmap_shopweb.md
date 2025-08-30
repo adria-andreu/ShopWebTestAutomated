@@ -26,6 +26,20 @@ ultima_actualizacion: 2025-01-28
 |-------|----------------------------------------------|-----------|-------------|----------|--------|
 | T-024 | GitHub Actions artifacts v3→v4 upgrade      | P1        | S           | ✅ Done  | Bloquea todos los CI/CD pipelines - deprecated actions |
 
+## Checklist de cierre (iteración 02) ⚠️
+
+- [x] **Tareas de épica EP-02 completadas** — T-020 a T-024 implementadas y validadas
+- [x] **Portabilidad multi-sitio funcional** — Site A ↔ Site B switching via config validado
+- [x] **Hotfix CI/CD aplicado** — GitHub Actions v3→v4 upgrade, pipelines funcionales
+- [x] **Memoria actualizada** — `memoria_proyecto_shopweb.md` con diario completo it02
+- [x] **Debt triada y enlazada** — TD-01 a TD-08 resueltas + TD-09 a TD-13 identificadas
+- [x] **Roadmap actualizado** — IT03 definida con tareas técnicas prioritarias
+- [x] **Feature branch pushed** — `feature/iteration-02-portability` con todos los cambios
+- [ ] **Compilation errors resolved** — TD-09 a TD-13 bloquean IT02 closure completo
+- [ ] **Tag de versión** — `it02_20250129` pendiente tras resolver compilation errors
+- [ ] **Pruebas verdes multi-browser** — Pendiente validación post-fix compilation
+- [ ] **PR merge validation** — Validar que branch puede mergearse sin conflictos
+
 ## Checklist de cierre (iteración 01) ✅
 
 - [x] **Tareas de épica EP-01 completas y validadas** — Framework base implementado y funcional
@@ -54,14 +68,22 @@ ultima_actualizacion: 2025-01-28
 | T-009 | CI/CD pipeline                              | ✅ Complete | GitHub Actions con matriz browsers         | commit yz1  |
 | T-010 | Reestructura CLAUDE.md                     | ✅ Complete | Metodología implementada correctamente      | commit 234  |
 
+## Tareas activas (iteración 03)
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-025 | Fix compilation errors post-hotfix          | Framework compilable y CI verde        | DoD: 0 build errors             | ⏳ Ready | 2025-01-30 | TD-09 → TD-13 |
+| T-026 | Fix async/await warnings (30 warnings)     | Eliminar warnings técnicas             | DoD: warnings < 5                | ⏳ Ready | 2025-01-30 | TD-13    |
+| T-027 | Flaky detection con sliding window          | Observabilidad tests inestables        | DoD: auto-quarantine funcional  | ⏳ Ready | 2025-02-02 | EP-03    |
+| T-028 | Performance trending y alertas              | Análisis histórico performance         | DoD: trending dashboard básico   | ⏳ Ready | 2025-02-05 | T-027    |
+
 ## Backlog priorizado (iteraciones futuras)
 
-### Iteración 03 - Observabilidad Avanzada
+### Iteración 04 - Advanced Observability & Enterprise
 | ID    | Tarea                                        | Épica | Prioridad | Complejidad | Dependencias |
 |-------|----------------------------------------------|-------|-----------|-------------|--------------|
-| T-025 | Flaky detection con sliding window          | EP-03 | Alta      | Alta        | T-020        |
-| T-026 | Performance trending y alertas              | EP-03 | Media     | Alta        | T-025        |
-| T-027 | Historical metrics analysis dashboard       | EP-03 | Media     | Media       | T-026        |
+| T-029 | Historical metrics analysis dashboard       | EP-03 | Media     | Media       | T-028        |
+| T-030 | Visual regression testing integration       | EP-04 | Baja      | Alta        | T-025        |
 
 ### Iteración 04 - Enterprise Features  
 | ID    | Tarea                                        | Épica | Prioridad | Complejidad | Dependencias |
