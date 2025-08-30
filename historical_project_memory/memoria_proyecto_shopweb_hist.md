@@ -25,3 +25,30 @@
 - POM interfaces facilitan futuras implementaciones multi-sitio
 
 ---
+
+## Iteración 02 (2025-01-29 → 2025-01-30) — tag: it02_20250130
+
+**Resumen:** Implementación de portabilidad multi-sitio y resolución de deuda técnica crítica. Se desarrolló la arquitectura ISiteProfile + PageFactory para permitir que los mismos tests se ejecuten en diferentes aplicaciones web cambiando solo la configuración. Se resolvieron todos los errores de compilación bloqueantes, se mejoró el error handling con excepciones tipadas, y se implementó captura de logs de consola para mejor debugging.
+
+**Tareas realizadas:** [T-020 a T-025] Site B implementation, Console logs, Docker parametrization, Custom exceptions, CI/CD hotfix, Compilation errors resolution
+
+**Observaciones fuera de alcance:** [TD-14] Allure runtime context issues detectadas para IT03
+
+**KPIs:** 
+- Multi-site portability: ✅ Site A ↔ Site B switching funcional
+- Compilation status: ✅ 0 errors, 0 warnings (was 23 errors, 4 warnings)
+- Framework architecture: ✅ PageFactory + ISiteProfile pattern implemented
+- Error handling: ✅ Custom exceptions + retry policies implemented
+- CI/CD stability: ✅ GitHub Actions v3→v4 upgrade completed
+- Technical debt resolution: ✅ TD-09 through TD-13 fully resolved
+
+**Stack técnico:** .NET 8, Playwright 1.40.0, NUnit 4.0.1, Allure 2.12.1, Docker (mantiene compatibilidad)
+
+**Lessons learned:**
+- Multi-site architecture requires careful interface abstraction
+- Compilation error resolution enables rapid development progression  
+- PageFactory pattern scales well for site-switching requirements
+- Async/await warnings can be systematically eliminated
+- ISiteProfile + SiteRegistry provides clean portability abstraction
+
+---

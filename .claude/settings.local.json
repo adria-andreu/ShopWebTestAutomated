@@ -4,7 +4,10 @@
       "Bash(rm:*)",
       "Bash(powershell:*)",
       "Bash(dotnet build)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git tag:*)",
+      "Bash(dotnet test:*)"
     ],
     "deny": [],
     "ask": []
