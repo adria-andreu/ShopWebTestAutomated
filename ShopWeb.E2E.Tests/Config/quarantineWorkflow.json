@@ -1,0 +1,68 @@
+{
+  "quarantineWorkflow": {
+    "enabled": true,
+    "quarantineRules": {
+      "autoQuarantineEnabled": true,
+      "failureRateThreshold": 0.3,
+      "consecutiveFailuresThreshold": 3,
+      "minimumRunsRequired": 5,
+      "performanceRegressionThreshold": 25.0,
+      "immediateQuarantineTriggers": [
+        {
+          "trigger": "ConsecutiveFailures",
+          "enabled": true,
+          "parameters": {
+            "limit": 3
+          }
+        },
+        {
+          "trigger": "CriticalError",
+          "enabled": true,
+          "parameters": {}
+        },
+        {
+          "trigger": "InfrastructureIssue",
+          "enabled": true,
+          "parameters": {
+            "timeoutThresholdMs": 30000
+          }
+        }
+      ]
+    },
+    "recoveryRules": {
+      "autoRecoveryEnabled": true,
+      "consecutiveSuccessesRequired": 5,
+      "stabilityPeriodDays": 3,
+      "performanceStabilityThreshold": 0.15,
+      "manualOverrideEnabled": true
+    },
+    "notifications": {
+      "enabled": true,
+      "channels": [
+        "Console",
+        "LogFile"
+      ],
+      "severityLevels": [
+        "Critical",
+        "Warning",
+        "Info"
+      ],
+      "throttling": {
+        "enabled": true,
+        "maxNotificationsPerHour": 10,
+        "cooldownPeriodMinutes": 30
+      }
+    },
+    "workflow": {
+      "stateTransitionTimeoutMinutes": 30,
+      "maxRetryAttempts": 3,
+      "enableWorkflowLogging": true,
+      "enableStateHistory": true
+    },
+    "retentionPolicy": {
+      "quarantineRecordsRetentionDays": 90,
+      "workflowLogsRetentionDays": 30,
+      "enableAutomaticCleanup": true
+    }
+  }
+}
