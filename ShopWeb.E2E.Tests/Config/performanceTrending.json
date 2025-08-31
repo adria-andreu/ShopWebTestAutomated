@@ -1,0 +1,36 @@
+{
+  "performanceTrending": {
+    "enabled": true,
+    "analysisWindowDays": 14,
+    "regressionDetection": {
+      "enabled": true,
+      "thresholdPercentage": 20.0,
+      "minimumSamples": 5,
+      "compareToBaselinePeriodDays": 7
+    },
+    "alertThresholds": {
+      "p95DurationMs": {
+        "warning": 300000,
+        "critical": 600000
+      },
+      "averageDurationMs": {
+        "warning": 180000,
+        "critical": 360000
+      },
+      "regressionPercentage": {
+        "warning": 15.0,
+        "critical": 25.0
+      }
+    },
+    "trending": {
+      "smoothingFactor": 0.3,
+      "outlierDetectionEnabled": true,
+      "outlierThresholdStdDev": 2.0
+    },
+    "reporting": {
+      "generateHtmlReport": true,
+      "generateJsonReport": true,
+      "retentionDays": 90
+    }
+  }
+}

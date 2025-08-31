@@ -31,6 +31,7 @@ Implementación de observabilidad avanzada y estabilidad del framework de testin
 - [2025-01-30] **T-032 VALIDATION RESULTS** — GitHub Actions analysis completed — Allure context fixed, but test execution issues remain
 - [2025-01-30] **T-027 STARTED** — Implementing proper Allure integration — AllureContextManager created, progressive restoration begins
 - [2025-01-30] **T-028 COMPLETED** — Advanced flaky detection system implemented — Sliding window algorithm, auto-quarantine, historical analysis operational
+- [2025-01-30] **T-029 COMPLETED** — Performance trending dashboard implemented — P95 analysis, regression detection, HTML/JSON reporting operational
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
@@ -38,6 +39,7 @@ Implementación de observabilidad avanzada y estabilidad del framework de testin
 - [T-033] **Emergency PR merge readiness verification** — ✅ COMPLETED — IT02 hotfix applied (commit 93073c9), branch ready for merge
 - [T-027] **Fix Allure integration properly** — ✅ COMPLETED — AllureContextManager implemented, BaseTest restored, context errors resolved
 - [T-028] **Flaky detection with sliding window** — ✅ COMPLETED — Core observability engine operational with auto-quarantine workflows
+- [T-029] **Performance trending dashboard** — ✅ COMPLETED — Advanced P95 analysis, regression detection algorithms, multi-format reporting
 
 ## Fechas
 

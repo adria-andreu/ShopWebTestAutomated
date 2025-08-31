@@ -51,6 +51,9 @@ public static class MetricsCollector
             
             // Run flaky detection analysis
             RunFlakyDetectionAnalysis();
+            
+            // Generate performance trending dashboard
+            RunPerformanceTrendingAnalysis();
         }
         catch (Exception ex)
         {
@@ -208,5 +211,23 @@ public static class MetricsCollector
         }
         
         Console.WriteLine("");
+    }
+
+    /// <summary>
+    /// Generate performance trending dashboard and analysis
+    /// </summary>
+    private static void RunPerformanceTrendingAnalysis()
+    {
+        try
+        {
+            var engine = new PerformanceTrendingEngine();
+            var dashboard = engine.GenerateDashboard();
+            
+            Console.WriteLine($"[Advanced Observability] Performance trending dashboard generated with {dashboard.TestResults.Count} test analyses");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Advanced Observability] Performance trending analysis failed: {ex.Message}");
+        }
     }
 }
