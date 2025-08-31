@@ -30,12 +30,14 @@ Implementación de observabilidad avanzada y estabilidad del framework de testin
 - [2025-01-30] **T-033 IT02 UNBLOCKED** — Same hotfix applied to IT02 branch — Commit 93073c9, IT02 PR ready for merge
 - [2025-01-30] **T-032 VALIDATION RESULTS** — GitHub Actions analysis completed — Allure context fixed, but test execution issues remain
 - [2025-01-30] **T-027 STARTED** — Implementing proper Allure integration — AllureContextManager created, progressive restoration begins
+- [2025-01-30] **T-028 COMPLETED** — Advanced flaky detection system implemented — Sliding window algorithm, auto-quarantine, historical analysis operational
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
 - [T-031] **HOTFIX: Remove Allure blocking CI/CD** — ✅ COMPLETED — All Allure attributes disabled, NUnit preserved, commit 60e6d13
 - [T-033] **Emergency PR merge readiness verification** — ✅ COMPLETED — IT02 hotfix applied (commit 93073c9), branch ready for merge
-- [T-027] **Fix Allure integration properly** — 🔄 IN PROGRESS — AllureContextManager implemented, BaseTest restored, SiteSwitchingValidationTest validated
+- [T-027] **Fix Allure integration properly** — ✅ COMPLETED — AllureContextManager implemented, BaseTest restored, context errors resolved
+- [T-028] **Flaky detection with sliding window** — ✅ COMPLETED — Core observability engine operational with auto-quarantine workflows
 
 ## Fechas
 

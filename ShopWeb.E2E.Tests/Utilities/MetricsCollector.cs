@@ -45,6 +45,12 @@ public static class MetricsCollector
 
             var runMetric = CalculateRunMetrics(metrics);
             WriteRunMetricsToFile(runMetric);
+
+            // Advanced Observability: Store metrics for flaky detection analysis
+            StoreMetricsForFlakyDetection(metrics, runMetric.PipelineId);
+            
+            // Run flaky detection analysis
+            RunFlakyDetectionAnalysis();
         }
         catch (Exception ex)
         {
@@ -121,5 +127,86 @@ public static class MetricsCollector
     {
         _testMetrics.Clear();
         _runStartTime = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// Store metrics in historical repository for flaky detection analysis
+    /// </summary>
+    private static void StoreMetricsForFlakyDetection(List<TestMetric> metrics, string runId)
+    {
+        try
+        {
+            var repository = new HistoricalMetricsRepository();
+            repository.StoreTestMetrics(metrics, runId);
+            Console.WriteLine($"[Advanced Observability] Stored {metrics.Count} metrics for flaky detection analysis");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Advanced Observability] Failed to store metrics for flaky detection: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Run flaky detection analysis and generate alerts
+    /// </summary>
+    private static void RunFlakyDetectionAnalysis()
+    {
+        try
+        {
+            var engine = new FlakyDetectionEngine();
+            var analysisResults = engine.AnalyzeFlakyTests();
+            
+            if (analysisResults.Any())
+            {
+                GenerateFlakyDetectionAlerts(analysisResults);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Advanced Observability] Flaky detection analysis failed: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Generate alerts and recommendations for flaky tests
+    /// </summary>
+    private static void GenerateFlakyDetectionAlerts(List<FlakyAnalysisResult> results)
+    {
+        var criticalTests = results.Where(r => r.Status == FlakyTestStatus.Quarantined).ToList();
+        var flakyTests = results.Where(r => r.Status == FlakyTestStatus.Flaky).ToList();
+        
+        if (criticalTests.Any())
+        {
+            Console.WriteLine("");
+            Console.WriteLine("🚨 CRITICAL FLAKY TESTS DETECTED - AUTO-QUARANTINE ACTIVATED:");
+            foreach (var test in criticalTests)
+            {
+                Console.WriteLine($"   ⚠️  {test.TestName} ({test.Browser}/{test.SiteId}): {test.FailureRate:P1} failure rate");
+                Console.WriteLine($"      Recommendation: {test.Recommendation}");
+            }
+        }
+
+        if (flakyTests.Any())
+        {
+            Console.WriteLine("");
+            Console.WriteLine("⚠️  FLAKY BEHAVIOR DETECTED:");
+            foreach (var test in flakyTests)
+            {
+                Console.WriteLine($"   • {test.TestName} ({test.Browser}/{test.SiteId}): {test.FailureRate:P1} failure rate ({test.Severity})");
+            }
+        }
+
+        var recoveryReady = results.Where(r => r.Status == FlakyTestStatus.RecoveryCandidate).ToList();
+        if (recoveryReady.Any())
+        {
+            Console.WriteLine("");
+            Console.WriteLine("✅ RECOVERY CANDIDATES:");
+            foreach (var test in recoveryReady)
+            {
+                Console.WriteLine($"   ✓ {test.TestName} ({test.Browser}/{test.SiteId}): Stable for {test.ConsecutiveSuccesses} runs");
+            }
+        }
+        
+        Console.WriteLine("");
     }
 }
