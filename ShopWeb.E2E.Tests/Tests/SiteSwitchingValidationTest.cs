@@ -1,7 +1,7 @@
 using NUnit.Framework;
-// Allure integration temporarily disabled due to CI/CD context issues (TD-14)
-// using Allure.NUnit;
-// using Allure.NUnit.Attributes;
+// Allure integration restored with proper context management (T-027)
+using Allure.NUnit;
+using Allure.NUnit.Attributes;
 using ShopWeb.E2E.Tests.Pages;
 using ShopWeb.E2E.Tests.Config;
 
@@ -9,14 +9,14 @@ namespace ShopWeb.E2E.Tests.Tests;
 
 [TestFixture]
 [Parallelizable(ParallelScope.Self)]
-// [AllureNUnit] // Temporarily disabled - TD-14
-// [AllureSuite("Site Switching Validation")]
+[AllureNUnit] // Re-enabled with proper context management (T-027)
+[AllureSuite("Site Switching Validation")]
 public class SiteSwitchingValidationTest : BaseTest
 {
     [Test]
     [Category("Validation")]
-    // [AllureFeature("Multi-Site Portability")] // Temporarily disabled - TD-14
-    // [AllureStory("Site A vs Site B Switching")]
+    [AllureFeature("Multi-Site Portability")] // Re-enabled with context management
+    [AllureStory("Site A vs Site B Switching")]
     [Description("Validates that the framework can switch between Site A and Site B via configuration")]
     public async Task SiteSwitching_WhenChangingConfig_ShouldLoadCorrectSite()
     {
@@ -42,8 +42,8 @@ public class SiteSwitchingValidationTest : BaseTest
 
     [Test]
     [Category("Validation")]
-    // [AllureFeature("Multi-Site Portability")] // Temporarily disabled - TD-14
-    // [AllureStory("Page Factory Pattern")]
+    [AllureFeature("Multi-Site Portability")] // Re-enabled with context management
+    [AllureStory("Page Factory Pattern")]
     [Description("Validates that PageFactory creates correct page implementations based on site configuration")]
     public Task PageFactory_WhenCreatingPages_ShouldReturnCorrectImplementations()
     {
@@ -74,8 +74,8 @@ public class SiteSwitchingValidationTest : BaseTest
 
     [Test]
     [Category("Integration")]
-    // [AllureFeature("Multi-Site Portability")] // Temporarily disabled - TD-14
-    // [AllureStory("Basic Navigation Flow")]
+    [AllureFeature("Multi-Site Portability")] // Re-enabled with context management
+    [AllureStory("Basic Navigation Flow")]
     [Description("Validates basic navigation flow works on current site configuration")]
     public async Task BasicFlow_WhenNavigatingThroughSite_ShouldWorkCorrectly()
     {

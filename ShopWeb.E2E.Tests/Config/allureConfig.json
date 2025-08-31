@@ -1,0 +1,23 @@
+{
+  "allure": {
+    "directory": "allure-results",
+    "links": [
+      {
+        "pattern": "https://github.com/adria-andreu/ShopWebTestAutomated/issues/{}",
+        "type": "issue"
+      }
+    ]
+  },
+  "reportSettings": {
+    "title": "ShopWeb E2E Test Results",
+    "reportName": "Advanced Observability Test Report",
+    "singleFile": false
+  },
+  "environment": {
+    "Framework": ".NET 8.0",
+    "TestFramework": "NUnit 4.0.1",
+    "Browser": "Multi-browser (Chromium, Firefox, WebKit)",
+    "Playwright": "1.40.0",
+    "Project": "ShopWeb IT03 - Advanced Observability"
+  }
+}

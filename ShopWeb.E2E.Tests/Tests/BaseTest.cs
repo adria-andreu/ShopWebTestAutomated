@@ -1,10 +1,9 @@
 using Microsoft.Playwright;
 using NUnit.Framework;
-// Allure integration temporarily disabled due to CI/CD context issues (TD-14)
-// TODO: Re-enable Allure after fixing context lifecycle in T-027
-// using Allure.NUnit;
-// using Allure.NUnit.Attributes;
-// using Allure.Net.Commons;
+// Allure integration - restored with proper context management (T-027)
+using Allure.NUnit;
+using Allure.NUnit.Attributes;
+using Allure.Net.Commons;
 using ShopWeb.E2E.Tests.Browsers;
 using ShopWeb.E2E.Tests.Config;
 using ShopWeb.E2E.Tests.Utilities;
@@ -14,7 +13,7 @@ using System.Diagnostics;
 namespace ShopWeb.E2E.Tests.Tests;
 
 [Parallelizable(ParallelScope.All)]
-// [AllureNUnit] // Temporarily disabled - TD-14
+[AllureNUnit] // Re-enabled with proper context management (T-027)
 public abstract class BaseTest
 {
     private IBrowserFactory? _browserFactory;
@@ -33,6 +32,9 @@ public abstract class BaseTest
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
+        // Initialize Allure context safely before any tests
+        AllureContextManager.Initialize();
+        
         _browserFactory = new BrowserFactory();
     }
 
@@ -41,6 +43,9 @@ public abstract class BaseTest
     {
         _browserFactory?.Dispose();
         MetricsCollector.GenerateRunMetrics();
+        
+        // Cleanup Allure context at the end
+        AllureContextManager.Cleanup();
     }
 
     [SetUp]
@@ -250,8 +255,21 @@ public abstract class BaseTest
 
         MetricsCollector.RecordTestMetric(metric);
 
-        // Add Allure labels (simplified for this version)
-        // Labels will be added via NUnit attributes instead
+        // Add Allure labels safely with context management
+        AllureContextManager.SafeAddLabel("browser", metric.Browser);
+        AllureContextManager.SafeAddLabel("siteId", metric.SiteId);
+        AllureContextManager.SafeAddLabel("duration", $"{metric.DurationMs}ms");
+        AllureContextManager.SafeAddLabel("status", metric.Status);
+        
+        // Add artifacts as Allure attachments if test failed
+        if (metric.Status == "Failed" && !string.IsNullOrEmpty(metric.ArtifactsPath))
+        {
+            var screenshotPath = Path.Combine(metric.ArtifactsPath, "screenshot.png");
+            if (File.Exists(screenshotPath))
+            {
+                AllureContextManager.SafeAddAttachment("Failure Screenshot", screenshotPath, "image/png");
+            }
+        }
     }
 
     // Helper method for navigation with retry logic
