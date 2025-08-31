@@ -1,8 +1,10 @@
 using Microsoft.Playwright;
 using NUnit.Framework;
-using Allure.NUnit;
-using Allure.NUnit.Attributes;
-using Allure.Net.Commons;
+// Allure integration temporarily disabled due to CI/CD context issues (TD-14)
+// TODO: Re-enable Allure after fixing context lifecycle in T-027
+// using Allure.NUnit;
+// using Allure.NUnit.Attributes;
+// using Allure.Net.Commons;
 using ShopWeb.E2E.Tests.Browsers;
 using ShopWeb.E2E.Tests.Config;
 using ShopWeb.E2E.Tests.Utilities;
@@ -12,7 +14,7 @@ using System.Diagnostics;
 namespace ShopWeb.E2E.Tests.Tests;
 
 [Parallelizable(ParallelScope.All)]
-[AllureNUnit]
+// [AllureNUnit] // Temporarily disabled - TD-14
 public abstract class BaseTest
 {
     private IBrowserFactory? _browserFactory;

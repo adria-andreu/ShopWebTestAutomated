@@ -23,6 +23,8 @@ Implementación de observabilidad avanzada y estabilidad del framework de testin
 ## Diario de la iteración
 
 - [2025-01-30] **Inicio iteración 03** — Definición objetivos EP-03 observabilidad avanzada — Memoria creada con scope flaky detection
+- [2025-01-30] **CRISIS CI/CD Detectada** — GitHub Actions Run #17342641579 ALL browsers FAIL — Allure context blocking pipeline
+- [2025-01-30] **Escalation to P0 HOTFIX** — IT02 PR #2 blocked, all quality gates failing — T-031 to T-033 created URGENT
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
