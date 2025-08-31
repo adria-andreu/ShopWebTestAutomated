@@ -25,10 +25,12 @@ Implementación de observabilidad avanzada y estabilidad del framework de testin
 - [2025-01-30] **Inicio iteración 03** — Definición objetivos EP-03 observabilidad avanzada — Memoria creada con scope flaky detection
 - [2025-01-30] **CRISIS CI/CD Detectada** — GitHub Actions Run #17342641579 ALL browsers FAIL — Allure context blocking pipeline
 - [2025-01-30] **Escalation to P0 HOTFIX** — IT02 PR #2 blocked, all quality gates failing — T-031 to T-033 created URGENT
+- [2025-01-30] **HOTFIX T-031 COMPLETED** — Allure attributes removed from all test classes — Build succeeds, 14 tests discoverable
+- [2025-01-30] **Hotfix pushed for validation** — Commit 60e6d13 pushed to trigger GitHub Actions — T-032 pipeline validation pending
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
-- [Pendiente] Tareas se añadirán según progreso
+- [T-031] **HOTFIX: Remove Allure blocking CI/CD** — ✅ COMPLETED — All Allure attributes disabled, NUnit preserved, commit 60e6d13
 
 ## Fechas
 
