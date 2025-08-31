@@ -16,9 +16,26 @@ ultima_actualizacion: 2025-01-28
 | TD-07 | Allure categories/labels hardcoded - falta configuración     | Baja    | Baja      | Baja        | it01         | Mover labels a appsettings con override per ambiente         | T-024          |
 | TD-08 | Bibliography download process missing - solo estructura setup | Baja    | Baja      | Media       | it01         | Implementar descarga automática de docs oficiales            | T-028          |
 
+## Nueva deuda técnica (it03)
+
+| ID    | Descripción técnica                                           | Impacto | Prioridad | Complejidad | Detectada en | Propuesta / Siguiente paso                                    | Enlace Roadmap |
+|-------|---------------------------------------------------------------|---------|-----------|-------------|--------------|--------------------------------------------------------------|----------------|
+| TD-14 | Allure runtime context "No test context is active" error    | Media   | Media     | Media       | it03-start   | Investigate Allure.NUnit integration, fix context lifecycle | T-027          |
+| TD-15 | Flaky detection básico - falta sliding window histórico     | Media   | Alta      | Alta        | it03-start   | Implementar sliding window con storage histórico             | T-027          |
+| TD-16 | Performance trending no implementado - falta dashboard       | Media   | Media     | Media       | it03-start   | Dashboard P95, regression detection, alerting                | T-028          |
+| TD-17 | Auto-quarantine workflow missing - tests manuales           | Alta    | Alta      | Media       | it03-start   | Workflow automático quarantine/recovery para flaky tests    | T-027          |
+
 ## Deuda resuelta (histórico)
 
-- TD-00 → No hay deuda resuelta aún (primera iteración)
+- TD-01 → ✅ Resuelta en it02 (Site B implementation completa)
+- TD-03 → ✅ Resuelta en it02 (Console logs capture implementado)  
+- TD-04 → ✅ Resuelta en it02 (Docker parametrization completa)
+- TD-06 → ✅ Resuelta en it02 (Custom exceptions + retry policies)
+- TD-09 → ✅ Resuelta en it02 (IBrowserFactory.Dispose implemented)
+- TD-10 → ✅ Resuelta en it02 (PageFactory created with multi-site support)
+- TD-11 → ✅ Resuelta en it02 (TestSettings.GetCurrentSite method added)
+- TD-12 → ✅ Resuelta en it02 (Microsoft.Extensions.Configuration.Binder reference added)
+- TD-13 → ✅ Resuelta en it02 (All async/await warnings fixed)
 
 ---
 

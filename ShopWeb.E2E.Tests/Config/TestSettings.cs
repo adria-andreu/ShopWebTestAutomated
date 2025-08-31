@@ -10,6 +10,11 @@ public class TestSettings
     public ArtifactsSettings Artifacts { get; set; } = new();
     public ParallelizationSettings Parallelization { get; set; } = new();
     public QualityGatesSettings QualityGates { get; set; } = new();
+    
+    public ISiteProfile GetCurrentSite()
+    {
+        return SiteRegistry.GetProfile(SiteId);
+    }
 }
 
 public class TimeoutSettings
