@@ -68,27 +68,178 @@ ultima_actualizacion: 2025-01-28
 | T-009 | CI/CD pipeline                              | ✅ Complete | GitHub Actions con matriz browsers         | commit yz1  |
 | T-010 | Reestructura CLAUDE.md                     | ✅ Complete | Metodología implementada correctamente      | commit 234  |
 
-## Tareas activas (iteración 03)
+## 🚨 TAREAS CRÍTICAS CI/CD HOTFIX (BLOQUEAN IT02 MERGE)
+
+| ID    | Tarea                                        | Prioridad | Complejidad | Estado   | DoD (Definition of Done) | ETA | Vínculos |
+|-------|----------------------------------------------|-----------|-------------|----------|-------------------------|-----|----------|
+| T-031 | HOTFIX: Remove Allure attributes blocking CI/CD | **P0**    | **S**       | 🔥 **NOW** | All browser jobs GREEN in GitHub Actions | **HOY** | TD-14,18 |
+| T-032 | Validate CI/CD pipeline multi-browser success  | **P0**    | **S**       | ⏳ After T-031 | PR #2 pipeline passes all quality gates | **HOY** | T-031 |
+| T-033 | Emergency PR merge readiness verification      | **P0**    | **S**       | ⏳ After T-032 | IT02 PR mergeable with green CI/CD | **HOY** | T-032 |
+
+## Tareas activas (iteración 03 - POST CI/CD FIX)
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-027 | Fix Allure runtime context issues           | Tests validations funcionales          | DoD: tests pasan sin Allure errors | ⏳ Ready | 2025-02-01 | TD-14    |
+| T-027 | Fix Allure integration properly             | Tests con reporting funcional          | DoD: Allure reports + tests GREEN | ⏳ Blocked | 2025-02-01 | T-031 completada |
 | T-028 | Flaky detection con sliding window          | Observabilidad tests inestables        | DoD: auto-quarantine funcional  | ⏳ Ready | 2025-02-05 | TD-15,17 |
 | T-029 | Performance trending dashboard               | Análisis histórico performance         | DoD: P95 trending + regression alerts | ⏳ Ready | 2025-02-10 | TD-16    |
 | T-030 | Auto-quarantine workflow implementation     | Gestión automática tests inestables   | DoD: quarantine/recovery automático | ⏳ Ready | 2025-02-12 | T-028    |
 
+## ⚡ PLAN DE ACCIÓN INMEDIATO
+
+**STEP 1 (AHORA):** T-031 - Remove Allure blocking attributes
+- Remove `[AllureNUnit]` from BaseTest and test classes
+- Keep NUnit functionality, disable Allure temporarily
+- Target: Get tests running in CI/CD without Allure dependencies
+
+**STEP 2 (VALIDAR):** T-032 - Test CI/CD pipeline
+- Push hotfix to `feature/iteration-03-observability`
+- Verify all 3 browsers pass in GitHub Actions
+- Confirm artifacts generation works
+
+**STEP 3 (MERGE):** T-033 - Unblock IT02 delivery
+- Apply same hotfix to `feature/iteration-02-multisite`  
+- Ensure PR #2 can merge with green pipeline
+- Complete IT02 delivery cycle
+
 ## Checklist de cierre (iteración 03) ⚠️
 
+### CRÍTICO - CI/CD Pipeline Health (PREREQUISITO PARA TODO)
+- [ ] **CI/CD HOTFIX completado** — T-031 a T-033 resueltas, pipeline VERDE en GitHub Actions
+- [ ] **IT02 PR mergeable** — Pipeline pasa quality gates, PR #2 lista para merge
+- [ ] **Multi-browser tests GREEN** — Chromium, Firefox, WebKit funcionando en GitHub Actions
+
+### Épica EP-03 - Advanced Observability (POST-HOTFIX)
 - [ ] **Tareas de épica EP-03 completadas** — T-027 a T-030 implementadas y validadas
-- [ ] **Allure runtime issues resolved** — Tests pasan sin "No test context is active" errors
+- [ ] **Allure integration properly fixed** — Tests + reporting funcionales simultáneamente
 - [ ] **Flaky detection funcional** — Sliding window analysis + auto-quarantine implementado  
 - [ ] **Performance trending operativo** — Dashboard P95, regression detection, alerting
 - [ ] **Auto-quarantine workflow** — Tests inestables gestionados automáticamente
+
+### Standard DoD
 - [ ] **Memoria actualizada** — `memoria_proyecto_shopweb.md` con diario completo it03
-- [ ] **Debt triada y enlazada** — TD-14 a TD-17 resueltas o priorizadas para IT04
+- [ ] **Debt triada y enlazada** — TD-14 a TD-18 resueltas (críticas) + TD-15 a TD-17 planificadas
 - [ ] **Roadmap actualizado** — IT04 definida con next-level observability features
 - [ ] **Tests verdes y estables** — Pipeline CI/CD robusto con quarantine automático
 - [ ] **Tag de versión** — `it03_20250215` con observability features documentadas
+
+## ⚠️ BLOCKER RESOLUTION PRIORITY
+
+**NADA puede avanzar hasta que CI/CD esté VERDE:**
+1. T-031: Remove Allure blocking attributes → **FIRST PRIORITY**
+2. T-032: Validate pipeline success → **SECOND PRIORITY**  
+3. T-033: Unblock IT02 merge → **THIRD PRIORITY**
+4. Solo entonces continuar con EP-03 observability features
+
+---
+
+## 📋 ESTRUCTURA DE TRABAJO IT03 - ANÁLISIS COMPLETO
+
+### **FASE 0: CRISIS RESOLUTION (24-48h) - P0**
+```
+🚨 BLOQUEO CRÍTICO: CI/CD Pipeline failing ALL browsers
+├── T-031: Remove Allure blocking attributes [2-4h]
+├── T-032: Validate pipeline multi-browser success [1-2h]  
+└── T-033: Unblock IT02 PR merge readiness [1h]
+
+DEPENDENCIAS: Ninguna - Acción inmediata requerida
+SUCCESS CRITERIA: GitHub Actions verde, IT02 PR mergeable
+```
+
+### **FASE 1: STABILITY FOUNDATION (Week 1) - P1**
+```
+🔧 RESTORATION: Allure + Tests Integration
+├── T-027: Fix Allure integration properly [8-12h]
+│   ├── Research Allure.NUnit context lifecycle
+│   ├── Implement proper context management
+│   ├── Test local + CI/CD compatibility
+│   └── Validate artifacts generation
+└── T-034: Framework baseline stability validation [4-6h]
+    ├── Multi-browser regression testing
+    ├── Existing functionality verification
+    └── Performance baseline establishment
+
+DEPENDENCIAS: T-031 a T-033 completadas
+SUCCESS CRITERIA: Tests + Reporting funcionales simultáneamente
+```
+
+### **FASE 2: ADVANCED OBSERVABILITY (Week 2-3) - P2**
+```
+📊 CORE EP-03: Flaky Detection & Performance Trending
+├── T-028: Flaky detection con sliding window [16-20h]
+│   ├── Historical metrics storage design
+│   ├── Sliding window algorithm implementation
+│   ├── Flaky threshold configuration system
+│   └── Detection reporting integration
+│
+├── T-029: Performance trending dashboard [12-16h]
+│   ├── P95 metrics collection enhancement
+│   ├── Regression detection algorithms
+│   ├── Trending visualization (básico)
+│   └── Alerting thresholds configuration
+│
+└── T-035: Metrics infrastructure enhancement [8-10h]
+    ├── Historical data persistence
+    ├── Metrics aggregation optimization
+    └── Storage cleanup policies
+
+DEPENDENCIAS: T-027 completada (stable baseline)
+SUCCESS CRITERIA: Observabilidad operativa con métricas históricas
+```
+
+### **FASE 3: AUTOMATION WORKFLOWS (Week 4) - P3**
+```
+🤖 AUTOMATION: Auto-quarantine & Recovery
+├── T-030: Auto-quarantine workflow implementation [12-16h]
+│   ├── Quarantine decision engine
+│   ├── Test exclusion automation
+│   ├── Recovery criteria definition
+│   └── Notification system integration
+│
+├── T-036: Advanced workflow orchestration [8-12h]
+│   ├── Quarantine → Recovery state machine
+│   ├── Manual override capabilities
+│   ├── Workflow status dashboard
+│   └── Integration with CI/CD pipeline
+│
+└── T-037: Quality gates enhancement [6-8h]
+    ├── Flaky-aware quality gates
+    ├── Adaptive thresholds
+    └── Pipeline optimization
+
+DEPENDENCIAS: T-028, T-029 completadas
+SUCCESS CRITERIA: Gestión automática de tests inestables
+```
+
+## 📊 RISK ANALYSIS & MITIGATION
+
+| Riesgo | Probabilidad | Impacto | Mitigación |
+|--------|-------------|---------|------------|
+| Allure integration complexity | Alta | Crítico | Start with minimal integration, incremental approach |
+| Historical data storage overhead | Media | Alto | Implement cleanup policies, optimize storage |
+| False positives in flaky detection | Media | Medio | Configurable thresholds, manual override |
+| CI/CD performance degradation | Baja | Alto | Optimize metric collection, async processing |
+
+## 🎯 SUCCESS METRICS & VALIDATION
+
+### Phase 0 (Crisis):
+- ✅ All browser jobs GREEN in GitHub Actions
+- ✅ IT02 PR mergeable and deliverable
+
+### Phase 1 (Stability):
+- ✅ Tests + Allure reports working simultaneously
+- ✅ < 5% performance regression vs. baseline
+- ✅ Multi-browser compatibility maintained
+
+### Phase 2 (Observability):
+- ✅ Flaky detection identifies inestables within 10 runs
+- ✅ Performance trending shows P95 < 5min per test suite
+- ✅ Historical analysis available for last 30 days
+
+### Phase 3 (Automation):
+- ✅ Auto-quarantine triggers within defined thresholds
+- ✅ Recovery workflow successful for stable tests
+- ✅ Quality gates adapt to quarantined test exclusions
 
 ## Backlog priorizado (iteraciones futuras)
 

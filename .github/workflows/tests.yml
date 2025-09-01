@@ -49,7 +49,7 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 45
     strategy:
       fail-fast: false
@@ -106,8 +106,8 @@ jobs:
           --logger "console;verbosity=normal" \
           --results-directory TestResults \
           -m:4 \
-          -- TestRunParameters.Parameter\(name=Browser,value=${{ matrix.browser }}\) \
-             TestRunParameters.Parameter\(name=SiteId,value=${{ matrix.site_id }}\)
+          -- TestRunParameters.Parameter\(name=\"Browser\",value=\"${{ matrix.browser }}\"\) \
+             TestRunParameters.Parameter\(name=\"SiteId\",value=\"${{ matrix.site_id }}\"\)
 
     - name: Build GateCheck tool
       if: always()
@@ -192,7 +192,7 @@ jobs:
 
   aggregate-results:
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
     if: always()
     

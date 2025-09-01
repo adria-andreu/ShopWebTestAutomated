@@ -20,7 +20,8 @@ ultima_actualizacion: 2025-01-28
 
 | ID    | Descripción técnica                                           | Impacto | Prioridad | Complejidad | Detectada en | Propuesta / Siguiente paso                                    | Enlace Roadmap |
 |-------|---------------------------------------------------------------|---------|-----------|-------------|--------------|--------------------------------------------------------------|----------------|
-| TD-14 | Allure runtime context "No test context is active" error    | Media   | Media     | Media       | it03-start   | Investigate Allure.NUnit integration, fix context lifecycle | T-027          |
+| TD-14 | Allure runtime context "No test context is active" error    | CRÍTICA | ALTA      | Media       | PR#2-CI/CD   | URGENTE: CI/CD failing all browsers due to Allure context  | T-027          |
+| TD-18 | CI/CD pipeline failing all browser tests in GitHub Actions  | CRÍTICA | ALTA      | Alta        | PR#2-CI/CD   | All browser jobs exit code 1 - runtime test execution fails | T-027          |
 | TD-15 | Flaky detection básico - falta sliding window histórico     | Media   | Alta      | Alta        | it03-start   | Implementar sliding window con storage histórico             | T-027          |
 | TD-16 | Performance trending no implementado - falta dashboard       | Media   | Media     | Media       | it03-start   | Dashboard P95, regression detection, alerting                | T-028          |
 | TD-17 | Auto-quarantine workflow missing - tests manuales           | Alta    | Alta      | Media       | it03-start   | Workflow automático quarantine/recovery para flaky tests    | T-027          |

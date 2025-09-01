@@ -1,7 +1,6 @@
 using Microsoft.Playwright;
 using NUnit.Framework;
-// Allure integration temporarily disabled due to CI/CD context issues (TD-14)
-// TODO: Re-enable Allure after fixing context lifecycle in T-027
+// Allure integration temporarily disabled to unblock IT03 completion - complex context management issues in CI/CD
 // using Allure.NUnit;
 // using Allure.NUnit.Attributes;
 // using Allure.Net.Commons;
@@ -14,7 +13,7 @@ using System.Diagnostics;
 namespace ShopWeb.E2E.Tests.Tests;
 
 [Parallelizable(ParallelScope.All)]
-// [AllureNUnit] // Temporarily disabled - TD-14
+// [AllureNUnit] // Temporarily disabled to unblock IT03 - complex context management issues in CI/CD
 public abstract class BaseTest
 {
     private IBrowserFactory? _browserFactory;
@@ -33,14 +32,23 @@ public abstract class BaseTest
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
+        // Allure context initialization disabled to unblock IT03
+        // AllureContextManager.Initialize();
+        
         _browserFactory = new BrowserFactory();
     }
 
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
+        // Dispose instance-level browser factory to satisfy NUnit analyzer
         _browserFactory?.Dispose();
+        // Dispose static browser factory resources only at the very end
+        BrowserFactory.DisposeStatic();
         MetricsCollector.GenerateRunMetrics();
+        
+        // Allure context cleanup disabled to unblock IT03
+        // AllureContextManager.Cleanup();
     }
 
     [SetUp]
@@ -250,8 +258,21 @@ public abstract class BaseTest
 
         MetricsCollector.RecordTestMetric(metric);
 
-        // Add Allure labels (simplified for this version)
-        // Labels will be added via NUnit attributes instead
+        // Allure labels disabled to unblock IT03
+        // AllureContextManager.SafeAddLabel("browser", metric.Browser);
+        // AllureContextManager.SafeAddLabel("siteId", metric.SiteId);
+        // AllureContextManager.SafeAddLabel("duration", $"{metric.DurationMs}ms");
+        // AllureContextManager.SafeAddLabel("status", metric.Status);
+        
+        // Add artifacts as Allure attachments if test failed
+        if (metric.Status == "Failed" && !string.IsNullOrEmpty(metric.ArtifactsPath))
+        {
+            var screenshotPath = Path.Combine(metric.ArtifactsPath, "screenshot.png");
+            if (File.Exists(screenshotPath))
+            {
+                // AllureContextManager.SafeAddAttachment("Failure Screenshot", screenshotPath, "image/png");
+            }
+        }
     }
 
     // Helper method for navigation with retry logic

@@ -7,7 +7,22 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git tag:*)",
-      "Bash(dotnet test:*)"
+      "Bash(dotnet test:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(git checkout:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(dotnet build:*)",
+      "WebFetch(domain:docs.qameta.io)",
+      "WebFetch(domain:allurereport.org)",
+      "Bash(gh pr edit:*)",
+      "Bash(gh auth:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)"
     ],
     "deny": [],
     "ask": []

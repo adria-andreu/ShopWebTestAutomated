@@ -1,5 +1,5 @@
 using NUnit.Framework;
-// Allure integration temporarily disabled due to CI/CD context issues (TD-14)
+// Allure integration disabled to unblock IT03 - complex context management issues in CI/CD
 // using Allure.NUnit;
 // using Allure.NUnit.Attributes;
 using ShopWeb.E2E.Tests.Pages;
@@ -9,13 +9,13 @@ namespace ShopWeb.E2E.Tests.Tests;
 
 [TestFixture]
 [Parallelizable(ParallelScope.Self)]
-// [AllureNUnit] // Temporarily disabled - TD-14
+// [AllureNUnit] // Disabled to unblock IT03 - complex context management issues in CI/CD
 // [AllureSuite("Site Switching Validation")]
 public class SiteSwitchingValidationTest : BaseTest
 {
     [Test]
     [Category("Validation")]
-    // [AllureFeature("Multi-Site Portability")] // Temporarily disabled - TD-14
+    // [AllureFeature("Multi-Site Portability")] // Disabled to unblock IT03
     // [AllureStory("Site A vs Site B Switching")]
     [Description("Validates that the framework can switch between Site A and Site B via configuration")]
     public async Task SiteSwitching_WhenChangingConfig_ShouldLoadCorrectSite()
@@ -42,7 +42,7 @@ public class SiteSwitchingValidationTest : BaseTest
 
     [Test]
     [Category("Validation")]
-    // [AllureFeature("Multi-Site Portability")] // Temporarily disabled - TD-14
+    // [AllureFeature("Multi-Site Portability")] // Disabled to unblock IT03
     // [AllureStory("Page Factory Pattern")]
     [Description("Validates that PageFactory creates correct page implementations based on site configuration")]
     public Task PageFactory_WhenCreatingPages_ShouldReturnCorrectImplementations()
@@ -74,7 +74,7 @@ public class SiteSwitchingValidationTest : BaseTest
 
     [Test]
     [Category("Integration")]
-    // [AllureFeature("Multi-Site Portability")] // Temporarily disabled - TD-14
+    // [AllureFeature("Multi-Site Portability")] // Disabled to unblock IT03
     // [AllureStory("Basic Navigation Flow")]
     [Description("Validates basic navigation flow works on current site configuration")]
     public async Task BasicFlow_WhenNavigatingThroughSite_ShouldWorkCorrectly()
