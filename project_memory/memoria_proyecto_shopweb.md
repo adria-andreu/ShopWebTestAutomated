@@ -1,65 +1,45 @@
 ---
 proyecto: ShopWebTestAutomated
-iteracion: 03
-inicio: 2025-01-30
-fin_previsto: 2025-02-15
-estado: cerrada
-tag_planeado: it03_20250901
+iteracion: 04
+inicio: 2025-09-01
+fin_previsto: 2025-09-30
+estado: en-curso
+tag_planeado: it04_20250930
 ---
 
 # Resumen (no técnico, 4-6 líneas)
 
-Implementación de observabilidad avanzada y estabilidad del framework de testing. Se desarrollará detección automática de tests inestables (flaky detection) con análisis de tendencias históricas, se implementarán sistemas de quarantine automático para tests problemáticos, y se mejorará el reporting con dashboards de performance trending. El criterio de éxito es tener un sistema que detecte y gestione automáticamente tests inestables, manteniendo la estabilidad del pipeline de CI/CD.
+Resolución arquitectural de problemas de CI/CD pipeline y establecimiento de estrategia de testing robusta. Se evaluarán alternativas de infraestructura (self-hosted runners, plataformas alternativas), se implementará framework de unit tests para feedback rápido de componentes, y se establecerá una base sólida para desarrollo sin dependencias críticas de CI/CD. El criterio de éxito es tener pipelines estables o estrategias alternativas que permitan desarrollo ágil y continuous integration confiable.
 
 ## Apéndice técnico
 
-**Objetivo técnico**: Épica EP-03 Observabilidad Avanzada  
-**Flaky detection target**: Sliding window analysis con auto-quarantine tras N fallos en M runs  
-**Performance trending**: Análisis P95, duración media, detección de regresiones  
-**Patrones**: Observer pattern para metrics, Historical data storage, Automated quarantine workflow  
-**Riesgos**: False positives en quarantine, overhead de análisis histórico, storage de métricas  
-**Dependencias**: Framework multi-sitio (it02) estable, sistema de métricas existente
+**Objetivo técnico**: Épica EP-04 Calidad y Robustez - CI/CD Infrastructure Resolution  
+**Target principal**: Resolver architectural issues documentadas en TD-99  
+**Enfoques**: Self-hosted runners evaluation, Alternative platforms assessment, Unit testing implementation  
+**Patrones**: Infrastructure as Code, Test pyramid optimization, Fast feedback loops  
+**Riesgos**: Platform migration complexity, Unit test adoption curve, Infrastructure costs  
+**Dependencias**: TD-99 analysis, PROJECT.md section 15 unit test guidelines
 
 ## Diario de la iteración
 
-- [2025-01-30] **Inicio iteración 03** — Definición objetivos EP-03 observabilidad avanzada — Memoria creada con scope flaky detection
-- [2025-01-30] **CRISIS CI/CD Detectada** — GitHub Actions Run #17342641579 ALL browsers FAIL — Allure context blocking pipeline
-- [2025-01-30] **Escalation to P0 HOTFIX** — IT02 PR #2 blocked, all quality gates failing — T-031 to T-033 created URGENT
-- [2025-01-30] **HOTFIX T-031 COMPLETED** — Allure attributes removed from all test classes — Build succeeds, 14 tests discoverable
-- [2025-01-30] **Hotfix pushed for validation** — Commit 60e6d13 pushed to trigger GitHub Actions — T-032 pipeline validation pending
-- [2025-01-30] **T-033 IT02 UNBLOCKED** — Same hotfix applied to IT02 branch — Commit 93073c9, IT02 PR ready for merge
-- [2025-01-30] **T-032 VALIDATION RESULTS** — GitHub Actions analysis completed — Allure context fixed, but test execution issues remain
-- [2025-01-30] **T-027 STARTED** — Implementing proper Allure integration — AllureContextManager created, progressive restoration begins
-- [2025-01-30] **T-028 COMPLETED** — Advanced flaky detection system implemented — Sliding window algorithm, auto-quarantine, historical analysis operational
-- [2025-01-30] **T-029 COMPLETED** — Performance trending dashboard implemented — P95 analysis, regression detection, HTML/JSON reporting operational
-- [2025-01-30] **T-030 COMPLETED** — Auto-quarantine workflow orchestration implemented — Intelligent lifecycle management with state transitions operational
-- [2025-09-01] **CI/CD PIPELINE CRISIS** — GitHub Actions failing persistently after multiple fixes — TD-99 created for comprehensive troubleshooting
-- [2025-09-01] **COMPREHENSIVE FIXES APPLIED** — Fixed compilation errors, Ubuntu dependencies, test parameters, BrowserFactory lifecycle — Pipeline issues persist
-- [2025-09-01] **PRAGMATIC DECISION: IT03 CLOSURE** — Core development work completed successfully — Proceeding with iteration closure despite CI/CD issues
-- [2025-09-01] **IT03 ITERATION CLOSED** — All objectives met, observability features complete — CI/CD fixes documented in TD-99 for IT04
+- [2025-09-01] **Inicio iteración 04** — IT03 closure completed, focus shift to CI/CD infrastructure resolution — Memoria IT04 creada con EP-04 scope
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
-- [T-031] **HOTFIX: Remove Allure blocking CI/CD** — ✅ COMPLETED — All Allure attributes disabled, NUnit preserved, commit 60e6d13
-- [T-033] **Emergency PR merge readiness verification** — ✅ COMPLETED — IT02 hotfix applied (commit 93073c9), branch ready for merge
-- [T-027] **Fix Allure integration properly** — ✅ COMPLETED — AllureContextManager implemented, BaseTest restored, context errors resolved
-- [T-028] **Flaky detection with sliding window** — ✅ COMPLETED — Core observability engine operational with auto-quarantine workflows
-- [T-029] **Performance trending dashboard** — ✅ COMPLETED — Advanced P95 analysis, regression detection algorithms, multi-format reporting
-- [T-030] **Auto-quarantine workflow orchestration** — ✅ COMPLETED — Intelligent test lifecycle management with automated state transitions, notifications, recovery workflows
+[Pending - will be updated as tasks are completed]
 
 ## Fechas
 
-- Inicio real: 2025-01-30
-- Cierre real: 2025-09-01
+- Inicio real: 2025-09-01
+- Cierre real: [Pendiente]
 
 ## Observaciones fuera de alcance (resumen)
 
-- [TD-14] **Allure runtime context issues** — "No test context is active" - requiere investigación específica
-- [TD-99] **CI/CD Pipeline Execution Issues** — GitHub Actions failures persist despite comprehensive fixes — Arquitectural evaluation needed for IT04
+[To be updated during iteration]
 
 ## KPI / Métricas
 
-- **Flaky Detection**: ✅ COMPLETED — Sistema sliding window implementado con análisis automático por test execution
-- **Performance Trending**: ✅ COMPLETED — Dashboard P95 y regression detection con alertas automáticas  
-- **Auto-quarantine**: ✅ COMPLETED — Workflow automático para tests inestables con state machine intelligence
-- **Historical Analysis**: ✅ COMPLETED — Storage y análisis de métricas históricas con retention policies
+- **CI/CD Pipeline Stability**: ❓ TBD — Architecture evaluation and solution implementation pending
+- **Alternative Strategy**: ❓ TBD — Self-hosted runners or platform migration assessment
+- **Unit Test Framework**: ❓ TBD — Fast feedback component testing implementation
+- **Development Velocity**: ❓ TBD — Reduced dependency on complex E2E CI/CD pipelines
