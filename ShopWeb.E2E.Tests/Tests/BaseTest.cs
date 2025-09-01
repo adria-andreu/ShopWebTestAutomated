@@ -1,9 +1,9 @@
 using Microsoft.Playwright;
 using NUnit.Framework;
-// Allure integration - restored with proper context management (T-027)
-using Allure.NUnit;
-using Allure.NUnit.Attributes;
-using Allure.Net.Commons;
+// Allure integration temporarily disabled to unblock IT03 completion - complex context management issues in CI/CD
+// using Allure.NUnit;
+// using Allure.NUnit.Attributes;
+// using Allure.Net.Commons;
 using ShopWeb.E2E.Tests.Browsers;
 using ShopWeb.E2E.Tests.Config;
 using ShopWeb.E2E.Tests.Utilities;
@@ -13,7 +13,7 @@ using System.Diagnostics;
 namespace ShopWeb.E2E.Tests.Tests;
 
 [Parallelizable(ParallelScope.All)]
-[AllureNUnit] // Re-enabled with proper context management (T-027)
+// [AllureNUnit] // Temporarily disabled to unblock IT03 - complex context management issues in CI/CD
 public abstract class BaseTest
 {
     private IBrowserFactory? _browserFactory;
@@ -32,8 +32,8 @@ public abstract class BaseTest
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-        // Initialize Allure context safely before any tests
-        AllureContextManager.Initialize();
+        // Allure context initialization disabled to unblock IT03
+        // AllureContextManager.Initialize();
         
         _browserFactory = new BrowserFactory();
     }
@@ -47,8 +47,8 @@ public abstract class BaseTest
         BrowserFactory.DisposeStatic();
         MetricsCollector.GenerateRunMetrics();
         
-        // Cleanup Allure context at the end
-        AllureContextManager.Cleanup();
+        // Allure context cleanup disabled to unblock IT03
+        // AllureContextManager.Cleanup();
     }
 
     [SetUp]
@@ -258,11 +258,11 @@ public abstract class BaseTest
 
         MetricsCollector.RecordTestMetric(metric);
 
-        // Add Allure labels safely with context management
-        AllureContextManager.SafeAddLabel("browser", metric.Browser);
-        AllureContextManager.SafeAddLabel("siteId", metric.SiteId);
-        AllureContextManager.SafeAddLabel("duration", $"{metric.DurationMs}ms");
-        AllureContextManager.SafeAddLabel("status", metric.Status);
+        // Allure labels disabled to unblock IT03
+        // AllureContextManager.SafeAddLabel("browser", metric.Browser);
+        // AllureContextManager.SafeAddLabel("siteId", metric.SiteId);
+        // AllureContextManager.SafeAddLabel("duration", $"{metric.DurationMs}ms");
+        // AllureContextManager.SafeAddLabel("status", metric.Status);
         
         // Add artifacts as Allure attachments if test failed
         if (metric.Status == "Failed" && !string.IsNullOrEmpty(metric.ArtifactsPath))
@@ -270,7 +270,7 @@ public abstract class BaseTest
             var screenshotPath = Path.Combine(metric.ArtifactsPath, "screenshot.png");
             if (File.Exists(screenshotPath))
             {
-                AllureContextManager.SafeAddAttachment("Failure Screenshot", screenshotPath, "image/png");
+                // AllureContextManager.SafeAddAttachment("Failure Screenshot", screenshotPath, "image/png");
             }
         }
     }
