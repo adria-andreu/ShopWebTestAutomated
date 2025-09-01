@@ -14,7 +14,11 @@
       "WebFetch(domain:github.com)",
       "Bash(dotnet build:*)",
       "WebFetch(domain:docs.qameta.io)",
-      "WebFetch(domain:allurereport.org)"
+      "WebFetch(domain:allurereport.org)",
+      "Bash(gh pr edit:*)",
+      "Bash(gh auth:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []

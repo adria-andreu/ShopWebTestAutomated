@@ -74,7 +74,7 @@
 
 **Alcance de pruebas** (aclaración explícita)
 Este repositorio cubre **exclusivamente pruebas E2E de UI** con Playwright + NUnit.
-No se incluyen **pruebas unitarias** ni **pruebas de API** en este proyecto.
+No se incluyen **pruebas de API** en este proyecto.
 
 - Terminología: cuando aquí se hable de “tests”, se entiende **E2E UI**.
 - Métricas y gates aplican solo a E2E (passRate, p95, flakyRatio).
@@ -333,13 +333,133 @@ ShopWebTestAutomated/
 
 ## 15) Unit Tests (NUnit, .NET 8)
 
-**Objetivo**: validar unidades de lógica y utilidades **sin dependencias externas**, para *fast feedback* y como **gate previo** a las E2E.
+> **Nota de alcance:** Este repo también contiene Unit Tests de componentes de negocio (sin UI).
 
-### Alcance y reglas
-- **Ubicación**: `tests/UnitTests/` (`ShopWeb.UnitTests.csproj`).
-- **Aislamiento**: sin red, disco, UI, BD. Dependencias aisladas con interfaces/DI; si procede, *stubs/mocks*.
-- **Framework**: NUnit 4.x · `Microsoft.NET.Test.Sdk` · `coverlet.collector`.
-- **Estilo**: AAA, un comportamiento por test, nombres `Metodo_Escenario_Resultado`.
-- **Velocidad**: tests deterministas y rápidos (<100ms).
+### 15.1 Objetivo
+Validar unidades de lógica y utilidades **sin dependencias externas** para **fast feedback** y como **gate previo** a E2E (bloquea merges si fallan o si la cobertura cae por debajo del umbral).
+
+### 15.2 Estructura & rutas
+Ejemplo;
+/src/ShopWeb/ # código de producción
+/tests/ShopWeb.UnitTests/ # NUnit (unit)
+
+### 15.3 Framework & paquetes
+- **NUnit 4**, **Microsoft.NET.Test.Sdk**, **FluentAssertions**, **Moq**.
+- **Cobertura**: `coverlet.msbuild` con reports `cobertura`.
+
+### 15.4 Reglas de diseño (unit)
+- **Aislamiento total**: sin UI/Playwright, sin red, sin disco, sin BD.
+- Dobles vía **interfaces/DI** (Moq/stubs); tests deterministas y rápidos (<100 ms).
+- Estilo **AAA**; un comportamiento por test; nombres `Metodo_Escenario_Resultado`.
+- Categoría: `[Category("Unit")]` para filtrar en CI y local.
+
+### 15.5 Ejecución local
+```bash
+# Todo el proyecto de unit
+dotnet test tests/ShopWeb.UnitTests/ -c Release
+
+# Filtrado por categoría
+dotnet test tests/ShopWeb.UnitTests/ -c Release --filter "TestCategory=Unit"
+
+
+¡Voy! He revisado la **sección 15 – Unit Tests (NUnit, .NET 8)** de tu `PROJECT.md` y te dejo un diagnóstico + una versión mejorada lista para sustituir.
+
+---
+
+## Diagnóstico rápido
+
+**Fortalezas**
+
+* Declara objetivo (unidad, fast feedback) y reglas base (sin I/O, mocks, AAA).&#x20;
+
+**Gaps / incoherencias**
+
+1. **Contradicción con la sección 4 (Alcance):** allí afirmas “repo exclusivamente E2E; no unit ni API”, pero en la 15 introduces Unit Tests. Hay que unificar criterio.&#x20;
+2. **Rutas y naming inconsistentes:** en 15 indicas `tests/UnitTests/`, mientras en el resto del doc/ejemplos se usa `tests/ShopWeb.UnitTests/`.&#x20;
+3. **Paquetes/herramientas:** en 15 se menciona `coverlet.collector`, pero en otros ejemplos propones `coverlet.msbuild` y gates por cobertura en CI. Alinear.&#x20;
+4. **CI/gates ausentes:** no define umbral (p. ej. 80%), ni dependencia **Unit → E2E** en Actions, ni cómo bloquear merges.&#x20;
+5. **Texto a pulir:** mezcla ES/EN y alguna frase incompleta (“Run pre-commit…”, “Some scenarios such be…”).&#x20;
+
+---
+
+## Propuesta de sustitución para la sección 15
+
+Pega este bloque **en lugar** de la sección 15 actual:
+
+```markdown
+## 15) Unit Tests (NUnit, .NET 8)
+
+> **Nota de alcance:** Si la sección 4 declara “solo E2E”, actualízala para reflejar que **este repo también contiene Unit Tests** de componentes de negocio (sin UI). Alternativamente, mueve esta sección a un repo separado. Elige **una** política y mantenla consistente en README/Runbook/CI.
+
+### 15.1 Objetivo
+Validar unidades de lógica y utilidades **sin dependencias externas** para **fast feedback** y como **gate previo** a E2E (bloquea merges si fallan o si la cobertura cae por debajo del umbral).
+
+### 15.2 Estructura & rutas
+```
+
+/src/ShopWeb/                       # código de producción
+/tests/ShopWeb.UnitTests/           # NUnit (unit)
+
+````
+
+### 15.3 Framework & paquetes
+- **NUnit 4**, **Microsoft.NET.Test.Sdk**, **FluentAssertions**, **Moq**.
+- **Cobertura**: `coverlet.msbuild` con reports `cobertura`.
+
+### 15.4 Reglas de diseño (unit)
+- **Aislamiento total**: sin UI/Playwright, sin red, sin disco, sin BD.
+- Dobles vía **interfaces/DI** (Moq/stubs); tests deterministas y rápidos (<100 ms).
+- Estilo **AAA**; un comportamiento por test; nombres `Metodo_Escenario_Resultado`.
+- Categoría: `[Category("Unit")]` para filtrar en CI y local.
+
+### 15.5 Ejecución local
+```bash
+# Todo el proyecto de unit
+dotnet test tests/ShopWeb.UnitTests/ -c Release
+
+# Filtrado por categoría
+dotnet test tests/ShopWeb.UnitTests/ -c Release --filter "TestCategory=Unit"
+````
+
+### 15.6 Cobertura & umbral
+
+* Umbral mínimo inicial: **80% líneas (total)**.
+* Sube el listón progresivamente (85%/90%) cuando el código crezca/estabilice.
+
+### 15.7 CI (GitHub Actions)
+
+* **Workflow**: job `unit-tests` que:
+
+  * Restaura/compila y ejecuta **solo** `tests/ShopWeb.UnitTests/`.
+  * Genera cobertura `cobertura` y falla si `< 80%` (MSBuild props).
+  * Publica artifacts (XML + HTML summary).
+* **Orquestación**: job E2E hace `needs: unit-tests` → **E2E no corre si fallan los unit**.
+* **Branch protection**: requerir los checks `unit-tests` + `e2e-tests` antes de merge.
+
+**Ejemplo de paso de test con cobertura (MSBuild):**
+
+```bash
+dotnet test tests/ShopWeb.UnitTests/ \
+  -c Release \
+  /p:CollectCoverage=true \
+  /p:CoverletOutput=./TestResults/Coverage/ \
+  /p:CoverletOutputFormat=cobertura \
+  /p:Threshold=80 /p:ThresholdType=line /p:ThresholdStat=total
+```
+
+### 15.8 Anti-patrones (no permitido)
+
+* Tests unit que toquen UI/Playwright o dependencias externas.
+* Lógica de negocio dentro de POM o Flows “testeada” como unit.
+* Usar retries en unit: si flakea, **arreglarlo o eliminarlo**.
+
+### 15.9 Definition of Done (unit)
+
+* ✅ Suite verde en CI (`unit-tests`) con cobertura ≥ **80%** (subirá en roadmap).
+* ✅ Categorías aplicadas (`Unit`) y tests deterministas (<100 ms).
+* ✅ Acoplamiento mínimo: mocks/DI cubren dependencias.
+* ✅ Pipeline E2E depende de Unit (`needs`), y ambos checks son **obligatorios** para merge.
+
+```
 
 > Nota: consulta también `tests/README.md.txt` incluido en el repo para detalles de cobertura y ejecución.
