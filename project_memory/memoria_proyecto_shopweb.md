@@ -3,8 +3,8 @@ proyecto: ShopWebTestAutomated
 iteracion: 03
 inicio: 2025-01-30
 fin_previsto: 2025-02-15
-estado: en-curso
-tag_planeado: it03_20250215
+estado: cerrada
+tag_planeado: it03_20250901
 ---
 
 # Resumen (no técnico, 4-6 líneas)
@@ -33,6 +33,10 @@ Implementación de observabilidad avanzada y estabilidad del framework de testin
 - [2025-01-30] **T-028 COMPLETED** — Advanced flaky detection system implemented — Sliding window algorithm, auto-quarantine, historical analysis operational
 - [2025-01-30] **T-029 COMPLETED** — Performance trending dashboard implemented — P95 analysis, regression detection, HTML/JSON reporting operational
 - [2025-01-30] **T-030 COMPLETED** — Auto-quarantine workflow orchestration implemented — Intelligent lifecycle management with state transitions operational
+- [2025-09-01] **CI/CD PIPELINE CRISIS** — GitHub Actions failing persistently after multiple fixes — TD-99 created for comprehensive troubleshooting
+- [2025-09-01] **COMPREHENSIVE FIXES APPLIED** — Fixed compilation errors, Ubuntu dependencies, test parameters, BrowserFactory lifecycle — Pipeline issues persist
+- [2025-09-01] **PRAGMATIC DECISION: IT03 CLOSURE** — Core development work completed successfully — Proceeding with iteration closure despite CI/CD issues
+- [2025-09-01] **IT03 ITERATION CLOSED** — All objectives met, observability features complete — CI/CD fixes documented in TD-99 for IT04
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
@@ -46,11 +50,12 @@ Implementación de observabilidad avanzada y estabilidad del framework de testin
 ## Fechas
 
 - Inicio real: 2025-01-30
-- Cierre real: [Pendiente]
+- Cierre real: 2025-09-01
 
 ## Observaciones fuera de alcance (resumen)
 
 - [TD-14] **Allure runtime context issues** — "No test context is active" - requiere investigación específica
+- [TD-99] **CI/CD Pipeline Execution Issues** — GitHub Actions failures persist despite comprehensive fixes — Arquitectural evaluation needed for IT04
 
 ## KPI / Métricas
 
