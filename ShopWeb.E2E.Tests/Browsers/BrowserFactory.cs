@@ -99,6 +99,11 @@ public class BrowserFactory : IBrowserFactory, IDisposable
 
     public async Task CloseAllBrowsersAsync()
     {
+        await CloseAllBrowsersStaticAsync();
+    }
+
+    public static async Task CloseAllBrowsersStaticAsync()
+    {
         var browsers = _browsers.Values.ToList();
         _browsers.Clear();
 
@@ -123,11 +128,17 @@ public class BrowserFactory : IBrowserFactory, IDisposable
 
     public void Dispose()
     {
+        // Don't dispose static resources per instance - they should be managed globally
+        // This prevents ObjectDisposedException during parallel test execution
+        GC.SuppressFinalize(this);
+    }
+
+    public static void DisposeStatic()
+    {
         if (!_disposed)
         {
-            CloseAllBrowsersAsync().GetAwaiter().GetResult();
+            CloseAllBrowsersStaticAsync().GetAwaiter().GetResult();
             _disposed = true;
         }
-        GC.SuppressFinalize(this);
     }
 }

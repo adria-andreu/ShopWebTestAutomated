@@ -41,7 +41,10 @@ public abstract class BaseTest
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
+        // Dispose instance-level browser factory to satisfy NUnit analyzer
         _browserFactory?.Dispose();
+        // Dispose static browser factory resources only at the very end
+        BrowserFactory.DisposeStatic();
         MetricsCollector.GenerateRunMetrics();
         
         // Cleanup Allure context at the end

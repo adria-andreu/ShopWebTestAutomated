@@ -1,7 +1,7 @@
 using NUnit.Framework;
-// Allure integration temporarily disabled due to CI/CD context issues (TD-14)
-// using Allure.NUnit;
-// using Allure.NUnit.Attributes;
+// Allure integration re-enabled for consistency with BaseTest (T-027)
+using Allure.NUnit;
+using Allure.NUnit.Attributes;
 using ShopWeb.E2E.Tests.Flows;
 using ShopWeb.E2E.Tests.Pages;
 
@@ -9,8 +9,8 @@ namespace ShopWeb.E2E.Tests.Tests;
 
 [TestFixture]
 [Parallelizable(ParallelScope.All)]
-// [AllureNUnit] // Temporarily disabled - TD-14
-// [AllureSuite("Shopping Tests")]
+[AllureNUnit] // Re-enabled for consistency with BaseTest (T-027)
+[AllureSuite("Shopping Tests")]
 public class ShoppingTests : BaseTest
 {
     private ShoppingFlow? _shoppingFlow;
