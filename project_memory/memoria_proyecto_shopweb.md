@@ -23,6 +23,10 @@ Resolución arquitectural de problemas de CI/CD pipeline y establecimiento de es
 ## Diario de la iteración
 
 - [2025-09-01] **Inicio iteración 04** — IT03 closure completed, focus shift to CI/CD infrastructure resolution — Memoria IT04 creada con EP-04 scope
+- [2025-09-01] **Feature branch created** — `feature/iteration-04-infrastructure` established for architectural work
+- [2025-09-01] **TD-99 Analysis completed** — Root causes analyzed: compilation, Ubuntu deps, parameters, BrowserFactory, Allure context all addressed but test execution failures persist
+- [2025-09-01] **CI/CD Architecture assessed** — Current GitHub Actions workflow complex with matrix strategy, Allure integration, quality gates, and multiple browser/site combinations
+- [2025-09-01] **T-040 STARTED** — CI/CD Pipeline Architecture Resolution - evaluating architectural approaches vs tactical fixes
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
