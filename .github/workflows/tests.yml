@@ -106,8 +106,8 @@ jobs:
           --logger "console;verbosity=normal" \
           --results-directory TestResults \
           -m:4 \
-          -- TestRunParameters.Parameter\(name=Browser,value=${{ matrix.browser }}\) \
-             TestRunParameters.Parameter\(name=SiteId,value=${{ matrix.site_id }}\)
+          -- TestRunParameters.Parameter\(name=\"Browser\",value=\"${{ matrix.browser }}\"\) \
+             TestRunParameters.Parameter\(name=\"SiteId\",value=\"${{ matrix.site_id }}\"\)
 
     - name: Build GateCheck tool
       if: always()
