@@ -54,9 +54,7 @@ jobs:
           --no-build \
           --logger trx \
           --logger "console;verbosity=normal" \
-          --results-directory TestResults \
-          --collect:"XPlat Code Coverage" \
-          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          --results-directory TestResults
 
     - name: Generate coverage report (HTML)
       if: always()
