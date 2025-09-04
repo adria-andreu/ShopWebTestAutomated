@@ -22,7 +22,10 @@
       "Bash(gh repo view:*)",
       "Bash(gh pr:*)",
       "Bash(gh run list:*)",
-      "Bash(gh run view:*)"
+      "Bash(gh run view:*)",
+      "Bash(git log:*)",
+      "Bash(find:*)",
+      "Bash(md5sum:*)"
     ],
     "deny": [],
     "ask": []

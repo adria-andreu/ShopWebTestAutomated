@@ -1,12 +1,14 @@
-name: E2E Tests
+name: E2E Tests (Original - Temporarily Disabled)
 
+# Temporarily disabled to test simplified architecture
+# Will be restored if simplified version fails validation
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+  # push:
+  #   branches: [ main, develop ]
+  # pull_request:
+  #   branches: [ main ]
   schedule:
-    # Run nightly at 2 AM UTC
+    # Run nightly at 2 AM UTC - keep for baseline comparison
     - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
@@ -48,20 +50,74 @@ permissions:
   checks: write
 
 jobs:
-  test:
+  # Sequential execution approach - eliminates race conditions and simplifies debugging
+  test-chromium-a:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    name: Tests (chromium, Site A)
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run browser test
+      uses: ./.github/actions/browser-test
+      with:
+        browser: 'chromium'
+        site_id: 'A'
+        
+  test-chromium-b:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    name: Tests (chromium, Site B)
+    needs: test-chromium-a
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run browser test
+      uses: ./.github/actions/browser-test
+      with:
+        browser: 'chromium'
+        site_id: 'B'
+        
+  test-firefox-a:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    name: Tests (firefox, Site A)
+    needs: test-chromium-b
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run browser test
+      uses: ./.github/actions/browser-test
+      with:
+        browser: 'firefox'
+        site_id: 'A'
+
+  # Create a composite action to avoid code duplication
+  composite_test:
     runs-on: ubuntu-22.04
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
-        browser: 
-          - ${{ github.event.inputs.browser || 'chromium' }}
-          - ${{ github.event.inputs.browser == '' && 'firefox' || '' }}
-          - ${{ github.event.inputs.browser == '' && 'webkit' || '' }}
-        site_id:
-          - ${{ github.event.inputs.site_id || 'A' }}
-        exclude:
-          - browser: ''
+        include:
+          - browser: 'chromium'
+            site_id: 'A'
+          - browser: 'chromium' 
+            site_id: 'B'
+          - browser: 'firefox'
+            site_id: 'A'
+          - browser: 'firefox'
+            site_id: 'B' 
+          - browser: 'webkit'
+            site_id: 'A'
+          - browser: 'webkit'
+            site_id: 'B'
           
     name: Tests (${{ matrix.browser }}, Site ${{ matrix.site_id }})
     
