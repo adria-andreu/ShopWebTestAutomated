@@ -483,6 +483,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [![Forks](https://img.shields.io/github/forks/adria-andreu/ShopWebTestAutomated.svg?style=social&label=Fork)](https://github.com/adria-andreu/ShopWebTestAutomated/network/members)
 [![Watchers](https://img.shields.io/github/watchers/adria-andreu/ShopWebTestAutomated.svg?style=social&label=Watch)](https://github.com/adria-andreu/ShopWebTestAutomated/watchers)
 
-Made with ❤️ by [adria-andreu](https://github.com/adria-andreu)
+Made by [adria-andreu](https://github.com/adria-andreu)
 
 </div>
