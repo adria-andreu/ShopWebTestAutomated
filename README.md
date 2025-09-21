@@ -420,10 +420,8 @@ public class ShoppingFlow
 - 🔄 **Advanced Observability**: Enhanced metrics and monitoring
 - 🔄 **Performance Testing**: Load testing integration
 - 🔄 **Visual Regression**: UI change detection capabilities
-- 🔄 **API Testing**: REST API test integration
 
 ### Upcoming Features 📋
-- 📱 **Mobile Testing**: iOS and Android test support with Appium
 - ☁️ **Cloud Execution**: Integration with BrowserStack/Sauce Labs
 - 🤖 **AI-Powered Testing**: Intelligent test generation and maintenance
 - 📈 **Advanced Analytics**: ML-powered test optimization
