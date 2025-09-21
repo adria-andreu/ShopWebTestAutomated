@@ -22,14 +22,34 @@ echo "📦 Restoring and building solution..."
 dotnet restore
 dotnet build -c Release --no-restore
 
-# Check if Playwright is installed
-echo "🎭 Checking Playwright installation..."
-if [ ! -d "$HOME/.cache/ms-playwright" ]; then
-    echo "🔽 Installing Playwright browsers..."
-    pwsh bin/Release/net8.0/playwright.ps1 install chromium
-    pwsh bin/Release/net8.0/playwright.ps1 install-deps chromium
+# Install Playwright using the same method as GitHub Actions
+echo "🎭 Installing Playwright (GitHub Actions compatible method)..."
+dotnet tool install --global Microsoft.Playwright.CLI || echo "Playwright CLI already installed"
+
+# Install browser using playwright CLI (same as GitHub Actions)
+echo "🔽 Installing Playwright browser: $BROWSER"
+if command -v playwright &> /dev/null; then
+    playwright install $BROWSER
+    playwright install-deps $BROWSER
 else
-    echo "✅ Playwright already installed"
+    echo "⚠️  Playwright CLI not found, trying pwsh method..."
+    if command -v pwsh &> /dev/null; then
+        pwsh bin/Release/net8.0/playwright.ps1 install $BROWSER
+        pwsh bin/Release/net8.0/playwright.ps1 install-deps $BROWSER
+    else
+        echo "❌ Neither playwright CLI nor pwsh available"
+        echo "💡 Install PowerShell Core or use: dotnet tool install --global Microsoft.Playwright.CLI"
+        exit 1
+    fi
+fi
+
+# Verify installation
+echo "✅ Checking Playwright installation..."
+if [ -d "$HOME/.cache/ms-playwright" ]; then
+    echo "📁 Playwright cache found at: $HOME/.cache/ms-playwright"
+    ls -la "$HOME/.cache/ms-playwright" | head -5
+else
+    echo "⚠️  Playwright cache not found, but continuing..."
 fi
 
 # Run unit tests first (fast feedback)

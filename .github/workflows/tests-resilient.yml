@@ -1,0 +1,195 @@
+name: E2E Tests (Resilient Multi-Matrix)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  unit-tests:
+    name: Unit Tests (Fast Feedback)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    
+    - name: Restore and Build
+      run: |
+        dotnet restore
+        dotnet build -c Release --no-restore
+    
+    - name: Run Unit Tests
+      run: |
+        dotnet test tests/ShopWeb.UnitTests/ \
+          -c Release \
+          --no-build \
+          --logger "console;verbosity=minimal" \
+          --logger "trx;LogFileName=unit-test-results.trx"
+    
+    - name: Upload Unit Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: unit-test-results
+        path: "**/TestResults/**/*.trx"
+        retention-days: 7
+
+  e2e-tests:
+    name: E2E Tests
+    needs: unit-tests  # Only run if unit tests pass
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    continue-on-error: true  # Don't fail entire workflow on E2E issues
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - browser: chromium
+            site: A
+            category: Smoke
+          - browser: chromium
+            site: A
+            category: Regression
+          # Add more browsers gradually after chromium proves stable
+          # - browser: firefox
+          #   site: A  
+          #   category: Smoke
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    
+    - name: Cache Playwright browsers
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ matrix.config.browser }}-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-${{ matrix.config.browser }}-
+    
+    - name: Restore and Build
+      run: |
+        dotnet restore
+        dotnet build -c Release --no-restore
+    
+    - name: Install Playwright Browser
+      run: |
+        # Install Playwright CLI tool
+        dotnet tool install --global Microsoft.Playwright.CLI || echo "Already installed"
+        
+        # Install specific browser and dependencies
+        playwright install ${{ matrix.config.browser }}
+        playwright install-deps ${{ matrix.config.browser }}
+    
+    - name: Run E2E Tests
+      run: |
+        dotnet test ShopWeb.E2E.Tests/ \
+          -c Release \
+          --no-build \
+          --filter "Category=${{ matrix.config.category }}" \
+          --logger "trx;LogFileName=test-results-${{ matrix.config.browser }}-${{ matrix.config.site }}-${{ matrix.config.category }}.trx" \
+          --logger "console;verbosity=detailed" \
+          -- TestRunParameters.Parameter\(name=\"Browser\",value=\"${{ matrix.config.browser }}\"\) \
+             TestRunParameters.Parameter\(name=\"SiteId\",value=\"${{ matrix.config.site }}\"\)
+      env:
+        BROWSER: ${{ matrix.config.browser }}
+        SITE_ID: ${{ matrix.config.site }}
+        TRACE_MODE: OnFailure
+        PWDEBUG: 0
+    
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-results-${{ matrix.config.browser }}-${{ matrix.config.site }}-${{ matrix.config.category }}
+        path: |
+          **/TestResults/**/*.trx
+          **/artifacts/**/*
+        retention-days: 7
+    
+    - name: Upload Traces on Failure
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: e2e-traces-${{ matrix.config.browser }}-${{ matrix.config.site }}-${{ matrix.config.category }}
+        path: |
+          **/artifacts/**/*.zip
+        retention-days: 3
+
+  quality-gates:
+    name: Quality Gates Check
+    needs: [unit-tests, e2e-tests]
+    runs-on: ubuntu-22.04
+    if: always()  # Run even if E2E tests fail
+    timeout-minutes: 5
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
+    
+    - name: Build Quality Gate Tool
+      run: |
+        dotnet restore
+        dotnet build tools/GateCheck/ -c Release
+    
+    - name: Run Quality Gates (Relaxed for Initial Testing)
+      run: |
+        # Relaxed thresholds for initial validation
+        dotnet run --project tools/GateCheck/ -- \
+          --input artifacts/ \
+          --threshold-pass-rate 0.50 \
+          --threshold-p95-duration 1200000 \
+          --mode relaxed
+      continue-on-error: true  # Don't fail workflow during initial testing
+    
+    - name: Upload Quality Gate Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: quality-gate-results
+        path: |
+          **/quality-gate-*.json
+          **/quality-gate-*.xml
+        retention-days: 30
