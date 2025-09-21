@@ -42,6 +42,9 @@ Optimización de GitHub Actions para resolver definitivamente TD-99 sin costos d
 - [2025-09-21] **PLAYWRIGHT PROJECT DISCOVERY FIX** — Added cd ShopWeb.E2E.Tests before playwright install commands, commit c46ddce
 - [2025-09-21] **🏆 TD-99 COMPLETELY RESOLVED** — E2E Smoke + Regression tests passing in GitHub Actions! Chromium + Site A working perfectly
 - [2025-09-21] **HISTORIC SUCCESS** — Same-day zero-cost solution: Unit Tests (22/22) + E2E Tests (Smoke + Regression) all green
+- [2025-09-21] **CRITICAL ARCHITECTURE REVIEW** — Identified workflow duplication problem: 6 workflows creating noise, maintenance overhead, and fragmented results
+- [2025-09-21] **WORKFLOW CONSOLIDATION COMPLETED** — Eliminated 3 redundant workflows, consolidated to essential 3: unit-tests.yml + tests.yml + debug-environment.yml
+- [2025-09-21] **CI/CD OPTIMIZATION FINALIZED** — Reduced CI/CD noise by 50%, improved traceability, eliminated duplication while maintaining complete test coverage
 
 ## Tareas realizadas (vinculadas a Roadmap)
 

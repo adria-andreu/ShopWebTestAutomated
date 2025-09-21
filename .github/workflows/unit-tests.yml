@@ -2,7 +2,7 @@ name: Unit Tests
 
 on:
   push:
-    branches: [ main, develop, feature/iteration-04-infrastructure ]
+    branches: [ main, develop, it05_version2 ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
