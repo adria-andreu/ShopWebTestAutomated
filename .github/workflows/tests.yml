@@ -1,14 +1,12 @@
-name: E2E Tests (Original - Temporarily Disabled)
+name: E2E Tests
 
-# Temporarily disabled to test simplified architecture
-# Will be restored if simplified version fails validation
 on:
-  # push:
-  #   branches: [ main, develop ]
-  # pull_request:
-  #   branches: [ main ]
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
   schedule:
-    # Run nightly at 2 AM UTC - keep for baseline comparison
+    # Run nightly at 2 AM UTC
     - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
@@ -50,56 +48,7 @@ permissions:
   checks: write
 
 jobs:
-  # Sequential execution approach - eliminates race conditions and simplifies debugging
-  test-chromium-a:
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    name: Tests (chromium, Site A)
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Run browser test
-      uses: ./.github/actions/browser-test
-      with:
-        browser: 'chromium'
-        site_id: 'A'
-        
-  test-chromium-b:
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    name: Tests (chromium, Site B)
-    needs: test-chromium-a
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Run browser test
-      uses: ./.github/actions/browser-test
-      with:
-        browser: 'chromium'
-        site_id: 'B'
-        
-  test-firefox-a:
-    runs-on: ubuntu-22.04
-    timeout-minutes: 15
-    name: Tests (firefox, Site A)
-    needs: test-chromium-b
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Run browser test
-      uses: ./.github/actions/browser-test
-      with:
-        browser: 'firefox'
-        site_id: 'A'
-
-  # Create a composite action to avoid code duplication
-  composite_test:
+  test:
     runs-on: ubuntu-22.04
     timeout-minutes: 45
     strategy:
@@ -144,7 +93,10 @@ jobs:
     - name: Install Playwright browsers
       run: |
         dotnet build ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj
-        pwsh ShopWeb.E2E.Tests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+        cd ShopWeb.E2E.Tests
+        dotnet tool install --global Microsoft.Playwright.CLI || echo "Already installed"
+        playwright install ${{ matrix.browser }}
+        playwright install-deps ${{ matrix.browser }}
 
     - name: Run tests
       env:
