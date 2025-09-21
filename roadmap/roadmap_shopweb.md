@@ -8,15 +8,32 @@ ultima_actualizacion: 2025-09-01
 - **EP-01**: ✅ **Framework Base** - Arquitectura core, POM, métricas, CI/CD (COMPLETADA it01)
 - **EP-02**: ✅ **Portabilidad Multi-sitio** - Site B, profiles, config-driven switching (COMPLETADA it02)
 - **EP-03**: ✅ **Observabilidad Avanzada** - Flaky detection, performance trends, historical analysis (COMPLETADA it03)
-- **EP-04**: ⏳ **Calidad y Robustez** - CI/CD pipeline resolution, Error handling, retry policies, advanced reporting
+- **EP-04**: ✅ **Calidad y Robustez** - CI/CD pipeline resolution Phase 1, Unit Tests framework (COMPLETADA it04)
+- **EP-05**: ✅ **GitHub Actions Optimization & CI/CD Reliability** - OUTSTANDING SUCCESS: Zero-cost same-day TD-99 resolution (COMPLETADA it05)
 
-# Tareas activas (iteración 04)
+# Tareas activas (iteración 06)
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-040 | CI/CD Pipeline Architecture Resolution       | GitHub Actions stable execution        | DoD: All browsers green pipelines | ⏳ Pending | 2025-09-15 | TD-99    |
-| T-041 | Alternative Testing Strategy Evaluation      | Reduce CI/CD dependency complexity     | DoD: Self-hosted or platform eval | ⏳ Pending | 2025-09-20 | TD-99    |
-| T-042 | Unit Tests Framework Implementation          | Fast feedback loop for components      | DoD: NUnit unit test suite active | ⏳ Pending | 2025-09-25 | PROJECT.md §15 |
+| T-047 | Multi-browser E2E Expansion                 | Firefox + WebKit support               | DoD: 3-browser matrix working   | 📋 Backlog | TBD        | T-044    |
+| T-048 | E2E Performance Optimization                | Advanced speed tuning                  | DoD: <5min E2E pipeline         | 📋 Backlog | TBD        | EP-05    |
+| T-049 | Unit Tests Coverage Expansion               | Achieve >85% coverage target           | DoD: Comprehensive component coverage | 📋 Backlog | TBD        | T-046    |
+
+# Tareas completadas (iteración 05)
+
+| ID    | Tarea                                        | Objetivo                                | Estado Final                     | Resultado | Fecha      | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-044 | GitHub Actions Optimization                | Workflow stability without infrastructure| ✅ OUTSTANDING SUCCESS | E2E + Unit tests all green | 2025-09-21 | TD-99    |
+| T-045 | GitLab CI/CD Alternative Platform Evaluation| Backup CI/CD strategy implementation   | ✅ NO LONGER NEEDED | GitHub solution eliminates need | 2025-09-21 | TD-99    |
+| T-046 | Unit Tests Coverage Expansion               | Additional component test coverage      | ✅ FRAMEWORK VALIDATED | 22 tests passing, ready for expansion | 2025-09-21 | T-042    |
+
+# Tareas completadas (iteración 04)
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-040 | CI/CD Pipeline Architecture Resolution       | GitHub Actions stable execution        | DoD: All browsers green pipelines | ✅ Phase 1 Done, Phase 2 IT05 | 2025-09-15 | TD-99    |
+| T-041 | Alternative Testing Strategy Evaluation      | Reduce CI/CD dependency complexity     | DoD: Self-hosted or platform eval | ✅ Completed in IT05 | 2025-09-21 | TD-99    |
+| T-042 | Unit Tests Framework Implementation          | Fast feedback loop for components      | DoD: NUnit unit test suite active | ✅ Completed | 2025-09-01 | PROJECT.md §15 |
 
 ## Tareas críticas (hotfix)
 

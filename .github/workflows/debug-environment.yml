@@ -1,0 +1,142 @@
+name: Debug Environment (Manual Trigger Only)
+
+on:
+  workflow_dispatch:  # Manual trigger only
+    inputs:
+      test_type:
+        description: 'Type of test to run'
+        required: true
+        default: 'environment'
+        type: choice
+        options:
+        - environment
+        - playwright
+        - single-test
+      browser:
+        description: 'Browser to test (for single-test)'
+        required: false
+        default: 'chromium'
+        type: choice
+        options:
+        - chromium
+        - firefox
+        - webkit
+
+jobs:
+  debug-environment:
+    name: Debug CI Environment
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: System Information
+      run: |
+        echo "=== System Information ==="
+        cat /etc/os-release
+        echo ""
+        echo "=== CPU Information ==="
+        cat /proc/cpuinfo | grep "model name" | head -1
+        echo ""
+        echo "=== Memory Information ==="
+        cat /proc/meminfo | grep MemTotal
+        echo ""
+        echo "=== Disk Space ==="
+        df -h
+        echo ""
+        echo "=== Network Test ==="
+        ping -c 3 demoblaze.com || echo "Ping failed"
+        curl -I https://demoblaze.com || echo "Curl failed"
+    
+    - name: .NET Environment
+      run: |
+        echo "=== .NET Information ==="
+        dotnet --version
+        dotnet --list-runtimes
+        dotnet --list-sdks
+    
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Build Test
+      if: ${{ github.event.inputs.test_type == 'environment' || github.event.inputs.test_type == 'playwright' || github.event.inputs.test_type == 'single-test' }}
+      run: |
+        echo "=== Build Test ==="
+        dotnet restore
+        dotnet build -c Release --no-restore
+        echo "Build successful!"
+    
+    - name: Unit Tests Quick Check
+      if: ${{ github.event.inputs.test_type == 'environment' || github.event.inputs.test_type == 'single-test' }}
+      run: |
+        echo "=== Unit Tests Quick Check ==="
+        dotnet test tests/ShopWeb.UnitTests/ \
+          -c Release \
+          --no-build \
+          --logger "console;verbosity=minimal"
+    
+    - name: Playwright Environment Test
+      if: ${{ github.event.inputs.test_type == 'playwright' || github.event.inputs.test_type == 'single-test' }}
+      run: |
+        echo "=== Playwright Installation Test ==="
+        
+        # Install Playwright CLI
+        echo "Installing Playwright CLI..."
+        dotnet tool install --global Microsoft.Playwright.CLI || echo "Already installed"
+        
+        # Show Playwright version
+        playwright --version || echo "Playwright CLI not available"
+        
+        # Install browser
+        echo "Installing ${{ github.event.inputs.browser || 'chromium' }} browser..."
+        playwright install ${{ github.event.inputs.browser || 'chromium' }}
+        playwright install-deps ${{ github.event.inputs.browser || 'chromium' }}
+        
+        # Check installation
+        echo "Checking browser installation..."
+        ls -la ~/.cache/ms-playwright/ || echo "Playwright cache not found"
+        
+        # Browser binary check
+        find ~/.cache/ms-playwright -name "*chrome*" -o -name "*firefox*" -o -name "*webkit*" | head -5
+    
+    - name: Single Test Execution
+      if: ${{ github.event.inputs.test_type == 'single-test' }}
+      run: |
+        echo "=== Single Test Execution ==="
+        
+        # Run single smoke test
+        dotnet test ShopWeb.E2E.Tests/ \
+          -c Release \
+          --no-build \
+          --filter "FullyQualifiedName=ShopWeb.E2E.Tests.Tests.ShoppingTests.AddToCart_WhenSelectingProduct_ShouldAddProductSuccessfully" \
+          --logger "console;verbosity=detailed" \
+          -- TestRunParameters.Parameter\(name=\"Browser\",value=\"${{ github.event.inputs.browser || 'chromium' }}\"\) \
+             TestRunParameters.Parameter\(name=\"SiteId\",value=\"A\"\)
+      env:
+        BROWSER: ${{ github.event.inputs.browser || 'chromium' }}
+        SITE_ID: A
+        TRACE_MODE: OnFailure
+    
+    - name: Upload Debug Artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: debug-artifacts-${{ github.event.inputs.test_type }}
+        path: |
+          **/TestResults/**/*
+          **/artifacts/**/*
+        retention-days: 3
+    
+    - name: Environment Summary
+      if: always()
+      run: |
+        echo "=== Debug Summary ==="
+        echo "Test type: ${{ github.event.inputs.test_type }}"
+        echo "Browser: ${{ github.event.inputs.browser || 'chromium' }}"
+        echo "Timestamp: $(date)"
+        echo "Runner: ubuntu-22.04"
+        echo "Workflow: Debug Environment"
