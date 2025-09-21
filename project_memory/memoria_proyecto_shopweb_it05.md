@@ -24,8 +24,11 @@ Resolución definitiva de la infraestructura CI/CD mediante implementación de s
 
 - [2025-09-21] **Inicio iteración 05** — IT04 closure documentation completed, EP-05 initiated with infrastructure focus — Memoria IT05 creada con scope definido
 - [2025-09-21] **Documentation merge completed** — feature/comprehensive-documentation merged to main, project state synchronized
-- [2025-09-21] **T-044 PLANNED** — Self-hosted runners implementation prioritized as primary TD-99 resolution strategy
-- [2025-09-21] **IT05 roadmap updated** — Épica EP-05 created, tareas T-044 to T-046 defined with clear objectives and timelines
+- [2025-09-21] **Feature branch created** — `feature/iteration-05-infrastructure` established for T-044 to T-046 implementation
+- [2025-09-21] **T-044 STARTED** — Self-hosted runners implementation analysis completed, comprehensive Azure VM strategy documented
+- [2025-09-21] **Azure architecture defined** — Standard_D4s_v3 VM specs, ubuntu-22.04, Docker + .NET 8 + Playwright environment, ~$165/month cost
+- [2025-09-21] **Implementation plan created** — T-044_Self_Hosted_Runners_Implementation.md with 3-week phased approach, validation criteria, risk mitigation
+- [2025-09-21] **GitHub workflow designed** — tests-self-hosted.yml strategy for matrix execution with quality gates integration
 
 ## Tareas realizadas (vinculadas a Roadmap)
 

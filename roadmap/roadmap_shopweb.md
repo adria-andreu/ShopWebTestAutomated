@@ -15,7 +15,7 @@ ultima_actualizacion: 2025-09-01
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-044 | Self-hosted Runners Implementation          | Azure VM setup for CI/CD stability     | DoD: E2E tests green in self-hosted | 🔄 Active | 2025-10-05 | TD-99    |
+| T-044 | Self-hosted Runners Implementation          | Azure VM setup for CI/CD stability     | DoD: E2E tests green in self-hosted | 🔄 Phase 1: Architecture Complete | 2025-10-05 | TD-99    |
 | T-045 | GitLab CI/CD Alternative Platform Evaluation| Backup CI/CD strategy implementation   | DoD: Working GitLab pipeline prototype | ⏳ Queued | 2025-10-10 | TD-99    |
 | T-046 | Unit Tests Coverage Expansion               | Additional component test coverage      | DoD: >85% coverage for core utilities | ⏳ Queued | 2025-10-15 | T-042    |
 
