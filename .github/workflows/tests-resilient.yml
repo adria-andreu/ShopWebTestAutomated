@@ -113,7 +113,8 @@ jobs:
         # Install Playwright CLI tool
         dotnet tool install --global Microsoft.Playwright.CLI || echo "Already installed"
         
-        # Install specific browser and dependencies
+        # Change to E2E project directory and install specific browser and dependencies
+        cd ShopWeb.E2E.Tests
         playwright install ${{ matrix.config.browser }}
         playwright install-deps ${{ matrix.config.browser }}
     
