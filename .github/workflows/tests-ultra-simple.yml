@@ -31,10 +31,14 @@ jobs:
           ${{ runner.os }}-nuget-
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        dotnet restore ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj
+        dotnet restore tests/ShopWeb.UnitTests/ShopWeb.UnitTests.csproj
     
-    - name: Build solution
-      run: dotnet build -c Release --no-restore
+    - name: Build projects
+      run: |
+        dotnet build ShopWeb.E2E.Tests/ShopWeb.E2E.Tests.csproj -c Release --no-restore
+        dotnet build tests/ShopWeb.UnitTests/ShopWeb.UnitTests.csproj -c Release --no-restore
     
     - name: Install Playwright Chromium
       run: |
