@@ -1,6 +1,6 @@
 ---
 proyecto: ShopWebTestAutomated
-ultima_actualizacion: 2025-09-01
+ultima_actualizacion: 2025-09-21
 ---
 
 # Épicas
@@ -10,14 +10,16 @@ ultima_actualizacion: 2025-09-01
 - **EP-03**: ✅ **Observabilidad Avanzada** - Flaky detection, performance trends, historical analysis (COMPLETADA it03)
 - **EP-04**: ✅ **Calidad y Robustez** - CI/CD pipeline resolution Phase 1, Unit Tests framework (COMPLETADA it04)
 - **EP-05**: ✅ **GitHub Actions Optimization & CI/CD Reliability** - OUTSTANDING SUCCESS: Zero-cost same-day TD-99 resolution (COMPLETADA it05)
+- **EP-06**: 📋 **Enterprise Features & Framework Maturation** - Multi-browser expansion, performance optimization, comprehensive testing coverage
 
 # Tareas activas (iteración 06)
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-047 | Multi-browser E2E Expansion                 | Firefox + WebKit support               | DoD: 3-browser matrix working   | 📋 Backlog | TBD        | T-044    |
-| T-048 | E2E Performance Optimization                | Advanced speed tuning                  | DoD: <5min E2E pipeline         | 📋 Backlog | TBD        | EP-05    |
-| T-049 | Unit Tests Coverage Expansion               | Achieve >85% coverage target           | DoD: Comprehensive component coverage | 📋 Backlog | TBD        | T-046    |
+| T-050 | **Fix Coverage Report Generation Path Issue** | **Resolve HTML coverage report failure** | **DoD: reportgenerator finds coverage files** | **🚨 P0 Critical** | **2025-09-22** | **Unit Tests Log Analysis** |
+| T-051 | Multi-browser E2E Matrix Expansion         | Firefox + WebKit support in CI/CD      | DoD: 3-browser matrix all green | 📋 Ready | 2025-09-25 | T-044    |
+| T-052 | Unit Tests Coverage Expansion              | Expand to >85% coverage target         | DoD: Comprehensive component coverage | 📋 Ready | 2025-09-30 | T-046    |
+| T-053 | E2E Performance Optimization               | Pipeline speed <10min full matrix      | DoD: Optimized E2E execution     | 📋 Backlog | 2025-10-05 | EP-05    |
 
 # Tareas completadas (iteración 05)
 
@@ -138,19 +140,39 @@ ultima_actualizacion: 2025-09-01
 - [x] **Core development completed** — All observability objectives met successfully
 - [x] **Technical debt documented** — Comprehensive TD-99 for architectural approach in IT04
 
-## Checklist de cierre (iteración 04) 
+## Checklist de cierre (iteración 06)
 
-### EP-04 - Calidad y Robustez
-- [ ] **CI/CD Pipeline Architecture Resolution** — T-040 implemented, GitHub Actions stable execution achieved
-- [ ] **Alternative Testing Strategy** — T-041 evaluated, optimal platform/approach selected
-- [ ] **Unit Tests Framework** — T-042 implemented, fast feedback loop for components operational
+### EP-06 - Enterprise Features & Framework Maturation
+- [ ] **T-050: Coverage Report Fix** — HTML coverage reports generating correctly in CI/CD
+- [ ] **T-051: Multi-browser Matrix** — Firefox + WebKit running alongside Chromium
+- [ ] **T-052: Unit Tests Expansion** — >85% coverage target achieved with comprehensive component testing
+- [ ] **T-053: E2E Performance** — Full matrix execution <10 minutes
+- [ ] **Framework Maturation** — Production-ready testing framework with enterprise features
 
 ### Standard DoD
-- [ ] **Memoria actualizada** — `memoria_proyecto_shopweb.md` con diario completo it04
-- [ ] **Debt triada y enlazada** — TD-99 resolved or reclassified based on architectural decisions
-- [ ] **Roadmap actualizado** — IT05 definida with next enterprise features
-- [ ] **CI/CD Pipeline stable** — All browser tests executing reliably in GitHub Actions
-- [ ] **Tag de versión** — `it04_YYYYMMDD` con CI/CD resolution documented
+- [ ] **Memoria actualizada** — `memoria_proyecto_shopweb_it06.md` con diario completo
+- [ ] **Debt triada y enlazada** — Coverage report issue resolved, performance bottlenecks addressed
+- [ ] **Roadmap actualizado** — IT07 definida with advanced enterprise features
+- [ ] **CI/CD Pipeline optimized** — Multi-browser matrix stable and performant
+- [ ] **Tag de versión** — `it06_YYYYMMDD` con enterprise features documented
+
+## PRIORITY DETAILS - T-050: Coverage Report Generation Fix
+
+**Issue Identified**: 
+- Generated: `./TestResults/Coverage/coverage.cobertura.xml`
+- Searched: `TestResults/*/coverage.cobertura.xml`
+- **Path Mismatch**: reportgenerator can't find files
+
+**Required Fix**:
+```yaml
+# Current (failing):
+-reports:"TestResults/*/coverage.cobertura.xml"
+
+# Should be:
+-reports:"TestResults/Coverage/coverage.cobertura.xml"
+```
+
+**Impact**: P0 Critical - Unit tests workflow completing but HTML reports failing
 
 ## ⚠️ IT04 PRIORITY FOCUS
 
