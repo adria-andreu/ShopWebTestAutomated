@@ -38,8 +38,10 @@ jobs:
     
     - name: Install Playwright Chromium
       run: |
-        pwsh bin/Release/net8.0/playwright.ps1 install chromium
-        pwsh bin/Release/net8.0/playwright.ps1 install-deps chromium
+        # Use dotnet tool approach which works better in CI
+        dotnet tool install --global Microsoft.Playwright.CLI || echo "Already installed"
+        playwright install chromium
+        playwright install-deps chromium
     
     - name: Run Unit Tests First
       run: |
@@ -56,8 +58,8 @@ jobs:
           --filter "Category=Smoke" \
           --logger "console;verbosity=detailed" \
           --logger "trx;LogFileName=smoke-test-results.trx" \
-          -- TestRunParameters.Parameter\(name=Browser,value=chromium\) \
-             TestRunParameters.Parameter\(name=SiteId,value=A\)
+          -- TestRunParameters.Parameter\(name=\"Browser\",value=\"chromium\"\) \
+             TestRunParameters.Parameter\(name=\"SiteId\",value=\"A\"\)
       env:
         BROWSER: chromium
         SITE_ID: A
