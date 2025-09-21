@@ -34,9 +34,9 @@
 
 ## 1) AI Purpose & Enforcement
 
-* **Precedencia de reglas:** `CLAUDE` primario ▶ `PROJECT.md` ▶ docs ▶ código.
+* **Precedencia de reglas:** `CLAUDE` primario ▶ `PROJECT.md` ▶ memoria_proyecto_shopweb ▶ código ▶ technical_debt_shopweb ▶ roadmap
 * **Rechazo inmediato** si: selectores en tests, `Thread.Sleep`, asserts en POM, romper capas, saltar quality gates, secretos en repo/logs.
-* **PR Template obligatorio** con declaración de cumplimiento y evidencias (Allure, `artifacts/run-metrics.json`, traces).
+* **PR Template obligatorio** con declaración de cumplimiento y evidenciasseguir el patrón de plantilla pull_request_template_example .
 * **CODEOWNERS** exige revisión humana en carpetas clave.
 * **Conflictos:** prevalece la regla de nivel superior; en ambigüedad, principio de **mínimo riesgo** + issue.
 
@@ -62,7 +62,7 @@
 ## 3) 🔍 Project Overview
 
 * **Stack**: C# .NET 8 · Playwright · NUnit · POM.
-* **Entorno**: local + GitHub Actions; Docker disponible.
+* **Entorno**: local + GitHub Actions; Docker disponible (no de momento).
 * **Foco**: paralelización, matriz de navegadores, trazas, portabilidad.
 
 ---
@@ -361,65 +361,6 @@ dotnet test tests/ShopWeb.UnitTests/ -c Release
 # Filtrado por categoría
 dotnet test tests/ShopWeb.UnitTests/ -c Release --filter "TestCategory=Unit"
 
-
-¡Voy! He revisado la **sección 15 – Unit Tests (NUnit, .NET 8)** de tu `PROJECT.md` y te dejo un diagnóstico + una versión mejorada lista para sustituir.
-
----
-
-## Diagnóstico rápido
-
-**Fortalezas**
-
-* Declara objetivo (unidad, fast feedback) y reglas base (sin I/O, mocks, AAA).&#x20;
-
-**Gaps / incoherencias**
-
-1. **Contradicción con la sección 4 (Alcance):** allí afirmas “repo exclusivamente E2E; no unit ni API”, pero en la 15 introduces Unit Tests. Hay que unificar criterio.&#x20;
-2. **Rutas y naming inconsistentes:** en 15 indicas `tests/UnitTests/`, mientras en el resto del doc/ejemplos se usa `tests/ShopWeb.UnitTests/`.&#x20;
-3. **Paquetes/herramientas:** en 15 se menciona `coverlet.collector`, pero en otros ejemplos propones `coverlet.msbuild` y gates por cobertura en CI. Alinear.&#x20;
-4. **CI/gates ausentes:** no define umbral (p. ej. 80%), ni dependencia **Unit → E2E** en Actions, ni cómo bloquear merges.&#x20;
-5. **Texto a pulir:** mezcla ES/EN y alguna frase incompleta (“Run pre-commit…”, “Some scenarios such be…”).&#x20;
-
----
-
-## Propuesta de sustitución para la sección 15
-
-Pega este bloque **en lugar** de la sección 15 actual:
-
-```markdown
-## 15) Unit Tests (NUnit, .NET 8)
-
-> **Nota de alcance:** Si la sección 4 declara “solo E2E”, actualízala para reflejar que **este repo también contiene Unit Tests** de componentes de negocio (sin UI). Alternativamente, mueve esta sección a un repo separado. Elige **una** política y mantenla consistente en README/Runbook/CI.
-
-### 15.1 Objetivo
-Validar unidades de lógica y utilidades **sin dependencias externas** para **fast feedback** y como **gate previo** a E2E (bloquea merges si fallan o si la cobertura cae por debajo del umbral).
-
-### 15.2 Estructura & rutas
-```
-
-/src/ShopWeb/                       # código de producción
-/tests/ShopWeb.UnitTests/           # NUnit (unit)
-
-````
-
-### 15.3 Framework & paquetes
-- **NUnit 4**, **Microsoft.NET.Test.Sdk**, **FluentAssertions**, **Moq**.
-- **Cobertura**: `coverlet.msbuild` con reports `cobertura`.
-
-### 15.4 Reglas de diseño (unit)
-- **Aislamiento total**: sin UI/Playwright, sin red, sin disco, sin BD.
-- Dobles vía **interfaces/DI** (Moq/stubs); tests deterministas y rápidos (<100 ms).
-- Estilo **AAA**; un comportamiento por test; nombres `Metodo_Escenario_Resultado`.
-- Categoría: `[Category("Unit")]` para filtrar en CI y local.
-
-### 15.5 Ejecución local
-```bash
-# Todo el proyecto de unit
-dotnet test tests/ShopWeb.UnitTests/ -c Release
-
-# Filtrado por categoría
-dotnet test tests/ShopWeb.UnitTests/ -c Release --filter "TestCategory=Unit"
-````
 
 ### 15.6 Cobertura & umbral
 
