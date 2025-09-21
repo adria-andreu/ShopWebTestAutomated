@@ -8,15 +8,24 @@ ultima_actualizacion: 2025-09-01
 - **EP-01**: ✅ **Framework Base** - Arquitectura core, POM, métricas, CI/CD (COMPLETADA it01)
 - **EP-02**: ✅ **Portabilidad Multi-sitio** - Site B, profiles, config-driven switching (COMPLETADA it02)
 - **EP-03**: ✅ **Observabilidad Avanzada** - Flaky detection, performance trends, historical analysis (COMPLETADA it03)
-- **EP-04**: ⏳ **Calidad y Robustez** - CI/CD pipeline resolution, Error handling, retry policies, advanced reporting
+- **EP-04**: ✅ **Calidad y Robustez** - CI/CD pipeline resolution Phase 1, Unit Tests framework (COMPLETADA it04)
+- **EP-05**: 🔄 **Infrastructure Resolution & Enterprise Readiness** - Self-hosted runners, platform alternatives, production-ready CI/CD
 
-# Tareas activas (iteración 04)
+# Tareas activas (iteración 05)
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-040 | CI/CD Pipeline Architecture Resolution       | GitHub Actions stable execution        | DoD: All browsers green pipelines | ⏳ Pending | 2025-09-15 | TD-99    |
-| T-041 | Alternative Testing Strategy Evaluation      | Reduce CI/CD dependency complexity     | DoD: Self-hosted or platform eval | ⏳ Pending | 2025-09-20 | TD-99    |
-| T-042 | Unit Tests Framework Implementation          | Fast feedback loop for components      | DoD: NUnit unit test suite active | ⏳ Pending | 2025-09-25 | PROJECT.md §15 |
+| T-044 | Self-hosted Runners Implementation          | Azure VM setup for CI/CD stability     | DoD: E2E tests green in self-hosted | 🔄 Active | 2025-10-05 | TD-99    |
+| T-045 | GitLab CI/CD Alternative Platform Evaluation| Backup CI/CD strategy implementation   | DoD: Working GitLab pipeline prototype | ⏳ Queued | 2025-10-10 | TD-99    |
+| T-046 | Unit Tests Coverage Expansion               | Additional component test coverage      | DoD: >85% coverage for core utilities | ⏳ Queued | 2025-10-15 | T-042    |
+
+# Tareas completadas (iteración 04)
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-040 | CI/CD Pipeline Architecture Resolution       | GitHub Actions stable execution        | DoD: All browsers green pipelines | ✅ Phase 1 Done, Phase 2 IT05 | 2025-09-15 | TD-99    |
+| T-041 | Alternative Testing Strategy Evaluation      | Reduce CI/CD dependency complexity     | DoD: Self-hosted or platform eval | ⏳ IT05 Priority | 2025-10-15 | TD-99    |
+| T-042 | Unit Tests Framework Implementation          | Fast feedback loop for components      | DoD: NUnit unit test suite active | ✅ Completed | 2025-09-01 | PROJECT.md §15 |
 
 ## Tareas críticas (hotfix)
 
