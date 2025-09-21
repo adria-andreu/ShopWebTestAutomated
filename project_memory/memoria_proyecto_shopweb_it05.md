@@ -36,6 +36,12 @@ Optimización de GitHub Actions para resolver definitivamente TD-99 sin costos d
 - [2025-09-21] **T-044 PROGRESSIVE IMPLEMENTATION COMPLETED** — 3-tier workflow strategy deployed: ultra-simple, resilient, debug environment
 - [2025-09-21] **Validation phase initiated** — Workflows pushed to GitHub, trigger commits executed, comprehensive validation framework established
 - [2025-09-21] **Outstanding achievement** — Transformed complex infrastructure challenge into same-day zero-cost solution with 95% success confidence
+- [2025-09-21] **VALIDATION SUCCESS: Unit Tests Pipeline** — GitHub Actions run #4594956277: 22/22 tests passed in 0.72s, total pipeline 45s, framework working perfectly
+- [2025-09-21] **E2E WORKFLOW FIX APPLIED** — Resolved MSB1003 error: added explicit project file paths to dotnet restore commands, commit 5132ba4
+- [2025-09-21] **MSB1003 RESOLUTION VALIDATED** — E2E workflow progresses to Playwright installation, dotnet restore/build working perfectly
+- [2025-09-21] **PLAYWRIGHT PROJECT DISCOVERY FIX** — Added cd ShopWeb.E2E.Tests before playwright install commands, commit c46ddce
+- [2025-09-21] **🏆 TD-99 COMPLETELY RESOLVED** — E2E Smoke + Regression tests passing in GitHub Actions! Chromium + Site A working perfectly
+- [2025-09-21] **HISTORIC SUCCESS** — Same-day zero-cost solution: Unit Tests (22/22) + E2E Tests (Smoke + Regression) all green
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
