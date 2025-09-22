@@ -1,0 +1,19 @@
+{
+  "slidingWindowSize": 20,
+  "minimumRunsRequired": 5,
+  "quarantineFailureThreshold": 0.3,
+  "quarantineFailureCount": 3,
+  "recoverySuccessCount": 5,
+  "maxHistoryAgeDays": 30,
+  "autoQuarantineEnabled": true,
+  "autoRecoveryEnabled": true,
+  "testNamePattern": ".*",
+  "targetBrowsers": [],
+  "targetSites": [],
+  "severityThresholds": {
+    "lowSeverity": 0.1,
+    "mediumSeverity": 0.2,
+    "highSeverity": 0.3,
+    "criticalSeverity": 0.5
+  }
+}
