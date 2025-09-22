@@ -1,6 +1,6 @@
 ---
 proyecto: ShopWebTestAutomated
-ultima_actualizacion: 2025-09-21
+ultima_actualizacion: 2025-09-22
 ---
 
 # Épicas
@@ -10,16 +10,53 @@ ultima_actualizacion: 2025-09-21
 - **EP-03**: ✅ **Observabilidad Avanzada** - Flaky detection, performance trends, historical analysis (COMPLETADA it03)
 - **EP-04**: ✅ **Calidad y Robustez** - CI/CD pipeline resolution Phase 1, Unit Tests framework (COMPLETADA it04)
 - **EP-05**: ✅ **GitHub Actions Optimization & CI/CD Reliability** - OUTSTANDING SUCCESS: Zero-cost same-day TD-99 resolution (COMPLETADA it05)
-- **EP-06**: 📋 **Enterprise Features & Framework Maturation** - Multi-browser expansion, performance optimization, comprehensive testing coverage
+- **EP-06**: 🔄 **Enterprise Features & Framework Maturation** - Multi-browser expansion, performance optimization, comprehensive testing coverage (EN CURSO)
+- **EP-07**: 📋 **Unificación y Estabilidad + Eliminación Multi-sitio** - Refactoring a single-site, limpieza, normas unificadas, gates duros (IT06 - 30 días)
+- **EP-08**: 📋 **E2E Governance & Test Data** - Gobernanza E2E, datos deterministas, anti-flakiness (IT07 - 60 días)
+- **EP-09**: 📋 **Robustez & Observabilidad Extendida** - Pipeline robusto, reporting avanzado, DX (IT08 - 90 días)
 
-# Tareas activas (iteración 06)
+# Tareas activas (iteración 06 - EP-07: Unificación y Estabilidad - 30 días)
+
+## 🎯 Objetivo IT06: Limpieza, unificación y estabilidad mínima en PR + **ELIMINACIÓN PORTABILIDAD MULTI-SITIO**
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
 | T-050 | **Fix Coverage Report Generation Path Issue** | **Resolve HTML coverage report failure** | **DoD: reportgenerator finds coverage files** | **🚨 P0 Critical** | **2025-09-22** | **Unit Tests Log Analysis** |
-| T-051 | Multi-browser E2E Matrix Expansion         | Firefox + WebKit support in CI/CD      | DoD: 3-browser matrix all green | 📋 Ready | 2025-09-25 | T-044    |
-| T-052 | Unit Tests Coverage Expansion              | Expand to >85% coverage target         | DoD: Comprehensive component coverage | 📋 Ready | 2025-09-30 | T-046    |
-| T-053 | E2E Performance Optimization               | Pipeline speed <10min full matrix      | DoD: Optimized E2E execution     | 📋 Backlog | 2025-10-05 | EP-05    |
+| T-057 | **Renombrar PolicyCheck → GateCheck**      | **Unificación de normas**              | **DoD: Todas las referencias actualizadas** | **📋 P1 High** | **2025-09-24** | **EP-07** |
+| T-058 | **Homogeneizar Unit Tests en /tests/ShopWeb.UnitTests/** | **Estructura estándar**   | **DoD: Estructura unificada** | **📋 P1 High** | **2025-09-25** | **EP-07** |
+| T-059 | **Cobertura unitaria ≥80% como gate duro** | **Quality gates**                      | **DoD: PR blocked if <80%**     | **📋 P1 High** | **2025-09-26** | **T-050** |
+| T-060 | **🚨 ELIMINAR perfiles A/B y SiteId del código** | **🔥 Arquitectura single-site**   | **DoD: 0 referencias a multi-sitio** | **🚨 P0 Critical** | **2025-09-27** | **EP-07** |
+| T-061 | **🚨 BORRAR ISiteProfile, PageFactory multi-site** | **🔥 Arquitectura single-site** | **DoD: PageFactory simplificado** | **🚨 P0 Critical** | **2025-09-28** | **T-060** |
+| T-062 | **🚨 ELIMINAR normalización precio/fecha multi-site** | **🔥 Arquitectura single-site** | **DoD: Lógica específica única** | **🚨 P0 Critical** | **2025-09-29** | **T-061** |
+| T-063 | **🚨 AJUSTAR CI/CD para perfil único**      | **🔥 Arquitectura single-site**        | **DoD: Workflows sin matriz sitios** | **🚨 P0 Critical** | **2025-09-30** | **T-062** |
+| T-064 | **🚨 BORRAR referencias portabilidad en docs** | **🔥 Arquitectura single-site**    | **DoD: PROJECT.md, CLAUDE.md limpios** | **🚨 P0 Critical** | **2025-10-01** | **T-063** |
+| T-065 | **Limpiar CLAUDE.md (imports fantasma)**   | **Documentación viva**                 | **DoD: Referencias válidas únicamente** | **📋 P2 Medium** | **2025-10-02** | **T-064** |
+| T-066 | **Añadir docs/memoria_proyecto_shopweb.md** | **Documentación viva**                | **DoD: Memoria vigente estructurada** | **📋 P2 Medium** | **2025-10-03** | **T-065** |
+| T-067 | **Añadir docs/technical_debt_shopweb.md**  | **Documentación viva**                | **DoD: Debt tracking operativo** | **📋 P2 Medium** | **2025-10-04** | **T-066** |
+| T-068 | **Sección "Terminología & IDs" en PROJECT.md** | **Documentación viva**            | **DoD: Glosario técnico completo** | **📋 P2 Medium** | **2025-10-05** | **T-067** |
+| T-069 | **Eliminar workflows redundantes**         | **Simplificación CI/CD**              | **DoD: Solo Unit + Smoke en PR** | **📋 P1 High** | **2025-10-06** | **T-068** |
+| T-070 | **PR = solo Unit + Smoke (TTR < 10 min)**  | **Simplificación CI/CD**              | **DoD: CI verde con 2 jobs**    | **📋 P1 High** | **2025-10-07** | **T-069** |
+
+## 🔥 **ELIMINACIÓN PORTABILIDAD MULTI-SITIO - PRIORIDAD P0**
+
+### Tareas críticas de refactoring arquitectónico:
+- **T-060 a T-064**: Eliminación completa de perfiles A/B, SiteId, ISiteProfile
+- **Impacto**: Simplificación drástica del framework a single-site únicamente
+- **Beneficios**: Reducción complejidad, mantenimiento, debugging más simple
+
+## 📌 Metas medibles IT06:
+- ✅ **CI/CD y documentación sin ninguna referencia a multi-sitio**
+- ✅ CI verde con 2 jobs en PR (Unit + Smoke)
+- ✅ PR TTR < 10 min
+- ✅ 0 fallos por tests de BusinessLogic eliminados
+- ✅ Cobertura unitaria ≥80% como gate duro
+- ✅ **Framework enfocado únicamente en un solo sitio web**
+
+# Tareas completadas (iteración 06)
+
+| ID    | Tarea                                        | Objetivo                                | Estado Final                     | Resultado | Fecha      | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-056 | Resolve Git Merge Conflicts (feature/saucedemo-login-tests) | Merge Site B implementations with main | ✅ COMPLETED | Site B functionality preserved, conflicts resolved | 2025-09-22 | SauceDemo integration |
 
 # Tareas completadas (iteración 05)
 
@@ -291,6 +328,68 @@ SUCCESS CRITERIA: Gestión automática de tests inestables
 - ✅ Auto-quarantine triggers within defined thresholds
 - ✅ Recovery workflow successful for stable tests
 - ✅ Quality gates adapt to quarantined test exclusions
+
+# Tareas planificadas (iteración 07 - EP-08: E2E Governance & Test Data - 60 días)
+
+## 🎯 Objetivo IT07: Gobernanza de E2E + test data determinista + **INTEGRACIÓN E2E_POLICY.MD**
+
+### 🚨 CRÍTICO: E2E_Policy.md Integration (P0 - Prerequisito para IT07)
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-071 | **🔥 Fix E2E_Policy.md multi-site references** | **Consistency with IT06**           | **DoD: Align with single-site architecture** | **🚨 P0 Critical** | **2025-10-08** | **IT06, EP-08** |
+| T-072 | **📋 Integrate E2E_Policy.md into PROJECT.md** | **Documentation consistency**       | **DoD: Policy references in sections 10,13** | **🚨 P0 Critical** | **2025-10-10** | **T-071** |
+| T-073 | **⚙️ Implement Utilities/Verify.cs class**   | **Assertion standardization**        | **DoD: Centralized Verify methods** | **🚨 P0 Critical** | **2025-10-12** | **T-072** |
+| T-074 | **🔍 Add CI/CD Verify.* validation**        | **Enforcement automation**           | **DoD: Block Assert.* in CI**   | **🚨 P0 Critical** | **2025-10-15** | **T-073** |
+| T-075 | **📝 Update PR template with E2E checklist** | **Governance enforcement**          | **DoD: E2E compliance in PRs**  | **🚨 P0 Critical** | **2025-10-17** | **T-074** |
+
+### 📋 E2E Governance Implementation
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-076 | **📖 Create guidelines-writing-test-automation.md** | **Missing documentation**        | **DoD: Complete doc references** | **📋 P1 High** | **2025-10-20** | **T-075** |
+| T-077 | **🏭 Implement DataFactory builders**       | **Deterministic test data**          | **DoD: No random/DateTime.Now** | **📋 P1 High** | **2025-10-25** | **T-076** |
+| T-078 | **🧹 Add CleanupAsync patterns to Flows**   | **Test data management**             | **DoD: All flows have cleanup** | **📋 P1 High** | **2025-10-30** | **T-077** |
+| T-079 | **⚡ Enhance GateCheck for E2E_Policy compliance** | **Automated validation**        | **DoD: Policy gates in CI**     | **📋 P1 High** | **2025-11-05** | **T-078** |
+| T-080 | **🔒 Implement DateProvider.Fixed() utility** | **Deterministic dates**             | **DoD: No DateTime.Now usage**  | **📋 P2 Medium** | **2025-11-10** | **T-079** |
+
+### 🛡️ Anti-flakiness & Advanced Features
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-081 | **Helper RetryWithBackoff (solo UI ops)**   | **Anti-flakiness avanzado**          | **DoD: UI resilience patterns** | **📋 P2 Medium** | **2025-11-15** | **T-080** |
+| T-082 | **Política quarantine formal (10 runs verdes)** | **Anti-flakiness avanzado**      | **DoD: Automated quarantine**   | **📋 P2 Medium** | **2025-11-20** | **T-081** |
+
+## 📌 Metas medibles IT07:
+- ✅ **E2E_Policy.md completamente integrado** (PROJECT.md, PR template, CI/CD)
+- ✅ **0% Assert.* usage** (100% Verify.* enforcement in CI)
+- ✅ **100% DataFactory usage** (no random data, no DateTime.Now)
+- ✅ **100% CleanupAsync implementation** in flows with persistent data
+- ✅ Flake rate < 5% en PR
+- ✅ **E2E governance automated** (GateCheck policy compliance)
+
+# Tareas planificadas (iteración 08 - EP-09: Robustez & Observabilidad Extendida - 90 días)
+
+## 🎯 Objetivo IT08: Robustez en reporting, observabilidad y DX
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-078 | **Matriz OS/navegadores completa en nightly** | **Pipeline CI/CD robusto**          | **DoD: Full matrix validation**  | **📋 Backlog** | **2025-11-30** | **EP-09** |
+| T-079 | **Publicación automática Allure + métricas** | **Pipeline CI/CD robusto**           | **DoD: Automated reporting**    | **📋 Backlog** | **2025-12-05** | **T-078** |
+| T-080 | **PR bloqueado si gates no se cumplen**     | **Pipeline CI/CD robusto**            | **DoD: Enforced quality gates** | **📋 Backlog** | **2025-12-10** | **T-079** |
+| T-081 | **Tablero (Allure/ReportPortal/Grafana-lite)** | **Observabilidad extendida**      | **DoD: Visual metrics dashboard** | **📋 Backlog** | **2025-12-15** | **EP-09** |
+| T-082 | **Retención histórica ≥30d de run-metrics.json** | **Observabilidad extendida**    | **DoD: Historical data analysis** | **📋 Backlog** | **2025-12-20** | **T-081** |
+| T-083 | **Alertas Slack/Teams si p95 > umbral**     | **Observabilidad extendida**          | **DoD: Proactive notifications** | **📋 Backlog** | **2025-12-25** | **T-082** |
+| T-084 | **docs/runbook.md reproducible**            | **Onboarding & DX**                   | **DoD: Self-service onboarding** | **📋 Backlog** | **2025-12-30** | **EP-09** |
+| T-085 | **Ejemplos mínimos (MinimalE2ETest.cs, PageObjectSkeleton.cs)** | **Onboarding & DX** | **DoD: Template examples** | **📋 Backlog** | **2026-01-05** | **T-084** |
+| T-086 | **Quickstart con Docker**                   | **Onboarding & DX**                   | **DoD: <15 min setup**          | **📋 Backlog** | **2026-01-10** | **T-085** |
+| T-087 | **Linters/analizadores activos**            | **Calidad de código de tests**       | **DoD: Automated code quality** | **📋 Backlog** | **2026-01-15** | **EP-09** |
+| T-088 | **Convención de nombres (E2E_Flow_Outcome)** | **Calidad de código de tests**      | **DoD: Consistent naming**      | **📋 Backlog** | **2026-01-20** | **T-087** |
+
+## 📌 Metas medibles IT08:
+- ✅ Flake rate < 2% en nightly
+- ✅ p95 suite ≤ 10 min (PR) / ≤25 min (nightly)
+- ✅ Onboarding reproducible en <15 min con Docker
 
 ## Backlog priorizado (iteraciones futuras)
 
