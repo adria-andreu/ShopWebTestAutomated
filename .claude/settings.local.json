@@ -25,7 +25,8 @@
       "Bash(gh run view:*)",
       "Bash(git log:*)",
       "Bash(find:*)",
-      "Bash(md5sum:*)"
+      "Bash(md5sum:*)",
+      "Bash(dotnet tool install:*)"
     ],
     "deny": [],
     "ask": []
