@@ -258,7 +258,7 @@ Importar en `CLAUDE.md` según el orden de lectura (ver §1).
 **Objetivo**: asegurar pirámide de test saludable (**Unit > Integration > E2E**), aislando responsabilidades y habilitando *fast feedback*.
 
 ### 8.1) Reglas para Unit Tests (obligatorias)
-- **Ubicación**: `tests/UnitTests/` con proyecto `.csproj` dedicado (p. ej. `ShopWeb.UnitTests.csproj`) que referencia sólo las librerías bajo prueba en `src/*`.
+- **Ubicación**: `tests/ShopWeb.UnitTests/` con proyecto `.csproj` dedicado (p. ej. `ShopWeb.UnitTests.csproj`) que referencia sólo las librerías bajo prueba en `src/*`.
 - **Aislamiento estricto**: sin red, sin disco, sin UI/Playwright, sin BD. Usa **interfaces** y **dependency injection** para aislar dependencias; si hace falta, usa *stubs* o *mocks* ligeros.
 - **Framework**: NUnit 4.x + `Microsoft.NET.Test.Sdk` + `coverlet.collector`.
 - **Estilo**: AAA (Arrange–Act–Assert); un comportamiento por test; nombres `Metodo_Escenario_Resultado`.
@@ -284,7 +284,7 @@ GateCheck/ # Quality gate (p95, pass rate, etc.)
 ### 8.3) Integración en el ciclo (A/B)
 
 **Opción A — Básica (recomendada para adopción rápida)**
-1) Añadir/ubicar `tests/UnitTests/ShopWeb.UnitTests.csproj`.  
+1) Añadir/ubicar `tests/ShopWeb.UnitTests/ShopWeb.UnitTests.csproj`.  
 2) Ejecutar en CI `dotnet test` + `--collect:"XPlat Code Coverage"`.  
 3) Subir TRX y cobertura como artefactos.  
 4) Encadenar E2E sólo si Unit Tests pasan.

@@ -5,16 +5,10 @@ public class TestSettings
     public string BaseUrl { get; set; } = "https://www.demoblaze.com/";
     public string Browser { get; set; } = "chromium";
     public bool Headed { get; set; } = false;
-    public string SiteId { get; set; } = "A";
     public TimeoutSettings Timeouts { get; set; } = new();
     public ArtifactsSettings Artifacts { get; set; } = new();
     public ParallelizationSettings Parallelization { get; set; } = new();
     public QualityGatesSettings QualityGates { get; set; } = new();
-    
-    public ISiteProfile GetCurrentSite()
-    {
-        return SiteRegistry.GetProfile(SiteId);
-    }
 }
 
 public class TimeoutSettings

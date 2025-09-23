@@ -1,4 +1,3 @@
-Genial 🙌. Aquí tienes tu borrador ya **formateado en Markdown correcto**, respetando 100% el contenido, pero con secciones y bloques de código alineados y consistentes:
 
 ````markdown
 # E2E_Policy.md — End-to-End Governance
@@ -310,9 +309,3 @@ public static class DataFactory
     }
 }
 ```
-
-```
-
----
-
-¿Quieres que ahora te prepare este mismo documento con una **tabla de índice al inicio** para navegar rápido (como tienes en PROJECT.md), o prefieres mantenerlo plano 

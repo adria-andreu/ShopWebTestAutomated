@@ -197,10 +197,6 @@ public abstract class BaseTest
         return TestContext.Parameters.Get("Browser") ?? Environment.GetEnvironmentVariable("BROWSER");
     }
 
-    private string GetSiteIdFromTestParameters()
-    {
-        return TestContext.Parameters.Get("SiteId") ?? Environment.GetEnvironmentVariable("SITE_ID") ?? Settings.SiteId;
-    }
 
     private void OnConsoleMessage(object? sender, IConsoleMessage e)
     {
@@ -250,7 +246,6 @@ public abstract class BaseTest
             ArtifactsPath = _artifactsDir ?? string.Empty,
             TimestampUtc = DateTime.UtcNow,
             Browser = GetBrowserFromTestParameters() ?? Settings.Browser,
-            SiteId = GetSiteIdFromTestParameters(),
             CommitSha = Environment.GetEnvironmentVariable("GIT_SHA") ?? Environment.GetEnvironmentVariable("GITHUB_SHA") ?? "unknown",
             Retries = 0, // RetryCount not available in this NUnit version
             ErrorMessage = status == "Failed" ? testResult.Message : null

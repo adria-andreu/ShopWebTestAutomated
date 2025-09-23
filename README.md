@@ -119,7 +119,7 @@ cp .env.example .env
 dotnet test ShopWeb.E2E.Tests/
 
 # Run unit tests
-dotnet test tests/UnitTests/
+dotnet test tests/ShopWeb.UnitTests/
 
 # Run with specific browser
 dotnet test ShopWeb.E2E.Tests/ -- NUnit.Browser=firefox
@@ -240,7 +240,7 @@ dotnet test
 dotnet test ShopWeb.E2E.Tests/
 
 # Run unit tests only
-dotnet test tests/UnitTests/
+dotnet test tests/ShopWeb.UnitTests/
 
 # Run specific test class
 dotnet test --filter "ClassName~ShoppingTests"

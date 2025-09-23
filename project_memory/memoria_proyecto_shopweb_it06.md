@@ -25,10 +25,16 @@ Unificación y estabilidad del framework mediante eliminación completa de la po
 - [2025-09-23] **Inicio iteración 06** — IT05 closure with outstanding TD-99 success, EP-07 initiated with architecture simplification focus — Memoria IT06 creada con scope de eliminación multi-sitio definido
 - [2025-09-23] **T-050 RESOLVED IMMEDIATELY** — Coverage Report Generation Path Issue fixed: Updated GitHub Actions workflow to use correct path `tests/ShopWeb.UnitTests/TestResults/Coverage/coverage.cobertura.xml` instead of wildcard pattern
 - [2025-09-23] **HTML Coverage Reports Validated** — Local testing confirmed reportgenerator tool works correctly with 22 unit tests, generating comprehensive HTML reports in TestResults/CoverageReport/
+- [2025-09-23] **T-057 COMPLETED** — PolicyCheck → GateCheck renaming completed: Updated all references in PROJECT.md, templates, and workflow files for consistency
+- [2025-09-23] **T-058 COMPLETED** — Unit Tests structure homogenized: Removed duplicate tests/UnitTests/ directory, updated all references to tests/ShopWeb.UnitTests/
+- [2025-09-23] **T-060 IN PROGRESS** — Multi-site elimination started: Removed ISiteProfile interface, SiteRegistry, SiteSwitchingValidationTest.cs, simplified PageFactory to single-site
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
 - [T-050] **Fix Coverage Report Generation Path Issue** — ✅ COMPLETED — GitHub Actions workflow fixed to use correct coverage file path, HTML reports generating successfully
+- [T-057] **Rename PolicyCheck → GateCheck** — ✅ COMPLETED — All references updated across codebase for naming consistency
+- [T-058] **Homogenize Unit Tests structure** — ✅ COMPLETED — Single /tests/ShopWeb.UnitTests/ structure, removed duplicates
+- [T-060] **Eliminate SiteId profiles A/B** — 🔄 IN PROGRESS — Core multi-site architecture removed, PageFactory simplified to single-site
 
 ## Fechas
 

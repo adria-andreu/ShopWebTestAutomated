@@ -26,7 +26,7 @@ ultima_actualizacion: YYYY-MM-DD
 
 | ID    | Tarea                                                               | Épica | Prioridad | Complejidad | Dependencias |
 |-------|---------------------------------------------------------------------|-------|-----------|-------------|--------------|
-| T-033 | Renombrar “PolicyCheck” → “GateCheck” en PROJECT.md + pipelines      | EP-04 | Alta      | Baja        | -            |
+| T-033 | Renombrar "PolicyCheck" → "GateCheck" en PROJECT.md + pipelines      | EP-04 | ✅ COMPLETED | Baja        | -            |
 | T-034 | Unificar rutas Unit Tests a `tests/ShopWeb.UnitTests/` (+nota migr.) | EP-04 | Alta      | Baja        | T-042        |
 | T-035 | Cobertura ≥80% en CLAUDE (Política de Pruebas, Opción B)             | EP-04 | Alta      | Media       | PROJECT §15.6/15.7 |
 | T-036 | Limpiar CLAUDE.md (bloque “Perfecto…”, fences, imports reales)       | EP-04 | Media     | Baja        | -            |

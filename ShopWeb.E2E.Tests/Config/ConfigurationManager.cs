@@ -59,9 +59,6 @@ public static class ConfigurationManager
         if (!string.IsNullOrEmpty(headed))
             _testSettings.Headed = headed == "1" || headed.ToLowerInvariant() == "true";
 
-        var siteId = Environment.GetEnvironmentVariable("SITE_ID");
-        if (!string.IsNullOrEmpty(siteId))
-            _testSettings.SiteId = siteId;
 
         var traceMode = Environment.GetEnvironmentVariable("TRACE_MODE");
         if (!string.IsNullOrEmpty(traceMode))
