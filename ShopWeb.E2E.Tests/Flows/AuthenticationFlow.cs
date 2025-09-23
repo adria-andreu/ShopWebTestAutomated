@@ -104,6 +104,48 @@ public class AuthenticationFlow
         };
     }
 
+    /// <summary>
+    /// T-078: Logout functionality for IT08 policy-compliant tests
+    /// </summary>
+    public async Task<bool> LogoutAsync()
+    {
+        try
+        {
+            // Navigate to a page that has logout functionality
+            // For SauceDemo, we can use the inventory page menu
+            await _page.ClickAsync("#react-burger-menu-btn");
+            await _page.ClickAsync("#logout_sidebar_link");
+
+            // Verify we're back at login page
+            await _page.WaitForSelectorAsync("#user-name", new PageWaitForSelectorOptions { Timeout = 5000 });
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// T-078: Verify authentication state persistence for IT08 policy-compliant tests
+    /// </summary>
+    public async Task<bool> VerifyAuthenticationStateAsync()
+    {
+        try
+        {
+            // Navigate to a protected page and verify we're still authenticated
+            await _page.GotoAsync($"{_settings.BaseUrl}/inventory.html");
+
+            // If we can see the inventory page elements, we're authenticated
+            await _page.WaitForSelectorAsync(".inventory_list", new PageWaitForSelectorOptions { Timeout = 5000 });
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public async Task CleanupAsync()
     {
         // Authentication flow doesn't typically need cleanup

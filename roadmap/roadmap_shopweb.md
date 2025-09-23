@@ -357,10 +357,10 @@ SUCCESS CRITERIA: Gestión automática de tests inestables
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-075 | **🔧 Crear utilidades Verify.* para assertions** | **Standardización de aserciones**    | **DoD: Reemplazar Assert.* con Verify.*** | **📋 PENDING** | **2025-09-24** | **IT08** |
-| T-076 | **🏭 Implementar DataFactory para datos deterministas** | **Datos de prueba reproducibles** | **DoD: Eliminar DateTime.Now y datos random** | **📋 PENDING** | **2025-09-24** | **IT08** |
-| T-077 | **🧪 Crear nueva suite AuthenticationTests_PolicyCompliant** | **Tests alineados con policy** | **DoD: 5 tests categorized, using Verify.*, DataFactory** | **📋 PENDING** | **2025-09-25** | **IT08** |
-| T-078 | **⚙️ Extender AuthenticationFlow con métodos faltantes** | **Soporte para nuevos tests**      | **DoD: LogoutAsync, VerifyAuthenticationStateAsync** | **📋 PENDING** | **2025-09-25** | **IT08** |
+| T-075 | **🔧 Crear utilidades Verify.* para assertions** | **Standardización de aserciones**    | **DoD: Reemplazar Assert.* con Verify.*** | **✅ COMPLETED** | **2025-09-23** | **IT08** |
+| T-076 | **🏭 Implementar DataFactory para datos deterministas** | **Datos de prueba reproducibles** | **DoD: Eliminar DateTime.Now y datos random** | **✅ COMPLETED** | **2025-09-23** | **IT08** |
+| T-077 | **🧪 Crear nueva suite AuthenticationTests_PolicyCompliant** | **Tests alineados con policy** | **DoD: 6 tests categorized, using Verify.*, DataFactory** | **✅ COMPLETED** | **2025-09-23** | **IT08** |
+| T-078 | **⚙️ Extender AuthenticationFlow con métodos faltantes** | **Soporte para nuevos tests**      | **DoD: LogoutAsync, VerifyAuthenticationStateAsync** | **✅ COMPLETED** | **2025-09-23** | **IT08** |
 
 ## 📌 Metas medibles IT08:
 - 🎯 **Nueva suite 100% conforme con E2E_Policy.md**
