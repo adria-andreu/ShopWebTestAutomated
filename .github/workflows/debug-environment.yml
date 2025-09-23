@@ -47,8 +47,8 @@ jobs:
         df -h
         echo ""
         echo "=== Network Test ==="
-        ping -c 3 demoblaze.com || echo "Ping failed"
-        curl -I https://demoblaze.com || echo "Curl failed"
+        ping -c 3 saucedemo.com || echo "Ping failed"
+        curl -I https://www.saucedemo.com || echo "Curl failed"
     
     - name: .NET Environment
       run: |

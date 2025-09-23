@@ -2,7 +2,7 @@ namespace ShopWeb.E2E.Tests.Config;
 
 public class TestSettings
 {
-    public string BaseUrl { get; set; } = "https://www.demoblaze.com/";
+    public string BaseUrl { get; set; } = "https://www.saucedemo.com";
     public string Browser { get; set; } = "chromium";
     public bool Headed { get; set; } = false;
     public TimeoutSettings Timeouts { get; set; } = new();

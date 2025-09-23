@@ -28,6 +28,7 @@ Unificación y estabilidad del framework mediante eliminación completa de la po
 - [2025-09-23] **T-057 COMPLETED** — PolicyCheck → GateCheck renaming completed: Updated all references in PROJECT.md, templates, and workflow files for consistency
 - [2025-09-23] **T-058 COMPLETED** — Unit Tests structure homogenized: Removed duplicate tests/UnitTests/ directory, updated all references to tests/ShopWeb.UnitTests/
 - [2025-09-23] **T-060 IN PROGRESS** — Multi-site elimination started: Removed ISiteProfile interface, SiteRegistry, SiteSwitchingValidationTest.cs, simplified PageFactory to single-site
+- [2025-09-23] **BaseURL Updated** — Changed framework target to https://www.saucedemo.com in appsettings.tests.json, TestSettings.cs, and debug workflow
 
 ## Tareas realizadas (vinculadas a Roadmap)
 
