@@ -30,9 +30,9 @@ ultima_actualizacion: 2025-09-22
 | T-062 | **🚨 ELIMINAR normalización precio/fecha multi-site** | **🔥 Arquitectura single-site** | **DoD: Lógica específica única** | **🚨 P0 Critical** | **2025-09-29** | **T-061** |
 | T-063 | **🚨 AJUSTAR CI/CD para perfil único**      | **🔥 Arquitectura single-site**        | **DoD: Workflows sin matriz sitios** | **🚨 P0 Critical** | **2025-09-30** | **T-062** |
 | T-064 | **🚨 BORRAR referencias portabilidad en docs** | **🔥 Arquitectura single-site**    | **DoD: PROJECT.md, CLAUDE.md limpios** | **🚨 P0 Critical** | **2025-10-01** | **T-063** |
-| T-071 | **🔧 Fix Playwright browser version mismatch** | **🔥 Tests execution blocking**      | **DoD: E2E tests run successfully** | **🚨 P0 Critical** | **2025-09-24** | **TD-19** |
-| T-072 | **📝 Refactor namespaces from chromium-1091 to ShopWeb.E2E.Tests** | **🔥 Code consistency** | **DoD: All files use proper namespaces** | **🚨 P0 Critical** | **2025-09-25** | **TD-20** |
-| T-073 | **⚙️ Standardize Playwright browser installation method** | **🔥 Environment consistency** | **DoD: Single installation approach** | **📋 P1 High** | **2025-09-26** | **TD-21** |
+| T-071 | **🔧 Fix Playwright browser version mismatch** | **🔥 Tests execution blocking**      | **DoD: E2E tests run successfully** | **✅ COMPLETED** | **2025-09-23** | **TD-19** |
+| T-072 | **📝 Refactor namespaces from chromium-1091 to ShopWeb.E2E.Tests** | **🔥 Code consistency** | **DoD: All files use proper namespaces** | **✅ COMPLETED** | **2025-09-23** | **TD-20** |
+| T-073 | **⚙️ Standardize Playwright browser installation method** | **🔥 Environment consistency** | **DoD: Single installation approach** | **✅ COMPLETED** | **2025-09-23** | **TD-21** |
 | T-065 | **Limpiar CLAUDE.md (imports fantasma)**   | **Documentación viva**                 | **DoD: Referencias válidas únicamente** | **📋 P2 Medium** | **2025-10-02** | **T-064** |
 | T-066 | **Añadir docs/memoria_proyecto_shopweb.md** | **Documentación viva**                | **DoD: Memoria vigente estructurada** | **📋 P2 Medium** | **2025-10-03** | **T-065** |
 | T-067 | **Añadir docs/technical_debt_shopweb.md**  | **Documentación viva**                | **DoD: Debt tracking operativo** | **📋 P2 Medium** | **2025-10-04** | **T-066** |

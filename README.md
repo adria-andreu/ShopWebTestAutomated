@@ -97,8 +97,14 @@ cd ShopWebTestAutomated
 # Install .NET dependencies
 dotnet restore
 
-# Install Playwright browsers
-dotnet tool install --global Microsoft.Playwright.CLI
+# Install Playwright browsers (standardized method)
+# Option 1: Use provided script (recommended)
+./scripts/install-browsers.sh    # Linux/macOS
+# or
+scripts\install-browsers.cmd     # Windows
+
+# Option 2: Manual installation
+cd ShopWeb.E2E.Tests
 playwright install
 ```
 
