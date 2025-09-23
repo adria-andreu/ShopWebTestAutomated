@@ -332,9 +332,46 @@ SUCCESS CRITERIA: Gestión automática de tests inestables
 - ✅ Recovery workflow successful for stable tests
 - ✅ Quality gates adapt to quarantined test exclusions
 
-# Tareas planificadas (iteración 07 - EP-08: E2E Governance & Test Data - 60 días)
+# Tareas activas (iteración 07 - EP-08: Eliminación de Tests No Conformes - 7 días)
 
-## 🎯 Objetivo IT07: Gobernanza de E2E + test data determinista + **INTEGRACIÓN E2E_POLICY.MD**
+## 🎯 Objetivo IT07: Limpieza del código de pruebas y eliminación de tests no conformes
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-074 | **🔥 Eliminar AuthenticationTests no conformes** | **Limpieza de código no conforme**  | **DoD: Suite eliminada por violaciones E2E_Policy** | **✅ COMPLETED** | **2025-09-23** | **IT07** |
+
+## 📌 Metas medibles IT07:
+- ✅ **Eliminación completa de tests que violan E2E_Policy.md**
+- ✅ Tests no conformes documentados y eliminados
+- ✅ Preparación para nueva suite alineada en IT08
+
+### Violaciones identificadas y eliminadas:
+- ❌ Uso directo de `Assert.*` (7 ocurrencias)
+- ❌ Datos no deterministas (`DateTimeOffset.UtcNow`)
+- ❌ Lógica de Unit Tests en E2E (validación de caracteres especiales)
+- ❌ Falta de patrón DataFactory
+
+# Tareas planificadas (iteración 08 - EP-08: Creación de Tests Alineados - 14 días)
+
+## 🎯 Objetivo IT08: Reforzar suite de autenticación con buenas prácticas
+
+| ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
+|-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
+| T-075 | **🔧 Crear utilidades Verify.* para assertions** | **Standardización de aserciones**    | **DoD: Reemplazar Assert.* con Verify.*** | **📋 PENDING** | **2025-09-24** | **IT08** |
+| T-076 | **🏭 Implementar DataFactory para datos deterministas** | **Datos de prueba reproducibles** | **DoD: Eliminar DateTime.Now y datos random** | **📋 PENDING** | **2025-09-24** | **IT08** |
+| T-077 | **🧪 Crear nueva suite AuthenticationTests_PolicyCompliant** | **Tests alineados con policy** | **DoD: 5 tests categorized, using Verify.*, DataFactory** | **📋 PENDING** | **2025-09-25** | **IT08** |
+| T-078 | **⚙️ Extender AuthenticationFlow con métodos faltantes** | **Soporte para nuevos tests**      | **DoD: LogoutAsync, VerifyAuthenticationStateAsync** | **📋 PENDING** | **2025-09-25** | **IT08** |
+
+## 📌 Metas medibles IT08:
+- 🎯 **Nueva suite 100% conforme con E2E_Policy.md**
+- 🎯 0% uso de Assert.* (100% Verify.* compliance)
+- 🎯 0% datos no deterministas (100% DataFactory usage)
+- 🎯 Tests categorizados (Smoke, CriticalPath, Regression)
+- 🎯 **Reemplazo completo de antigua suite no conforme**
+
+# Tareas planificadas (iteración 09 - EP-08: E2E Governance & Test Data - 60 días)
+
+## 🎯 Objetivo IT09: Gobernanza de E2E + test data determinista + **INTEGRACIÓN E2E_POLICY.MD**
 
 ### 🚨 CRÍTICO: E2E_Policy.md Integration (P0 - Prerequisito para IT07)
 
