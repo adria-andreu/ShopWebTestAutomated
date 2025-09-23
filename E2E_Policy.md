@@ -18,7 +18,7 @@ Genial 🙌. Aquí tienes tu borrador ya **formateado en Markdown correcto**, re
 ✅ Entra:
 - Login básico con credenciales válidas.
 - Checkout completo con un producto en stock.
-- Creación de usuario + primera asignación de rol.
+- Seleccionar un producto en stock y añadirlo al carrito.
 
 ❌ No entra:
 - Validar todos los errores de formulario de login (Unit/Integration).
@@ -28,7 +28,7 @@ Genial 🙌. Aquí tienes tu borrador ya **formateado en Markdown correcto**, re
 ### Reglas adicionales
 - Todo lo que pueda probarse en Unit o Integration no debe duplicarse en E2E.
 - Los E2E deben centrarse en flujo cross-component y experiencia de usuario.
-- Relación con otras capas: pirámide Unit > Integration > E2E (referencia a CLAUDE.md §8).
+- Relación con otras capas: pirámide Unit > Integration > E2E (referencia a CLAUDE.md).
 
 ---
 
