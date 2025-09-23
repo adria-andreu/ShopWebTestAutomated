@@ -21,11 +21,11 @@ ultima_actualizacion: 2025-09-22
 
 | ID    | Tarea                                        | Objetivo                                | Por qué                          | Estado   | ETA        | Vínculos |
 |-------|----------------------------------------------|----------------------------------------|----------------------------------|----------|------------|----------|
-| T-050 | **Fix Coverage Report Generation Path Issue** | **Resolve HTML coverage report failure** | **DoD: reportgenerator finds coverage files** | **🚨 P0 Critical** | **2025-09-22** | **Unit Tests Log Analysis** |
+| T-050 | **Fix Coverage Report Generation Path Issue** | **Resolve HTML coverage report failure** | **DoD: reportgenerator finds coverage files** | **✅ COMPLETED** | **2025-09-23** | **Unit Tests Log Analysis** |
 | T-057 | **Renombrar PolicyCheck → GateCheck**      | **Unificación de normas**              | **DoD: Todas las referencias actualizadas** | **✅ COMPLETED** | **2025-09-23** | **EP-07** |
-| T-058 | **Homogeneizar Unit Tests en /tests/ShopWeb.UnitTests/** | **Estructura estándar**   | **DoD: Estructura unificada** | **📋 P1 High** | **2025-09-25** | **EP-07** |
+| T-058 | **Homogeneizar Unit Tests en /tests/ShopWeb.UnitTests/** | **Estructura estándar**   | **DoD: Estructura unificada** | **✅ COMPLETED** | **2025-09-23** | **EP-07** |
 | T-059 | **Cobertura unitaria ≥80% como gate duro** | **Quality gates**                      | **DoD: PR blocked if <80%**     | **📋 P1 High** | **2025-09-26** | **T-050** |
-| T-060 | **🚨 ELIMINAR perfiles A/B y SiteId del código** | **🔥 Arquitectura single-site**   | **DoD: 0 referencias a multi-sitio** | **🚨 P0 Critical** | **2025-09-27** | **EP-07** |
+| T-060 | **🚨 ELIMINAR perfiles A/B y SiteId del código** | **🔥 Arquitectura single-site**   | **DoD: 0 referencias a multi-sitio** | **🔄 IN PROGRESS** | **2025-09-23** | **EP-07** |
 | T-061 | **🚨 BORRAR ISiteProfile, PageFactory multi-site** | **🔥 Arquitectura single-site** | **DoD: PageFactory simplificado** | **🚨 P0 Critical** | **2025-09-28** | **T-060** |
 | T-062 | **🚨 ELIMINAR normalización precio/fecha multi-site** | **🔥 Arquitectura single-site** | **DoD: Lógica específica única** | **🚨 P0 Critical** | **2025-09-29** | **T-061** |
 | T-063 | **🚨 AJUSTAR CI/CD para perfil único**      | **🔥 Arquitectura single-site**        | **DoD: Workflows sin matriz sitios** | **🚨 P0 Critical** | **2025-09-30** | **T-062** |

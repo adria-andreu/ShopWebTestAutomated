@@ -50,7 +50,28 @@ Unificación y estabilidad del framework mediante eliminación completa de la po
 
 ## KPI / Métricas
 
-- **Architecture Simplification**: 🎯 TARGET — 0 referencias a multi-sitio en código y documentación
+- **Architecture Simplification**: 🎯 TARGET — 0 referencias a multi-sitio en código y documentación (⚡ 90% COMPLETADO)
 - **CI/CD Performance**: 🎯 TARGET — PR feedback <10 minutos (Unit + Smoke only)
 - **Quality Gates**: 🎯 TARGET — Unit test coverage ≥80% hard gate blocking PRs
 - **Framework Stability**: 🎯 TARGET — Framework enfocado single-site con 100% tests passing
+
+## 📊 **Cambios Arquitectónicos Realizados (Impacto)**
+
+### **Eliminación Multi-Site (T-060) - 90% Completado**
+- ✅ **ISiteProfile interface**: Eliminada completamente (ISiteProfile.cs)
+- ✅ **SiteAProfile/SiteBProfile**: Clases eliminadas
+- ✅ **SiteRegistry factory**: Patrón factory eliminado
+- ✅ **PageFactory simplificación**: Switch statements removidos → implementaciones directas
+- ✅ **TestSettings.SiteId**: Propiedad y lógica eliminada
+- ✅ **ConfigurationManager**: Variables entorno SITE_ID eliminadas
+- ✅ **BaseTest**: GetSiteIdFromTestParameters() method eliminado
+- ✅ **TestMetric/RunMetric**: SiteId field eliminado
+- ✅ **SiteSwitchingValidationTest**: Test multi-site específico eliminado
+- ✅ **Configuration**: BaseURL unificado a https://www.saucedemo.com
+- ✅ **Debug workflows**: Network tests actualizados a saucedemo.com
+
+### **Beneficios Medidos**
+- **Reducción código**: -209 líneas netas (246 eliminadas, 37 añadidas)
+- **Archivos eliminados**: 2 (SiteSwitchingValidationTest.cs, duplicate UnitTests project)
+- **Complejidad PageFactory**: Reducida ~60% (4 switch statements → 4 direct calls)
+- **Variables configuración**: -3 (SiteId, SITE_ID env var, site profiles)
