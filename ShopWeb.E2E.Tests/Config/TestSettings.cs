@@ -5,6 +5,7 @@ public class TestSettings
     public string BaseUrl { get; set; } = "https://www.saucedemo.com";
     public string Browser { get; set; } = "chromium";
     public bool Headed { get; set; } = false;
+    public string SiteId { get; set; } = "A";
     public TimeoutSettings Timeouts { get; set; } = new();
     public ArtifactsSettings Artifacts { get; set; } = new();
     public ParallelizationSettings Parallelization { get; set; } = new();

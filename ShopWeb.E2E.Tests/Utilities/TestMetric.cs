@@ -22,6 +22,8 @@ public class TestMetric
     [JsonProperty("browser")]
     public string Browser { get; set; } = string.Empty;
 
+    [JsonProperty("siteId")]
+    public string SiteId { get; set; } = string.Empty;
 
     [JsonProperty("commitSha")]
     public string CommitSha { get; set; } = string.Empty;
@@ -68,6 +70,8 @@ public class RunMetric
     [JsonProperty("browser")]
     public string Browser { get; set; } = string.Empty;
 
+    [JsonProperty("siteId")]
+    public string SiteId { get; set; } = string.Empty;
 
     [JsonProperty("commitSha")]
     public string CommitSha { get; set; } = string.Empty;

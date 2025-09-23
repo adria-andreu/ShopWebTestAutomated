@@ -16,6 +16,14 @@ ultima_actualizacion: 2025-01-28
 | TD-07 | Allure categories/labels hardcoded - falta configuración     | Baja    | Baja      | Baja        | it01         | Mover labels a appsettings con override per ambiente         | T-024          |
 | TD-08 | Bibliography download process missing - solo estructura setup | Baja    | Baja      | Media       | it01         | Implementar descarga automática de docs oficiales            | T-028          |
 
+## Nueva deuda técnica (it06)
+
+| ID    | Descripción técnica                                           | Impacto | Prioridad | Complejidad | Detectada en | Propuesta / Siguiente paso                                    | Enlace Roadmap |
+|-------|---------------------------------------------------------------|---------|-----------|-------------|--------------|--------------------------------------------------------------|----------------|
+| TD-19 | Playwright browser version mismatch: expects chromium-1091 but has chromium-1193 | CRÍTICA | ALTA      | Media       | it06-build   | Install correct browser versions for Playwright 1.40.0     | T-071          |
+| TD-20 | Incorrect namespace convention: using "chromium-1091" instead of "ShopWeb.E2E.Tests" | Alta    | ALTA      | Alta        | it06-build   | Refactor all namespaces to proper project naming           | T-072          |
+| TD-21 | Mixed browser installation: Playwright CLI vs npm installed different versions | Media   | Media     | Media       | it06-build   | Standardize browser installation approach                   | T-073          |
+
 ## Nueva deuda técnica (it03)
 
 | ID    | Descripción técnica                                           | Impacto | Prioridad | Complejidad | Detectada en | Propuesta / Siguiente paso                                    | Enlace Roadmap |
@@ -137,6 +145,61 @@ _page.Console += async (_, e) => {
 **Impacto técnico**: Difícil personalizar reporting por ambiente
 
 **Plan de resolución**: Mover a appsettings.tests.json con ambiente-specific overrides
+
+**Esfuerzo estimado**: 1-2 horas
+
+---
+
+### TD-19: Playwright Browser Version Mismatch
+**Contexto**: Playwright 1.40.0 expects `chromium-1091` (version 120.0.6099.28) but currently has `chromium-1193` installed via npm.
+
+**Impacto técnico**:
+- All E2E tests fail with "Executable doesn't exist at chromium-1091\chrome.exe"
+- Test execution blocked completely
+- CI/CD pipeline cannot run E2E tests
+
+**Plan de resolución**:
+1. Remove incompatible browser installations: `rm -rf C:\Users\...\AppData\Local\ms-playwright\chromium-1193`
+2. Install correct browsers via Playwright CLI: `cd ShopWeb.E2E.Tests && playwright install`
+3. Verify browser versions match: `playwright install --dry-run`
+4. Test local execution to confirm fix
+
+**Esfuerzo estimado**: 1-2 horas
+
+---
+
+### TD-20: Incorrect Namespace Convention
+**Contexto**: All project files use `chromium-1091` as namespace instead of proper `ShopWeb.E2E.Tests`.
+
+**Impacto técnico**:
+- Confusing namespace naming convention
+- Inconsistent with .NET project standards
+- May cause confusion with browser installations
+- Harder to understand project structure
+
+**Plan de resolución**:
+1. Mass find/replace `namespace chromium-1091` → `namespace ShopWeb.E2E.Tests`
+2. Update all `using chromium-1091` statements → `using ShopWeb.E2E.Tests`
+3. Update tools/GateCheck references if needed
+4. Test compilation after namespace changes
+
+**Esfuerzo estimado**: 2-3 horas
+
+---
+
+### TD-21: Mixed Browser Installation Methods
+**Contexto**: Browsers installed via both Playwright CLI and npm, creating version conflicts.
+
+**Impacto técnico**:
+- Version mismatches between installation methods
+- Unpredictable test behavior
+- Difficult to reproduce environments
+
+**Plan de resolución**:
+1. Standardize on Playwright CLI for .NET projects
+2. Remove npm-installed browsers: `npx playwright uninstall`
+3. Document standard installation process in README
+4. Add CI/CD steps to use correct installation method
 
 **Esfuerzo estimado**: 1-2 horas
 
