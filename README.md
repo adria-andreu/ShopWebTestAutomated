@@ -97,8 +97,14 @@ cd ShopWebTestAutomated
 # Install .NET dependencies
 dotnet restore
 
-# Install Playwright browsers
-dotnet tool install --global Microsoft.Playwright.CLI
+# Install Playwright browsers (standardized method)
+# Option 1: Use provided script (recommended)
+./scripts/install-browsers.sh    # Linux/macOS
+# or
+scripts\install-browsers.cmd     # Windows
+
+# Option 2: Manual installation
+cd ShopWeb.E2E.Tests
 playwright install
 ```
 
@@ -119,7 +125,7 @@ cp .env.example .env
 dotnet test ShopWeb.E2E.Tests/
 
 # Run unit tests
-dotnet test tests/UnitTests/
+dotnet test tests/ShopWeb.UnitTests/
 
 # Run with specific browser
 dotnet test ShopWeb.E2E.Tests/ -- NUnit.Browser=firefox
@@ -240,7 +246,7 @@ dotnet test
 dotnet test ShopWeb.E2E.Tests/
 
 # Run unit tests only
-dotnet test tests/UnitTests/
+dotnet test tests/ShopWeb.UnitTests/
 
 # Run specific test class
 dotnet test --filter "ClassName~ShoppingTests"

@@ -7,6 +7,6 @@
 ## Ejecutar local con cobertura
 
 ```bash
-dotnet test tests/UnitTests/ShopWeb.UnitTests.csproj \
+dotnet test tests/ShopWeb.UnitTests/ShopWeb.UnitTests.csproj \
   --collect:"XPlat Code Coverage" \
   --results-directory artifacts/TestResults

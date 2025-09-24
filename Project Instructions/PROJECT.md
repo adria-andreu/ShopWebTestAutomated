@@ -40,7 +40,7 @@
 * **CODEOWNERS** exige revisión humana en carpetas clave.
 * **Conflictos:** prevalece la regla de nivel superior; en ambigüedad, principio de **mínimo riesgo** + issue.
 
-**Artefactos**: `.github/PULL_REQUEST_TEMPLATE.md`, `.github/CODEOWNERS`, chequeos "PolicyCheck" en CI.
+**Artefactos**: `.github/PULL_REQUEST_TEMPLATE.md`, `.github/CODEOWNERS`, chequeos "GateCheck" en CI.
 
 ---
 
@@ -336,7 +336,7 @@ ShopWebTestAutomated/
 **Objetivo**: validar unidades de lógica y utilidades **sin dependencias externas**, para *fast feedback* y como **gate previo** a las E2E.
 
 ### Alcance y reglas
-- **Ubicación**: `tests/UnitTests/` (`ShopWeb.UnitTests.csproj`).
+- **Ubicación**: `tests/ShopWeb.UnitTests/` (`ShopWeb.UnitTests.csproj`).
 - **Aislamiento**: sin red, disco, UI, BD. Dependencias aisladas con interfaces/DI; si procede, *stubs/mocks*.
 - **Framework**: NUnit 4.x · `Microsoft.NET.Test.Sdk` · `coverlet.collector`.
 - **Estilo**: AAA, un comportamiento por test, nombres `Metodo_Escenario_Resultado`.

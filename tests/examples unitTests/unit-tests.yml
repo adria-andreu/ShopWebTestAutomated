@@ -4,14 +4,14 @@ on:
     paths:
       - 'src/**'
       - 'Utilities/**'
-      - 'tests/UnitTests/**'
+      - 'tests/ShopWeb.UnitTests/**'
       - '.github/workflows/unit-tests.yml'
   push:
     branches: [ main ]
     paths:
       - 'src/**'
       - 'Utilities/**'
-      - 'tests/UnitTests/**'
+      - 'tests/ShopWeb.UnitTests/**'
 
 jobs:
   unit-tests:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Unit tests with coverage (threshold)
         run: >
-          dotnet test tests/UnitTests/ShopWeb.UnitTests.csproj
+          dotnet test tests/ShopWeb.UnitTests/ShopWeb.UnitTests.csproj
           /p:CollectCoverage=true
           /p:CoverletOutputFormat=cobertura
           /p:Threshold=60

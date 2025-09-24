@@ -25,7 +25,19 @@
       "Bash(gh run view:*)",
       "Bash(git log:*)",
       "Bash(find:*)",
-      "Bash(md5sum:*)"
+      "Bash(md5sum:*)",
+      "Bash(dotnet tool install:*)",
+      "Bash(pwsh:*)",
+      "Bash(dotnet run:*)",
+      "Bash(npx playwright:*)",
+      "Read(//c/Users/adria.andreu/source/repo personal excercise/**)",
+      "Bash(dotnet list:*)",
+      "Read(//c/Users/adria.andreu/AppData/Local/ms-playwright/**)",
+      "Bash(dotnet tool list:*)",
+      "Bash(rg:*)",
+      "Bash(dotnet tool update:*)",
+      "WebSearch",
+      "Bash(playwright install:*)"
     ],
     "deny": [],
     "ask": []

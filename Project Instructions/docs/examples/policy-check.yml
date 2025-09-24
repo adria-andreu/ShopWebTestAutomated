@@ -1,4 +1,4 @@
-name: PolicyCheck — PR template compliance (custom)
+name: GateCheck — PR template compliance (custom)
 
 on:
   pull_request:
@@ -112,7 +112,7 @@ jobs:
             if (!hasReviewers) failures.push('Debes asignar al menos 1 reviewer (usuario o equipo).');
 
             if (failures.length) {
-              core.setFailed('PolicyCheck falló:\n- ' + failures.join('\n- '));
+              core.setFailed('GateCheck falló:\n- ' + failures.join('\n- '));
             } else {
-              core.info('PolicyCheck OK ✓');
+              core.info('GateCheck OK ✓');
             }

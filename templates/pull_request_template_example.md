@@ -2,7 +2,7 @@
 
 `/docs/examples/PULL_REQUEST_TEMPLATE_EXAMPLE.md`
 
-> Nota: Este es el **modelo obligatorio** para PRs. Para activarlo en GitHub, copia este mismo contenido a **`.github/PULL_REQUEST_TEMPLATE.md`** (misma estructura). Mantiene las frases exactas que usa el *PolicyCheck* para validar cumplimiento.
+> Nota: Este es el **modelo obligatorio** para PRs. Para activarlo en GitHub, copia este mismo contenido a **`.github/PULL_REQUEST_TEMPLATE.md`** (misma estructura). Mantiene las frases exactas que usa el *GateCheck* para validar cumplimiento.
 
 ---
 
@@ -20,7 +20,7 @@
 - [ ] He leído y cumplo **PROJECT.md**  
 - [ ] Añadí **evidencias** (Allure, `artifacts/run-metrics.json`, traces)
 
-<!-- Las líneas anteriores contienen las frases clave que valida el PolicyCheck:
+<!-- Las líneas anteriores contienen las frases clave que valida el GateCheck:
 "He leído y cumplo CLAUDE.md" y "He leído y cumplo PROJECT.md" -->
 
 ### Reglas tocadas (marca las que aplican)

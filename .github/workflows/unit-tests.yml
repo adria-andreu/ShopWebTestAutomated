@@ -61,7 +61,7 @@ jobs:
       run: |
         dotnet tool install --global dotnet-reportgenerator-globaltool
         reportgenerator \
-          -reports:"TestResults/*/coverage.cobertura.xml" \
+          -reports:"tests/ShopWeb.UnitTests/TestResults/Coverage/coverage.cobertura.xml" \
           -targetdir:"TestResults/CoverageReport" \
           -reporttypes:Html
 
@@ -72,7 +72,7 @@ jobs:
         name: unit-test-results
         path: |
           TestResults/*.trx
-          TestResults/*/coverage.cobertura.xml
+          tests/ShopWeb.UnitTests/TestResults/Coverage/coverage.cobertura.xml
           TestResults/CoverageReport/
         retention-days: 30
 
@@ -93,10 +93,8 @@ jobs:
           const path = require('path');
           
           // Find coverage file
-          const coverageFiles = fs.readdirSync('TestResults', { withFileTypes: true })
-            .filter(dirent => dirent.isDirectory())
-            .map(dirent => `TestResults/${dirent.name}/coverage.cobertura.xml`)
-            .filter(file => fs.existsSync(file));
+          const coverageFile = 'tests/ShopWeb.UnitTests/TestResults/Coverage/coverage.cobertura.xml';
+          const coverageFiles = fs.existsSync(coverageFile) ? [coverageFile] : [];
           
           if (coverageFiles.length === 0) {
             console.log('No coverage files found');
@@ -145,7 +143,7 @@ jobs:
     - name: Check coverage threshold
       run: |
         # Extract coverage from cobertura file and check threshold
-        coverage_file=$(find TestResults -name "coverage.cobertura.xml" | head -1)
+        coverage_file="tests/ShopWeb.UnitTests/TestResults/Coverage/coverage.cobertura.xml"
         if [ -f "$coverage_file" ]; then
           line_rate=$(grep -o 'line-rate="[^"]*"' "$coverage_file" | sed 's/line-rate="//;s/"//')
           coverage_percent=$(echo "$line_rate * 100" | bc -l)
