@@ -24,12 +24,12 @@ ultima_actualizacion: 2025-09-22
 | T-050 | **Fix Coverage Report Generation Path Issue** | **Resolve HTML coverage report failure** | **DoD: reportgenerator finds coverage files** | **✅ COMPLETED** | **2025-09-23** | **Unit Tests Log Analysis** |
 | T-057 | **Renombrar PolicyCheck → GateCheck**      | **Unificación de normas**              | **DoD: Todas las referencias actualizadas** | **✅ COMPLETED** | **2025-09-23** | **EP-07** |
 | T-058 | **Homogeneizar Unit Tests en /tests/ShopWeb.UnitTests/** | **Estructura estándar**   | **DoD: Estructura unificada** | **✅ COMPLETED** | **2025-09-23** | **EP-07** |
-| T-059 | **Cobertura unitaria ≥80% como gate duro** | **Quality gates**                      | **DoD: PR blocked if <80%**     | **📋 P1 High** | **2025-09-26** | **T-050** |
-| T-060 | **🚨 ELIMINAR perfiles A/B y SiteId del código** | **🔥 Arquitectura single-site**   | **DoD: 0 referencias a multi-sitio** | **🔄 IN PROGRESS** | **2025-09-23** | **EP-07** |
-| T-061 | **🚨 BORRAR ISiteProfile, PageFactory multi-site** | **🔥 Arquitectura single-site** | **DoD: PageFactory simplificado** | **🚨 P0 Critical** | **2025-09-28** | **T-060** |
-| T-062 | **🚨 ELIMINAR normalización precio/fecha multi-site** | **🔥 Arquitectura single-site** | **DoD: Lógica específica única** | **🚨 P0 Critical** | **2025-09-29** | **T-061** |
-| T-063 | **🚨 AJUSTAR CI/CD para perfil único**      | **🔥 Arquitectura single-site**        | **DoD: Workflows sin matriz sitios** | **🚨 P0 Critical** | **2025-09-30** | **T-062** |
-| T-064 | **🚨 BORRAR referencias portabilidad en docs** | **🔥 Arquitectura single-site**    | **DoD: PROJECT.md, CLAUDE.md limpios** | **🚨 P0 Critical** | **2025-10-01** | **T-063** |
+| T-059 | **Cobertura unitaria ≥80% como gate duro** | **Quality gates**                      | **DoD: PR blocked if <80%**     | **✅ COMPLETED** | **2025-09-24** | **T-050** |
+| T-060 | **🚨 ELIMINAR perfiles A/B y SiteId del código** | **🔥 Arquitectura single-site**   | **DoD: 0 referencias a multi-sitio** | **✅ COMPLETED** | **2025-09-24** | **EP-07** |
+| T-061 | **🚨 BORRAR ISiteProfile, PageFactory multi-site** | **🔥 Arquitectura single-site** | **DoD: PageFactory simplificado** | **✅ COMPLETED** | **2025-09-24** | **T-060** |
+| T-062 | **🚨 ELIMINAR normalización precio/fecha multi-site** | **🔥 Arquitectura single-site** | **DoD: Lógica específica única** | **✅ COMPLETED** | **2025-09-24** | **T-061** |
+| T-063 | **🚨 AJUSTAR CI/CD para perfil único**      | **🔥 Arquitectura single-site**        | **DoD: Workflows sin matriz sitios** | **✅ COMPLETED** | **2025-09-24** | **T-062** |
+| T-064 | **🚨 BORRAR referencias portabilidad en docs** | **🔥 Arquitectura single-site**    | **DoD: PROJECT.md, CLAUDE.md limpios** | **✅ COMPLETED** | **2025-09-24** | **T-063** |
 | T-071 | **🔧 Fix Playwright browser version mismatch** | **🔥 Tests execution blocking**      | **DoD: E2E tests run successfully** | **✅ COMPLETED** | **2025-09-23** | **TD-19** |
 | T-072 | **📝 Refactor namespaces from chromium-1091 to ShopWeb.E2E.Tests** | **🔥 Code consistency** | **DoD: All files use proper namespaces** | **✅ COMPLETED** | **2025-09-23** | **TD-20** |
 | T-073 | **⚙️ Standardize Playwright browser installation method** | **🔥 Environment consistency** | **DoD: Single installation approach** | **✅ COMPLETED** | **2025-09-23** | **TD-21** |
@@ -180,21 +180,25 @@ ultima_actualizacion: 2025-09-22
 - [x] **Core development completed** — All observability objectives met successfully
 - [x] **Technical debt documented** — Comprehensive TD-99 for architectural approach in IT04
 
-## Checklist de cierre (iteración 06)
+## Checklist de cierre (iteración 06) ✅ COMPLETADA
 
-### EP-06 - Enterprise Features & Framework Maturation
-- [ ] **T-050: Coverage Report Fix** — HTML coverage reports generating correctly in CI/CD
-- [ ] **T-051: Multi-browser Matrix** — Firefox + WebKit running alongside Chromium
-- [ ] **T-052: Unit Tests Expansion** — >85% coverage target achieved with comprehensive component testing
-- [ ] **T-053: E2E Performance** — Full matrix execution <10 minutes
-- [ ] **Framework Maturation** — Production-ready testing framework with enterprise features
+### EP-07 - Unificación y Estabilidad + Eliminación Multi-sitio ✅
+- [x] **T-059: Hard Quality Gate** — ≥80% unit test coverage requirement enforced in CI/CD and MSBuild
+- [x] **T-060: Multi-site Elimination** — All SiteId references removed from code
+- [x] **T-061: Architecture Cleanup** — ISiteProfile.cs and PageFactory.cs eliminated
+- [x] **T-062: Configuration Simplification** — Single-site configuration with hardcoded identifiers
+- [x] **T-063: CI/CD Optimization** — Matrix reduced from 6→3 jobs, site references eliminated
+- [x] **T-064: Documentation Alignment** — PROJECT.md and README.md updated for single-site architecture
 
-### Standard DoD
-- [ ] **Memoria actualizada** — `memoria_proyecto_shopweb_it06.md` con diario completo
-- [ ] **Debt triada y enlazada** — Coverage report issue resolved, performance bottlenecks addressed
-- [ ] **Roadmap actualizado** — IT07 definida with advanced enterprise features
-- [ ] **CI/CD Pipeline optimized** — Multi-browser matrix stable and performant
-- [ ] **Tag de versión** — `it06_YYYYMMDD` con enterprise features documented
+### Standard DoD ✅
+- [x] **Memoria actualizada** — `memoria_proyecto_shopweb_it06.md` completamente actualizada con diario y métricas finales
+- [x] **Debt triada y enlazada** — All IT06 technical debt addressed and resolved
+- [x] **Roadmap actualizado** — All T-059 to T-064 marked as completed with dates
+- [x] **Framework simplificado** — Single-site architecture with 0 multi-site references
+- [x] **Quality gates implementados** — Hard 80% coverage enforcement validated and working
+- [x] **Documentation consistency** — All docs reflect single-site reality
+
+**RESULTADO**: IT06 cerrada exitosamente - Framework transformado a arquitectura single-site estable con quality gates duros
 
 ## PRIORITY DETAILS - T-050: Coverage Report Generation Fix
 
