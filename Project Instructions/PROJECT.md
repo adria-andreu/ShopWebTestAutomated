@@ -248,14 +248,14 @@ ShopWebTestAutomated/
 
 ---
 
-### B) Portabilidad multi-sitio
+### B) Arquitectura single-site (simplificada)
 
-**Solución**: `ISiteProfile`, POM por sitio (`SiteA_*/SiteB_*`), **Flows** neutrales; selección por `SiteId` en config/DI.
+**Solución**: Framework enfocado únicamente en SauceDemo (https://www.saucedemo.com), eliminando complejidad multi-sitio.
 **Instrucciones**:
 
-* Tests dependen de **interfaces** POM; cambios de sitio no tocan tests.
-* Normalizar precio/fecha vía `ISiteProfile`.
-  **Criterios**: cambiar `SiteId` sin editar tests; ≤ 10 cambios fuera de `Profiles/`/`Pages/SiteB_*`; diferencia de duración ≤ 20%.
+* Tests utilizan directamente implementaciones `SiteA_*` (referentes a SauceDemo).
+* POM específico para un sitio, eliminando abstracciones innecesarias.
+* Configuración simplificada con `BaseUrl` fijo en `TestSettings`.
 
 ### C) MVP técnico & backlog
 
@@ -301,8 +301,8 @@ ShopWebTestAutomated/
 
 * **Métricas & Allure**:
   `docs/examples/RunMetricsCollectorExample.cs`, `docs/examples/AllureIntegrationExample.cs`
-* **Portabilidad & POM**:
-  `docs/examples/PortabilityPatternExample.cs`, `docs/examples/pom-guidelines.md`
+* **POM & Testing Patterns**:
+  `docs/examples/pom-guidelines.md` (portability examples archived)
 * **Infra & CI**:
   `docs/examples/BrowserFactoryExample.cs`, `docs/examples/CIDockerWorkflowExample.yml`, `Dockerfile`, `docker-compose.yml`
 * **Estilo & Ops**:

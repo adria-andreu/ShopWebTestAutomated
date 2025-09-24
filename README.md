@@ -39,7 +39,7 @@
 - **💻 Cross-platform**: Windows, macOS, Linux support
 - **📄 Page Object Model**: Maintainable and scalable test architecture
 - **⚙️ Configuration-driven**: Environment-specific test settings
-- **🔄 Multi-site validation**: Site switching and compatibility testing
+- **🎯 Single-site focused**: Optimized for SauceDemo testing
 
 ### 🔧 **Quality & Observability**
 - **📊 Advanced reporting**: Allure integration for rich test reports
@@ -157,13 +157,12 @@ ShopWebTestAutomated/
 │   │   ├── AuthenticationFlow.cs  # Login/authentication flows
 │   │   └── ShoppingFlow.cs        # E-commerce workflows
 │   ├── 📂 Pages/                  # Page Object Model classes
-│   │   ├── PageFactory.cs         # Page object factory
-│   │   └── SiteA/                 # Site-specific page objects
+│   │   └── SiteA/                 # SauceDemo page objects
 │   ├── 📂 Tests/                  # Test implementations
 │   │   ├── BaseTest.cs            # Base test class
 │   │   ├── AuthenticationTests.cs # Authentication scenarios
 │   │   ├── ShoppingTests.cs       # Shopping workflows
-│   │   └── SiteSwitchingValidationTest.cs # Multi-site tests
+│   │   └── PolicyComplianceTests.cs # Test policy validation
 │   └── 📂 Utilities/              # Test utilities and helpers
 │       ├── AllureContextManager.cs    # Allure integration
 │       ├── FlakyDetectionEngine.cs    # Flaky test detection
@@ -276,7 +275,7 @@ docker-compose -f docker-compose.yml -f docker-compose.staging.yml up
 ### Test Categories
 - **🛒 Shopping Tests**: End-to-end purchase workflows
 - **🔐 Authentication Tests**: Login, registration, session management
-- **🔄 Site Switching**: Multi-site validation and compatibility
+- **🏗️ Architecture Tests**: Framework structure and pattern validation
 - **📊 Performance Tests**: Load time and interaction metrics
 - **🧪 Unit Tests**: Component and utility testing
 

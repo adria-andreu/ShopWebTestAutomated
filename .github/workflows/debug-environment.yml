@@ -115,10 +115,8 @@ jobs:
           --filter "FullyQualifiedName=ShopWeb.E2E.Tests.Tests.ShoppingTests.AddToCart_WhenSelectingProduct_ShouldAddProductSuccessfully" \
           --logger "console;verbosity=detailed" \
           -- TestRunParameters.Parameter\(name=\"Browser\",value=\"${{ github.event.inputs.browser || 'chromium' }}\"\) \
-             TestRunParameters.Parameter\(name=\"SiteId\",value=\"A\"\)
       env:
         BROWSER: ${{ github.event.inputs.browser || 'chromium' }}
-        SITE_ID: A
         TRACE_MODE: OnFailure
     
     - name: Upload Debug Artifacts

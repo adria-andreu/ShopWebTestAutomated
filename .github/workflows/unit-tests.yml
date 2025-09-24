@@ -54,7 +54,9 @@ jobs:
           --no-build \
           --logger trx \
           --logger "console;verbosity=normal" \
-          --results-directory TestResults
+          --results-directory TestResults \
+          --collect:"XPlat Code Coverage" \
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
 
     - name: Generate coverage report (HTML)
       if: always()
@@ -151,14 +153,12 @@ jobs:
           
           echo "Current line coverage: ${coverage_rounded}%"
           
-          # For initial implementation, we'll use a lower threshold (20%) and gradually increase
-          # This aligns with the project's iterative approach
-          if (( $(echo "$coverage_percent < 20" | bc -l) )); then
-            echo "❌ Coverage ${coverage_rounded}% is below minimum threshold 20%"
-            echo "Unit tests implementation is in early stages - will gradually increase threshold"
-            echo "Current focus: Framework setup and core utilities testing"
-            # Don't fail for now - this is the initial implementation
-            # exit 1
+          # Hard quality gate: ≥80% coverage required (IT06 requirement)
+          if (( $(echo "$coverage_percent < 80" | bc -l) )); then
+            echo "❌ Coverage ${coverage_rounded}% is below required threshold 80%"
+            echo "HARD QUALITY GATE: Unit test coverage must be ≥80% to pass PR"
+            echo "This is enforced as part of IT06 quality requirements"
+            exit 1
           else
             echo "✅ Coverage ${coverage_rounded}% meets current threshold"
           fi

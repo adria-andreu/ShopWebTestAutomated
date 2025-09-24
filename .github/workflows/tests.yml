@@ -19,14 +19,6 @@ on:
           - chromium
           - firefox
           - webkit
-      site_id:
-        description: 'Site ID to test'
-        required: false
-        default: 'A'
-        type: choice
-        options:
-          - A
-          - B
       environment_type:
         description: 'Environment for quality gates'
         required: false
@@ -54,21 +46,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - browser: 'chromium'
-            site_id: 'A'
-          - browser: 'chromium' 
-            site_id: 'B'
-          - browser: 'firefox'
-            site_id: 'A'
-          - browser: 'firefox'
-            site_id: 'B' 
-          - browser: 'webkit'
-            site_id: 'A'
-          - browser: 'webkit'
-            site_id: 'B'
+        browser: [chromium, firefox, webkit]
           
-    name: Tests (${{ matrix.browser }}, Site ${{ matrix.site_id }})
+    name: Tests (${{ matrix.browser }})
     
     steps:
     - name: Checkout code
@@ -101,7 +81,6 @@ jobs:
     - name: Run tests
       env:
         BROWSER: ${{ matrix.browser }}
-        SITE_ID: ${{ matrix.site_id }}
         HEADED: false
         TRACE_MODE: OnFailure
         GIT_SHA: ${{ github.sha }}
@@ -114,8 +93,7 @@ jobs:
           --logger "console;verbosity=normal" \
           --results-directory TestResults \
           -m:4 \
-          -- TestRunParameters.Parameter\(name=\"Browser\",value=\"${{ matrix.browser }}\"\) \
-             TestRunParameters.Parameter\(name=\"SiteId\",value=\"${{ matrix.site_id }}\"\)
+          -- TestRunParameters.Parameter\(name=\"Browser\",value=\"${{ matrix.browser }}\"\)
 
     - name: Build GateCheck tool
       if: always()
@@ -135,7 +113,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results-${{ matrix.browser }}-${{ matrix.site_id }}
+        name: test-results-${{ matrix.browser }}
         path: |
           TestResults/
           ShopWeb.E2E.Tests/artifacts/
@@ -146,7 +124,7 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: playwright-traces-${{ matrix.browser }}-${{ matrix.site_id }}
+        name: playwright-traces-${{ matrix.browser }}
         path: ShopWeb.E2E.Tests/artifacts/**/*.zip
         retention-days: 7
 
@@ -155,15 +133,15 @@ jobs:
       uses: simple-elf/allure-report-action@master
       with:
         allure_results: ShopWeb.E2E.Tests/allure-results
-        allure_report: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
+        allure_report: allure-report-${{ matrix.browser }}
         gh_pages: false
         
     - name: Upload Allure Report
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
-        path: allure-report-${{ matrix.browser }}-${{ matrix.site_id }}
+        name: allure-report-${{ matrix.browser }}
+        path: allure-report-${{ matrix.browser }}
         retention-days: 30
 
     - name: Comment PR with results
@@ -178,7 +156,7 @@ jobs:
             const metrics = JSON.parse(fs.readFileSync(path, 'utf8'));
             const status = metrics.passRate >= 0.90 ? '✅' : '❌';
             
-            const comment = `## ${status} Test Results (${{ matrix.browser }}, Site ${{ matrix.site_id }})
+            const comment = `## ${status} Test Results (${{ matrix.browser }})
             
             | Metric | Value | Status |
             |--------|-------|--------|
@@ -187,7 +165,7 @@ jobs:
             | P95 Duration | ${(metrics.p95DurationMs / 1000).toFixed(1)}s | ${metrics.p95DurationMs <= 720000 ? '✅' : '❌'} |
             | Flaky Ratio | ${(metrics.flakyRatio * 100).toFixed(1)}% | ${metrics.flakyRatio <= 0.05 ? '✅' : '❌'} |
             
-            **Browser:** ${{ matrix.browser }} | **Site:** ${{ matrix.site_id }} | **Commit:** \`${metrics.commitSha.substring(0, 7)}\`
+            **Browser:** ${{ matrix.browser }} | **Commit:** \`${metrics.commitSha.substring(0, 7)}\`
             `;
             
             github.rest.issues.createComment({
@@ -213,23 +191,22 @@ jobs:
     - name: Aggregate and report results
       run: |
         echo "## 📊 Aggregated Test Results" >> $GITHUB_STEP_SUMMARY
-        echo "| Browser | Site | Status | Pass Rate | Duration (P95) | Flaky % |" >> $GITHUB_STEP_SUMMARY
-        echo "|---------|------|---------|-----------|----------------|---------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Browser | Status | Pass Rate | Duration (P95) | Flaky % |" >> $GITHUB_STEP_SUMMARY
+        echo "|---------|---------|-----------|----------------|---------|" >> $GITHUB_STEP_SUMMARY
         
         find all-results -name "run-metrics.json" | while read -r file; do
           if [ -f "$file" ]; then
             metrics=$(cat "$file")
             browser=$(echo "$metrics" | jq -r '.browser')
-            site_id=$(echo "$metrics" | jq -r '.siteId')
             pass_rate=$(echo "$metrics" | jq -r '.passRate * 100')
             p95_duration=$(echo "$metrics" | jq -r '.p95DurationMs / 1000')
             flaky_ratio=$(echo "$metrics" | jq -r '.flakyRatio * 100')
-            
+
             status="✅"
             if (( $(echo "$pass_rate < 90" | bc -l) )); then status="❌"; fi
             if (( $(echo "$p95_duration > 720" | bc -l) )); then status="❌"; fi
             if (( $(echo "$flaky_ratio > 5" | bc -l) )); then status="❌"; fi
-            
-            echo "| $browser | $site_id | $status | ${pass_rate}% | ${p95_duration}s | ${flaky_ratio}% |" >> $GITHUB_STEP_SUMMARY
+
+            echo "| $browser | $status | ${pass_rate}% | ${p95_duration}s | ${flaky_ratio}% |" >> $GITHUB_STEP_SUMMARY
           fi
         done
