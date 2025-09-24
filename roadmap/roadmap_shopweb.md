@@ -365,6 +365,7 @@ SUCCESS CRITERIA: Gestión automática de tests inestables
 | T-076 | **🏭 Implementar DataFactory para datos deterministas** | **Datos de prueba reproducibles** | **DoD: Eliminar DateTime.Now y datos random** | **✅ COMPLETED** | **2025-09-23** | **IT08** |
 | T-077 | **🧪 Crear nueva suite AuthenticationTests_PolicyCompliant** | **Tests alineados con policy** | **DoD: 6 tests categorized, using Verify.*, DataFactory** | **✅ COMPLETED** | **2025-09-23** | **IT08** |
 | T-078 | **⚙️ Extender AuthenticationFlow con métodos faltantes** | **Soporte para nuevos tests**      | **DoD: LogoutAsync, VerifyAuthenticationStateAsync** | **✅ COMPLETED** | **2025-09-23** | **IT08** |
+| T-079 | **📋 Document comprehensive IT06-IT08 improvements** | **Complete framework transformation documentation** | **DoD: Technical details, metrics, validation results** | **✅ COMPLETED** | **2025-09-24** | **IT08** |
 
 ## 📌 Metas medibles IT08:
 - 🎯 **Nueva suite 100% conforme con E2E_Policy.md**

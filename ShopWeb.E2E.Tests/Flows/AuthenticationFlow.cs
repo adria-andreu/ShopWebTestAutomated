@@ -22,21 +22,30 @@ public class AuthenticationFlow
         {
             var homePage = GetHomePage();
             await homePage.NavigateAsync();
-            
+
             if (!await homePage.IsLoadedAsync())
-                throw new Exception("Home page failed to load");
+            {
+                Console.WriteLine("❌ Home page failed to load");
+                return false;
+            }
 
             var loginPage = await homePage.GoToLoginAsync();
-            
-            if (!await loginPage.IsLoadedAsync())
-                throw new Exception("Login page failed to load");
 
+            if (!await loginPage.IsLoadedAsync())
+            {
+                Console.WriteLine("❌ Login page failed to load");
+                return false;
+            }
+
+            Console.WriteLine($"🔍 Attempting login with username: {username}");
             await loginPage.LoginAsync(username, password);
-            
+
+            Console.WriteLine("✅ Login completed successfully");
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine($"❌ Login failed with exception: {ex.Message}");
             return false;
         }
     }
