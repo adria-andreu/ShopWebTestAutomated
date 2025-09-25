@@ -14,11 +14,11 @@ public class SiteA_HomePage : IHomePage
         _settings = ConfigurationManager.TestSettings;
     }
 
-    private ILocator HomeLink => _page.Locator("a.navbar-brand");
-    private ILocator ProductsNav => _page.Locator("a[onclick*='byCat']").First;
-    private ILocator CartNav => _page.Locator("#cartur");
-    private ILocator LoginNav => _page.Locator("#login2");
-    private ILocator SignUpNav => _page.Locator("#signin2");
+    private ILocator HomeLink => _page.Locator(".login_logo");
+    private ILocator ProductsNav => _page.Locator(".inventory_list");
+    private ILocator CartNav => _page.Locator(".shopping_cart_link");
+    private ILocator LoginNav => _page.Locator("#user-name"); // Login form is directly on page
+    private ILocator SignUpNav => _page.Locator("#user-name"); // SauceDemo doesn't have signup
 
     public async Task NavigateAsync()
     {
@@ -60,9 +60,9 @@ public class SiteA_HomePage : IHomePage
 
     public async Task<ILoginPage> GoToLoginAsync()
     {
-        await LoginNav.ClickAsync();
-        // Wait for login modal to appear
-        await _page.WaitForSelectorAsync("#logInModal", new PageWaitForSelectorOptions
+        // For SauceDemo, the login form is already on the homepage - no need to click anything
+        // Just wait for the login form to be visible
+        await _page.WaitForSelectorAsync("#user-name", new PageWaitForSelectorOptions
         {
             State = WaitForSelectorState.Visible
         });

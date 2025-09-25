@@ -11,11 +11,11 @@ public class SiteA_LoginPage : ILoginPage
         _page = page;
     }
 
-    private ILocator UsernameField => _page.Locator("#loginusername");
-    private ILocator PasswordField => _page.Locator("#loginpassword");
-    private ILocator LoginButton => _page.Locator("button:has-text('Log in')");
-    private ILocator CloseButton => _page.Locator("#logInModal .close");
-    private ILocator SignUpLink => _page.Locator("#signin2");
+    private ILocator UsernameField => _page.Locator("#user-name");
+    private ILocator PasswordField => _page.Locator("#password");
+    private ILocator LoginButton => _page.Locator("#login-button");
+    private ILocator CloseButton => _page.Locator(""); // Not needed for SauceDemo
+    private ILocator SignUpLink => _page.Locator(""); // SauceDemo doesn't have signup
 
     public async Task<bool> IsLoadedAsync()
     {
@@ -40,21 +40,31 @@ public class SiteA_LoginPage : ILoginPage
         await PasswordField.FillAsync(password);
         await LoginButton.ClickAsync();
 
-        // Wait for modal to close or error to appear
+        // Wait for navigation after login
         await Task.Delay(2000);
-        
-        // Check if login was successful by looking for the modal to disappear
-        var isModalVisible = await _page.Locator("#logInModal").IsVisibleAsync();
-        
-        if (!isModalVisible)
+
+        // Check if login was successful by looking for the inventory page
+        try
         {
-            // Login successful, modal closed
+            await _page.WaitForSelectorAsync(".inventory_list", new PageWaitForSelectorOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = 5000
+            });
+            // Login successful, we're on the inventory page
             return new SiteA_HomePage(_page);
         }
-        else
+        catch
         {
-            // Login failed, modal still visible
-            throw new Exception("Login failed - invalid credentials");
+            // Check if there's an error message on the login page
+            var errorElement = _page.Locator("[data-test='error']");
+            if (await errorElement.IsVisibleAsync())
+            {
+                var errorMessage = await errorElement.TextContentAsync();
+                throw new Exception($"Login failed: {errorMessage}");
+            }
+
+            throw new Exception("Login failed - unknown error");
         }
     }
 

@@ -151,12 +151,7 @@ public class ShoppingFlow
 
     private IHomePage GetHomePage()
     {
-        return _settings.SiteId.ToUpperInvariant() switch
-        {
-            "A" => new SiteA_HomePage(_page),
-            "B" => throw new NotImplementedException("Site B implementation not available yet"),
-            _ => throw new ArgumentException($"Unsupported SiteId: {_settings.SiteId}")
-        };
+        return new SiteA_HomePage(_page);
     }
 
     public async Task CleanupAsync()

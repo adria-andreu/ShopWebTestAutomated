@@ -37,7 +37,10 @@
       "Bash(rg:*)",
       "Bash(dotnet tool update:*)",
       "WebSearch",
-      "Bash(playwright install:*)"
+      "Bash(playwright install:*)",
+      "Bash(chmod:*)",
+      "Bash(scripts/install-browsers.cmd)",
+      "Bash(git restore:*)"
     ],
     "deny": [],
     "ask": []

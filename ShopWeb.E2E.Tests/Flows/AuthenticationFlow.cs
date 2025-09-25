@@ -22,21 +22,30 @@ public class AuthenticationFlow
         {
             var homePage = GetHomePage();
             await homePage.NavigateAsync();
-            
+
             if (!await homePage.IsLoadedAsync())
-                throw new Exception("Home page failed to load");
+            {
+                Console.WriteLine("❌ Home page failed to load");
+                return false;
+            }
 
             var loginPage = await homePage.GoToLoginAsync();
-            
-            if (!await loginPage.IsLoadedAsync())
-                throw new Exception("Login page failed to load");
 
+            if (!await loginPage.IsLoadedAsync())
+            {
+                Console.WriteLine("❌ Login page failed to load");
+                return false;
+            }
+
+            Console.WriteLine($"🔍 Attempting login with username: {username}");
             await loginPage.LoginAsync(username, password);
-            
+
+            Console.WriteLine("✅ Login completed successfully");
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine($"❌ Login failed with exception: {ex.Message}");
             return false;
         }
     }
@@ -96,12 +105,49 @@ public class AuthenticationFlow
 
     private IHomePage GetHomePage()
     {
-        return _settings.SiteId.ToUpperInvariant() switch
+        return new SiteA_HomePage(_page);
+    }
+
+    /// <summary>
+    /// T-078: Logout functionality for IT08 policy-compliant tests
+    /// </summary>
+    public async Task<bool> LogoutAsync()
+    {
+        try
         {
-            "A" => new SiteA_HomePage(_page),
-            "B" => throw new NotImplementedException("Site B implementation not available yet"),
-            _ => throw new ArgumentException($"Unsupported SiteId: {_settings.SiteId}")
-        };
+            // Navigate to a page that has logout functionality
+            // For SauceDemo, we can use the inventory page menu
+            await _page.ClickAsync("#react-burger-menu-btn");
+            await _page.ClickAsync("#logout_sidebar_link");
+
+            // Verify we're back at login page
+            await _page.WaitForSelectorAsync("#user-name", new PageWaitForSelectorOptions { Timeout = 5000 });
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// T-078: Verify authentication state persistence for IT08 policy-compliant tests
+    /// </summary>
+    public async Task<bool> VerifyAuthenticationStateAsync()
+    {
+        try
+        {
+            // Navigate to a protected page and verify we're still authenticated
+            await _page.GotoAsync($"{_settings.BaseUrl}/inventory.html");
+
+            // If we can see the inventory page elements, we're authenticated
+            await _page.WaitForSelectorAsync(".inventory_list", new PageWaitForSelectorOptions { Timeout = 5000 });
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public async Task CleanupAsync()

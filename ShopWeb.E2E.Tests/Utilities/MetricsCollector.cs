@@ -78,7 +78,7 @@ public static class MetricsCollector
 
         var firstMetric = metrics.OrderBy(m => m.TimestampUtc).FirstOrDefault();
         var browser = firstMetric?.Browser ?? Environment.GetEnvironmentVariable("BROWSER") ?? "chromium";
-        var siteId = firstMetric?.SiteId ?? Environment.GetEnvironmentVariable("SITE_ID") ?? "A";
+        var siteId = "SauceDemo"; // Single-site architecture: hardcoded site identifier
         var commitSha = Environment.GetEnvironmentVariable("GIT_SHA") ?? Environment.GetEnvironmentVariable("GITHUB_SHA") ?? "unknown";
         var pipelineId = Environment.GetEnvironmentVariable("PIPELINE_ID") ?? Environment.GetEnvironmentVariable("GITHUB_RUN_ID") ?? "local";
 
