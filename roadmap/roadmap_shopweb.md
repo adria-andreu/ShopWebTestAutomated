@@ -144,7 +144,8 @@ ultima_actualizacion: 2025-09-22
 
 ## ⚡ PLAN DE ACCIÓN INMEDIATO
 
-**STEP 1 (AHORA):** T-031 - Remove Allure blocking attributes
+**
+1 (AHORA):** T-031 - Remove Allure blocking attributes
 - Remove `[AllureNUnit]` from BaseTest and test classes
 - Keep NUnit functionality, disable Allure temporarily
 - Target: Get tests running in CI/CD without Allure dependencies
