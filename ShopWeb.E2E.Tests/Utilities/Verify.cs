@@ -30,6 +30,7 @@ public static class Verify
     /// </summary>
     public static void True(bool condition, string message)
     {
+        StepLogger.Confirm(message);
         Assert.That(condition, Is.True, message);
     }
 

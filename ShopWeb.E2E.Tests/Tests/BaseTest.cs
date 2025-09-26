@@ -59,6 +59,9 @@ public abstract class BaseTest
         _artifactsDir = CreateArtifactsDirectory();
         _testFailed = false;
 
+        // Initialize step logging for this test
+        StepLogger.ResetCounters();
+
         await InitializeBrowserAsync();
         await StartTracingAsync();
         ConfigureTimeouts();
@@ -69,6 +72,9 @@ public abstract class BaseTest
     {
         _testStopwatch?.Stop();
         var durationMs = _testStopwatch?.ElapsedMilliseconds ?? 0;
+
+        // Log test completion summary
+        StepLogger.TestSummary();
 
         _testFailed = TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed;
 

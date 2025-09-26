@@ -48,14 +48,22 @@ public class AuthenticationTests : BaseTest
     [Description("Verify that a valid user can successfully log in and access the dashboard")]
     public async Task Login_WhenValidCredentials_ShouldSucceedAndRedirectToDashboard()
     {
-        // Arrange
+        // Setup
+        StepLogger.Setup("Initialize test data for valid user credentials");
         var validUser = DataFactory.CreateValidLoginUser();
 
+        StepLogger.Setup("Ensure authentication flow is ready for testing");
+
         // Act
+        StepLogger.Step("Navigate to login page and perform authentication");
+        StepLogger.SubStep("Enter valid username and password");
+        StepLogger.SubStep("Click login button");
         var loginResult = await _authFlow!.LoginAsync(validUser.Username, validUser.Password);
 
+        StepLogger.Step("Verify successful authentication and redirection");
+
         // Confirm
-        Verify.True(loginResult, "Login should succeed with valid credentials");
+        Verify.True(loginResult, "User should be successfully logged in and redirected to dashboard");
     }
 
     /// <summary>
