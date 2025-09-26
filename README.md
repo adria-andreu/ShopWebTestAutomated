@@ -42,7 +42,8 @@
 - **🎯 Single-site focused**: Optimized for SauceDemo testing
 
 ### 🔧 **Quality & Observability**
-- **📊 Advanced reporting**: Allure integration for rich test reports
+- **📝 Structured Test Logging**: Setup → Step → SubStep → Confirm pattern with emoji indicators
+- **📊 Advanced reporting**: Allure integration (currently disabled, restoration planned for IT09)
 - **🔁 Intelligent retry policies**: Smart retry mechanisms for flaky tests
 - **📈 Performance monitoring**: Built-in performance metrics collection
 - **🚨 Quarantine system**: Automatic isolation of unstable tests
@@ -67,7 +68,8 @@
 - **[Playwright](https://playwright.dev/)**: Fast, reliable browser automation
 
 ### **Testing & Quality**
-- **[Allure](https://allurereport.org/)**: Rich test reporting and analytics
+- **StepLogger**: Structured test logging with Setup → Step → SubStep → Confirm pattern
+- **[Allure](https://allurereport.org/)**: Rich test reporting (temporarily disabled, re-enablement in IT09)
 - **[Microsoft.Extensions.*](https://docs.microsoft.com/en-us/dotnet/core/extensions/)**: Dependency injection, configuration, logging
 - **[Newtonsoft.Json](https://www.newtonsoft.com/json)**: JSON serialization and data handling
 - **[Coverlet](https://github.com/coverlet-coverage/coverlet)**: Code coverage collection
@@ -164,7 +166,9 @@ ShopWebTestAutomated/
 │   │   ├── ShoppingTests.cs       # Shopping workflows
 │   │   └── PolicyComplianceTests.cs # Test policy validation
 │   └── 📂 Utilities/              # Test utilities and helpers
-│       ├── AllureContextManager.cs    # Allure integration
+│       ├── StepLogger.cs              # Structured test logging (Setup→Step→SubStep→Confirm)
+│       ├── Verify.cs                  # Policy-compliant assertion utilities
+│       ├── AllureContextManager.cs    # Allure integration (disabled - TD-14)
 │       ├── FlakyDetectionEngine.cs    # Flaky test detection
 │       ├── MetricsCollector.cs        # Performance metrics
 │       ├── QuarantineWorkflowEngine.cs # Test quarantine
@@ -320,12 +324,16 @@ workflow_dispatch:
 
 ## 📊 Test Reporting
 
-### Allure Integration
-- **📈 Rich Reports**: Detailed test execution results with trends
-- **📸 Screenshots**: Automatic capture on failures
-- **⏱ Performance Metrics**: Response times and page load data
-- **📊 Historical Trends**: Test stability over time
-- **🏷 Test Categorization**: Organized by feature, severity, and epic
+#### **Current: Custom JSON Metrics + Structured Logging**
+- **📝 Step-by-Step Logging**: Setup → Step → SubStep → Confirm pattern with emojis
+- **📊 JSON Metrics**: test-metrics.jsonl and run-metrics.json for observability
+- **📸 Screenshots**: Automatic capture on failures via BaseTest
+- **⏱ Performance Tracking**: Built-in metrics collection and trending
+
+#### **Planned: Allure Integration (IT09)**
+- **🚧 Status**: Currently disabled due to TD-14 (complex context management)
+- **📈 Rich Reports**: Detailed execution results with historical trends (when re-enabled)
+- **🏷 Test Categorization**: Organized by feature, severity, and epic (planned restoration)
 
 ### Quality Metrics & Analytics
 - **📋 Test Coverage**: Unit and integration coverage tracking
@@ -334,16 +342,21 @@ workflow_dispatch:
 - **🚨 Quarantine Management**: Automatic isolation of problematic tests
 - **⚡ Performance Benchmarking**: Response time baselines and alerts
 
-### Generating Reports
+### Viewing Test Logs and Reports
 ```bash
-# Run tests with Allure
-dotnet test -- NUnit.Allure=true
+# Run tests with structured step logging
+dotnet test ShopWeb.E2E.Tests/
 
-# Generate Allure report
-allure generate allure-results --clean -o allure-report
+# Run specific test to see step logging in action
+dotnet test --filter "Login_WhenValidCredentials_ShouldSucceedAndRedirectToDashboard"
 
-# View report
-allure open allure-report
+# Check artifacts directory for test metrics
+ls artifacts/
+# Contains: test-metrics.jsonl, run-metrics.json, screenshots, traces
+
+# Future: Allure report generation (when re-enabled in IT09)
+# allure generate allure-results --clean -o allure-report
+# allure open allure-report
 ```
 
 ---
@@ -374,6 +387,17 @@ public class PageFactory
 {
     public T CreatePage<T>(IPage page) where T : class;
     public Task<T> NavigateToPage<T>(string url) where T : class;
+}
+```
+
+#### **Structured Test Logging**
+```csharp
+public static class StepLogger
+{
+    public static void Setup(string description);    // 🔧 SETUP 01: Initialize test data
+    public static void Step(string description);     // 🚀 STEP 01: Navigate to login page
+    public static void SubStep(string description);  //    └─ SubStep 01.1: Enter credentials
+    public static void Confirm(string description);  // ✅ CONFIRM 01: Login successful
 }
 ```
 
@@ -415,16 +439,18 @@ public class ShoppingFlow
 
 ## 🗺 Roadmap
 
-### Current Iteration (IT04) ✅
-- ✅ **Infrastructure**: CI/CD architecture and quality gates
-- ✅ **Unit Testing**: NUnit 4 integration with coverage reporting
-- ✅ **Housekeeping**: Repository cleanup and standardization
-- ✅ **Documentation**: Comprehensive project documentation
+### Current Status: IT08 Complete ✅
+- ✅ **Policy-Compliant Testing**: Verify.* assertions and deterministic test data
+- ✅ **Authentication Framework**: Complete policy-compliant auth test suite
+- ✅ **Structured Logging**: StepLogger infrastructure with Setup→Step→SubStep→Confirm
+- ✅ **Technical Debt Management**: Systematic identification and tracking
+- ✅ **Quality Gates**: Automated test quality enforcement
 
-### Next Iteration (IT05) 🔄
-- 🔄 **Advanced Observability**: Enhanced metrics and monitoring
+### Next Iteration: IT09 Planned 🔄
+- 🔄 **Allure Re-enablement**: Restore rich test reporting (TD-14 resolution)
+- 🔄 **CI/CD Stabilization**: Fix GitHub Actions failures and improve reliability
+- 🔄 **Enhanced Observability**: Advanced metrics and flaky test detection
 - 🔄 **Performance Testing**: Load testing integration
-- 🔄 **Visual Regression**: UI change detection capabilities
 
 ### Upcoming Features 📋
 - ☁️ **Cloud Execution**: Integration with BrowserStack/Sauce Labs
@@ -455,12 +481,6 @@ public class ShoppingFlow
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 🙏 Acknowledgments
 
 - **[Playwright Team](https://playwright.dev/)** - For the excellent browser automation framework
@@ -471,7 +491,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Support & Community
+## Support & Community
 
 - **🐛 Issues**: [GitHub Issues](https://github.com/adria-andreu/ShopWebTestAutomated/issues)
 - **💬 Discussions**: [GitHub Discussions](https://github.com/adria-andreu/ShopWebTestAutomated/discussions)
